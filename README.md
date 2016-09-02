@@ -1,5 +1,10 @@
 # CSCI222BugReport
 
-This is the Readme file. This File will eventually contain instructions on how to:
-      a) compile and run the project
-      b) how to use the project
+This Bug Reporting System was designed and developed as part of the group assignment for CSCI222 at the University of Wollongong.
+
+Memebers:
+
+Michael Beavis
+Jacob Rigney
+Brad McAlpine
+Nathan Waters
