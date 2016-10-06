@@ -1,0 +1,97 @@
+BTS Database Design
+
+Proposition
+
+	The Bug Tracking System (BTS) database will be required to store User and Report information. On first run/start up, there are 3 possibilities:
+		
+		1) This is the first run (install) so a database will need to be created
+		2) The program has been moved to a new system so a new database will need to be created and all previous data will need to be loaded
+		3) There has been a error/crash of some sort and the database needs to be restored
+
+	When installing, this can be accomplished by a small script that will create the required schema (tables, users etc). This script can be part
+	of the package when distributing. (possible folder called required files).
+
+	When moving the program to a new system there will need to be an "import" ability that will import the database either from an exported file or
+	from a server
+
+	When there has been an error/crash the program will operate the same as if the program was moved. as a failsafe when the program is shutdown, or
+	at a pre determined time, the database will back up and save a file in a location
+
+Tables
+
+	- SuperUser
+		+ Registered User
+		+ System Admin User
+	- Bug Reports
+	- Comments
+	- Attachments
+
+SuperUser Table Attributes
+
+	- User ID (PK)
+	- Username
+	- Real Name
+	- Email
+	- Password
+	-
+
+Registered User (inherits from SuperUser)
+	
+	- User ID (PKFK)
+	- User Reputation
+	- Bug Report (FK)
+	- Comment ID (FK)
+	- Status <active, suspended etc>
+
+System Admin User (inherits from SuperUser)
+
+	- User ID (FK)
+	- Role <triage, developer etc>
+	- Bug Assignment (FK)
+	- Comment ID (FK)
+	- Attachment ID (FK)
+
+Bug Reports Table Attributes
+	
+	- Bug ID (PK)
+	- Creation TimeStamp
+	- Short Description
+	- Delta Timestamp
+	- Clasification ID
+	- Clasification
+	- Product
+	- Component
+	- Version
+	- Operating System
+	- Bug Status
+	- Resolution
+	- Keywords
+	- Priority
+	- Bug Severity
+	- Reporter ID (FK)
+	- Assigned Too (FK)
+	- Comment ID (FK)
+
+Comments Table Attributes
+	
+	- Comment ID (PK)
+	- User ID (FK)
+	- Comment Timestamp
+	- Comment Text
+	- Attachment ID (FK)
+
+Attachment Table Attributes
+
+	- Attachment ID (PK)
+	- Attachment Timestamp
+	- Attachment Description
+	- Attachment Filename
+	- Attachment File Type
+	- Attachment File Size
+	- Attacher ID (FK)
+
+
+
+
+
+
