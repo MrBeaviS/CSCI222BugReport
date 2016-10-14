@@ -1,0 +1,19 @@
+This is the base level USER ACCESS. The program currently features:
+
+Login Screen
+Register Screen
+Main Menu for USER level access
+View Profile
+Search Bugs
+
+We will need to complete the the functions in each of these areas and implement the database BEFORE we move on
+
+Next up after the the completetion of those functions:
+
+AUTHENTICATED USER ACCESS
+
+Main Menu for AUTHENTICATED USERS
+Profile page for AUTHENTICATED USERS (Allows edits)
+Search Bugs that allows to submit comments and Register Interest
+Request Report
+
