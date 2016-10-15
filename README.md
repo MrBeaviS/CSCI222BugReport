@@ -7,4 +7,4 @@ Members:
 Michael Beavis
 Jacob Rigney
 Brad McAlpine
-Nathan Waters
+Nathan Humphries
