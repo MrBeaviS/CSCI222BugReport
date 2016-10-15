@@ -7,7 +7,10 @@ package projectui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -89,18 +92,23 @@ public class FXMLDocumentController implements Initializable {
         System.out.println( "SELECT * FROM Users WHERE USERNAME= " + "'" + usernameField.getText() + "'" 
                 + " AND PASSWORD= " + "'" + passwordField.getText() + "'");
         
-        java.sql.Connection c = null;
-        java.sql.Statement stmt = null;
-        
         try{
-            c = DriverManager.getConnection("jdbc:sqlite:newtest.db");
-            c.setAutoCommit(false);
             
-            System.out.println("Opened database");
-            stmt = c.createStatement();
+        
+            String driver = "com.mysql.jdbc.Driver";
+            String dbURL = "jdbc:mysql://localhost:3306/projectdb";
+            String dbUsername = "root";
+            String dbPassword = "happy123";
+            Class.forName(driver);
             
-            java.sql.ResultSet rs = stmt.executeQuery("SELECT * FROM Users WHERE USERNAME= " + "'" + usernameField.getText() + "'" 
-                + " AND PASSWORD= " + "'" + passwordField.getText() + "'");
+            Connection conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
+            
+            Statement stmt = conn.createStatement();
+            
+            String SQLAccessor = "SELECT * FROM superuser WHERE Username= " + "'" + usernameField.getText() + "'" 
+                + " AND Password= " + "'" + passwordField.getText() + "'";
+
+            ResultSet rs = stmt.executeQuery(SQLAccessor);
             
             while(rs.next()){
                 if(rs.getString("USERNAME") != null && rs.getString("PASSWORD") != null){
@@ -113,15 +121,13 @@ public class FXMLDocumentController implements Initializable {
             }
             rs.close();
             stmt.close();
-            c.close();
+            conn.close();
             
-        }
-        catch(Exception e) {
-            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+            
+        } catch(Exception e){
+            System.out.println(e);
             System.exit(0);
-            
         }
-        System.out.println("Operation Successful");
         return pass;
     }
     

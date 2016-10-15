@@ -8,6 +8,8 @@ package projectui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,10 +23,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import static javax.management.Query.value;
 
 /**
  * FXML Controller class
@@ -32,15 +36,15 @@ import javafx.stage.Stage;
  * @author Nathan
  */
 public class FXMLSearchBugsController implements Initializable {
+    
+    ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","Status","Priority");
 
     @FXML
     private AnchorPane SearchTable;
     @FXML
     private TextField searchField;
     @FXML
-    private ChoiceBox<?> searchBy;
-    @FXML
-    private ChoiceBox<?> sortBy;
+    private ChoiceBox<String> searchBy;
     @FXML
     private Button backToMenu;
     @FXML
@@ -87,7 +91,10 @@ public class FXMLSearchBugsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        
+        searchBy.setValue("Search By");
+        searchBy.setItems(searchbyList);
+        
     }    
 
     @FXML
@@ -106,6 +113,10 @@ public class FXMLSearchBugsController implements Initializable {
         //functions on execute go here. Eg fill table with
         //searched details
 
+    }
+
+    @FXML
+    private void displayDetails(MouseEvent event) {
     }
     
 }
