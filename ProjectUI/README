@@ -3,6 +3,11 @@ UPDATED 16/10
 -Login now works with MySQL
 -Registration is complete at Basic level
 -Profile now reads in basic details Username email etc.
+IMPORTANT: You will need to get the new Java library for MySQL https://dev.mysql.com/downloads/connector/j/5.1.html
+YOU WILL ALSO NEED TO SET UP YOUR OWN TEST DATA!
+In each function you will need to change the DB to your own!
+The tables have also been changed SecLevel was added to the base SuperUser.
+
 
 We will need to complete the the functions in each of these areas before we move to the next.
 
