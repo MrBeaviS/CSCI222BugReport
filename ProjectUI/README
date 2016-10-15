@@ -1,17 +1,35 @@
-This is the base level USER ACCESS. The program currently features:
+UPDATED 16/10
+-Database switch to MySQL
+-Login now works with MySQL
+-Registration is complete at Basic level
+-Profile now reads in basic details Username email etc.
 
-Login Screen
-Register Screen
-Main Menu for USER level access
-View Profile
+We will need to complete the the functions in each of these areas before we move to the next.
+
+//////////////////////////////////////////////////////////////////////////
+
+USER ACCESS
+
+Complete
+--------------
+Login Screen          //This has been finished
+
+Semi- Complete
+--------------
+Register Screen       //This has been basically finished DATA VALIDATION NEEDS TO BE COMPLETED
+View Profile          //This has been basically finished retreival of Rep and numReports needs to be done
+
+Not Complete
+--------------
+Passing Username into next menu
 Search Bugs
 
-We will need to complete the the functions in each of these areas and implement the database BEFORE we move on
-
-Next up after the the completetion of those functions:
+///////////////////////////////////////////////////////////////////////
 
 AUTHENTICATED USER ACCESS
 
+Not Complete
+-------------
 Main Menu for AUTHENTICATED USERS
 Profile page for AUTHENTICATED USERS (Allows edits)
 Search Bugs that allows to submit comments and Register Interest
