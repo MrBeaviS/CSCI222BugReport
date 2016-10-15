@@ -1,5 +1,6 @@
 CREATE TABLE SuperUser (
 	UserID int NOT NULL AUTO_INCREMENT,
+    	SecLevel int NOT NULL,
 	UserName varchar(30),
 	FName varchar(60),
 	LName varchar(60),
