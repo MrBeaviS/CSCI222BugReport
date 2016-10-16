@@ -7,6 +7,9 @@ package projectui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +40,14 @@ import static javax.management.Query.value;
  */
 public class FXMLSearchBugsController implements Initializable {
     
-    ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","Status","Priority");
+    
+    ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","BugStatus","Priority");
+    
+    MySQLController DBCon;
+    
+    public FXMLSearchBugsController (MySQLController pDB){
+        DBCon = pDB;
+    }
 
     @FXML
     private AnchorPane SearchTable;
@@ -100,19 +110,20 @@ public class FXMLSearchBugsController implements Initializable {
     @FXML
     private void backtoMenu(ActionEvent event) throws IOException {
         //make sure security level is still set correctly
-        Parent menuPage_parent = FXMLLoader.load(getClass().getResource("FXMLMenu.fxml"));
-        Scene menuPage_scene = new Scene(menuPage_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        app_stage.hide();
-        app_stage.setScene(menuPage_scene);
-        app_stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
+            FXMLMenuController controller = new FXMLMenuController(DBCon);
+            loader.setController(controller);
+            Parent menuPage_parent = loader.load();
+            Scene menuPage_scene = new Scene(menuPage_parent);
+            //takes to menu.
+            app_stage.hide();
+            app_stage.setScene(menuPage_scene);
+            app_stage.show();
     }
     @FXML
     private void searchBugReports(ActionEvent event) {
     
-        //functions on execute go here. Eg fill table with
-        //searched details
-
     }
 
     @FXML
