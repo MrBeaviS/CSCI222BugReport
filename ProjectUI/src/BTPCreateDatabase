@@ -98,3 +98,46 @@ CREATE TABLE BugReports (
 # 	FOREIGN KEY (CommentID)
 # 		REFERENCES Comments(CommentID)
 );
+
+##### CREATE PROCEDURES HERE ######
+DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewUser;
+CREATE DEFINER=`root`@`localhost`
+PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
+													IN lName varchar(20), IN email varchar(20),
+													IN pWord varchar(20))
+	BEGIN
+		INSERT INTO SuperUser (SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+		VALUES (0, uName, fName, lName, email, pWord, CURDATE());
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReport, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 'New', 0, 'Active');
+
+	END;
+
+#### CREATE NEW USERS AND PRIVS HERE ####
+DROP USER 'newUser'@'localhost';
+CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+GRANT INSERT, SELECT ON BugTrackerPrime.SuperUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+GRANT INSERT, SELECT ON BugTrackerPrime.RegisteredUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.insertNewUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+
+### INSERT TEST DATA HERE ####
+
+#INSERTS A REGISTERED USER
+INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (0, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
+
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'), 'New',0,'Active');
+
+#INSERTS A SYSADMIN USER
+INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (0, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
+
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Reviewer');
+
+#INSERTS A BUG AND A BUG REPORT
+INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
+VALUES ('Bug 1', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
+
+INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus, Resolution, Keywords, Priority, BugSeverity)
+VALUES (CURDATE(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported', 'This is a resolution', 'Some Keywords here', 'Medium', 'Minor');

@@ -16,5 +16,5 @@ INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
 VALUES ('Bug 1', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
 
-INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus, Resolution, Keywords, Priority, BugSeverity, ReporterID)
-VALUES (CURDATE(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported', 'This is a resolution', 'Some Keywords here', 'Medium', 'Minor', 1);
+INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus, Resolution, Keywords, Priority, BugSeverity)
+VALUES (CURDATE(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported', 'This is a resolution', 'Some Keywords here', 'Medium', 'Minor');

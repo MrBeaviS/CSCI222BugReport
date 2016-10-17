@@ -73,7 +73,7 @@ public class MySQLController {
     currUser currentUser = new currUser();
     
     String driver = "com.mysql.jdbc.Driver";
-    String dbURL = "jdbc:mysql://localhost:3306/BugTracking";
+    String dbURL = "jdbc:mysql://localhost:3306/BugTrackerPrime";
     String dbUsername = "newUser";
     String dbPassword = "pass123";
     Statement stmt;
@@ -225,9 +225,9 @@ public class MySQLController {
 
         getConnection();
         try{
-            String statement = "CALL BugTracking.insertNewUser(\' " + newUser.getUserName() + "\', \'"  + newUser.getfName() + "\', \'" +
-                    newUser.getlName() + "\', \'" +  newUser.getEmail() + "\', \' " + newUser.getPassWord() + "\')";
-            System.out.println(statement);
+            String statement = "CALL BugTrackerPrime.insertNewUser(\'" + newUser.getUserName() + "\', \'"  + newUser.getfName() + "\', \'" +
+                    newUser.getlName() + "\', \'" +  newUser.getEmail() + "\', \'" + newUser.getPassWord() + "\')";
+            //System.out.println(statement);
             stmt.executeQuery(statement);
         } catch (SQLException e) {
             e.printStackTrace();

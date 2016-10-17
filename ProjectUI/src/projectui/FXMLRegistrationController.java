@@ -19,8 +19,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 /**
@@ -76,45 +74,11 @@ public class FXMLRegistrationController implements Initializable {
         /*To be done
         -Textfields need to be validated before entering.
         */
-        
-        //Gets current date to insert into date joined.
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        
-        
+
         try{
             NewUser newU = new NewUser();
-//            String driver = "com.mysql.jdbc.Driver";
-//
-//            /////For testing please input own DB details////////////
-//            String dbURL = "jdbc:mysql://localhost:3306/projectdb";
-//            String dbUsername = "root";
-//            String dbPassword = "happy123";
-//            ///////////////////////////////////////////////////////
-//            Class.forName(driver);
-//            Connection conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
-//
-//            Statement stmt = conn.createStatement();
 
             newU.setNewUser(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText());
-
-//            String fname = newFname.getText();
-//            String lname = newLname.getText();
-//            String uname = newUsername.getText();
-//            String email = newEmail.getText();
-//            String password = newPassword.getText();
-           
-//
-//            PreparedStatement newUser;
-//            newUser = conn.prepareStatement("INSERT INTO superuser (SecLevel, UserName, FName, LName, Email, Password, JoinedDate) VALUES (1,'"
-//                    + uname +"', '"+ fname +"', '" + lname
-//                    +"', '"+ email +"', '" + password +"', '"+ date + "')");
-            
-           // newUser.executeUpdate();
-            
-//            stmt.close();
-//            conn.close();
-//
-//            System.out.println("Added");
             
             Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
             Scene loginPage_scene = new Scene(loginPage_parent);
