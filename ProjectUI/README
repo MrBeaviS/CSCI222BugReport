@@ -1,15 +1,20 @@
-UPDATE 2 17/10
+UPDATE 3 17/10 - Michael 
+-Moved Registration to MySQLController
+-Updated database and fixed various bugs
+-Added Database test data
+
+UPDATE 2 17/10 - Nathan
 -Added Menu Screen for Authenticated Users
 -Added the ability to view and update profiles of Logged in user
 
-UPDATE 17/10
+UPDATE 17/10 - Nathan
 -Database functions moved to own private class and are now called within Program functions rather than run through them
 -All functions and windows linked via passed DBClass Object
 -View Profile has been revised to inlcude Date
 -Basis for Authenticated menu loaded(For now if your Sec Level is larger than 1 you will get a message saying your page is not read)
 -Registration has not been changed yet.
 
-UPDATE 16/10
+UPDATE 16/10 - Nathan
 -Database switch to MySQL
 -Login now works with MySQL
 -Registration is complete at Basic level
@@ -30,11 +35,11 @@ Complete
 --------------
 Login Screen          //This has been finished
 Passing Username      //Completed passing DB Object
+View Profile          //Complete
 
 Semi- Complete
 --------------
 Register Screen       //This has been basically finished DATA VALIDATION NEEDS TO BE COMPLETED
-View Profile          //This has been basically finished retreival of Rep and numReports needs to be done
 
 Not Complete
 --------------
@@ -47,7 +52,7 @@ AUTHENTICATED USER ACCESS
 Not Complete
 -------------
 Search Bugs that allows to submit comments and Register Interest
-Request Report
+Request/Generate Report
 
 Complete
 -------------
