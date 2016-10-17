@@ -5,13 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -106,51 +103,51 @@ public class FXMLDocumentController implements Initializable {
     }
     
     
-    // Opens database checks username against passwords
-    private boolean isValidCredentials()
-    {
-        boolean pass = false;
-        System.out.println( "SELECT * FROM Users WHERE USERNAME= " + "'" + usernameField.getText() + "'" 
-                + " AND PASSWORD= " + "'" + passwordField.getText() + "'");
-        
-        try{
-            
-        
-            String driver = "com.mysql.jdbc.Driver";
-            String dbURL = "jdbc:mysql://localhost:3306/projectdb";
-            String dbUsername = "root";
-            String dbPassword = "happy123";
-            Class.forName(driver);
-            
-            Connection conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
-            
-            Statement stmt = conn.createStatement();
-            
-            String SQLAccessor = "SELECT * FROM superuser WHERE Username= " + "'" + usernameField.getText() + "'" 
-                + " AND Password= " + "'" + passwordField.getText() + "'";
-
-            ResultSet rs = stmt.executeQuery(SQLAccessor);
-            
-            while(rs.next()){
-                if(rs.getString("USERNAME") != null && rs.getString("PASSWORD") != null){
-                    String username = rs.getString("USERNAME");
-                    System.out.println("USERNAME = " + username);
-                    String password = rs.getString("PASSWORD");
-                    System.out.println("PASSWORD = " + password);
-                    pass = true;
-                }
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-            
-            
-        } catch(Exception e){
-            System.out.println(e);
-            System.exit(0);
-        }
-        return pass;
-    }
+//    // Opens database checks username against passwords
+//    private boolean isValidCredentials()
+//    {
+//        boolean pass = false;
+//        System.out.println( "SELECT * FROM Users WHERE USERNAME= " + "'" + usernameField.getText() + "'"
+//                + " AND PASSWORD= " + "'" + passwordField.getText() + "'");
+//
+//        try{
+//
+//
+//            String driver = "com.mysql.jdbc.Driver";
+//            String dbURL = "jdbc:mysql://localhost:3306/projectdb";
+//            String dbUsername = "root";
+//            String dbPassword = "happy123";
+//            Class.forName(driver);
+//
+//            Connection conn = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
+//
+//            Statement stmt = conn.createStatement();
+//
+//            String SQLAccessor = "SELECT * FROM superuser WHERE Username= " + "'" + usernameField.getText() + "'"
+//                + " AND Password= " + "'" + passwordField.getText() + "'";
+//
+//            ResultSet rs = stmt.executeQuery(SQLAccessor);
+//
+//            while(rs.next()){
+//                if(rs.getString("USERNAME") != null && rs.getString("PASSWORD") != null){
+//                    String username = rs.getString("USERNAME");
+//                    System.out.println("USERNAME = " + username);
+//                    String password = rs.getString("PASSWORD");
+//                    System.out.println("PASSWORD = " + password);
+//                    pass = true;
+//                }
+//            }
+//            rs.close();
+//            stmt.close();
+//            conn.close();
+//
+//
+//        } catch(Exception e){
+//            System.out.println(e);
+//            System.exit(0);
+//        }
+//        return pass;
+//    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

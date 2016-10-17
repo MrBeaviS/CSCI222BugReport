@@ -5,11 +5,7 @@
  */
 package projectui;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 /**
  *
@@ -77,9 +73,9 @@ public class MySQLController {
     currUser currentUser = new currUser();
     
     String driver = "com.mysql.jdbc.Driver";
-    String dbURL = "jdbc:mysql://localhost:3306/projectdb";
-    String dbUsername = "root";
-    String dbPassword = "happy123";
+    String dbURL = "jdbc:mysql://localhost:3306/BugTracking";
+    String dbUsername = "newUser";
+    String dbPassword = "pass123";
     Statement stmt;
     Connection conn;
     
@@ -171,6 +167,7 @@ public class MySQLController {
         return getsecLevel();
         
     }
+
     public void updateUser(String fName, String lName, String pWord, String Email){
         
         currentUser.setEmail(Email);
@@ -203,7 +200,8 @@ public class MySQLController {
         String password = "";
         
         try{
-            
+
+
             
             String SQLAccessor = "SELECT * FROM superuser WHERE Username = " + "'" + currentUser.getUsername() + "'";
 
@@ -220,7 +218,21 @@ public class MySQLController {
             System.exit(0);
         }
         return password;
-        
+
+    }
+
+    public void registerNewUser(NewUser newUser){
+
+        getConnection();
+        try{
+            String statement = "CALL BugTracking.insertNewUser(\' " + newUser.getUserName() + "\', \'"  + newUser.getfName() + "\', \'" +
+                    newUser.getlName() + "\', \'" +  newUser.getEmail() + "\', \' " + newUser.getPassWord() + "\')";
+            System.out.println(statement);
+            stmt.executeQuery(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
     }
     
     
