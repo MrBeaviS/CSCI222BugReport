@@ -6,7 +6,7 @@ USE BugTrackerPrime;
 
 CREATE TABLE SuperUser (
 	UserID int NOT NULL AUTO_INCREMENT,
-    	SecLevel int NOT NULL,
+	SecLevel int NOT NULL,
 	UserName varchar(30) UNIQUE,
 	FName varchar(60),
 	LName varchar(60),
@@ -29,11 +29,11 @@ CREATE TABLE RegisteredUser (
 CREATE TABLE SysAdminUser (
 	UserID int NOT NULL DEFAULT 0,
 	Role ENUM('Triage', 'Developer', 'Reviewer'),
-# 	AssignedBug int,
-# 	CommentID int,
-# 	AttachmentID int,
+	# 	AssignedBug int,
+	# 	CommentID int,
+	# 	AttachmentID int,
 	FOREIGN KEY (UserID)
-		REFERENCES SuperUser(UserID)
+	REFERENCES SuperUser(UserID)
 		ON DELETE CASCADE
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE Attachments (
 	AttacherID int,
 	PRIMARY KEY (AttachmentID),
 	FOREIGN KEY (AttacherID)
-		REFERENCES SysAdminUser(UserID)
+	REFERENCES SysAdminUser(UserID)
 );
 
 CREATE TABLE Comments (
@@ -58,9 +58,9 @@ CREATE TABLE Comments (
 	AttachmentID int,
 	PRIMARY KEY (CommentID),
 	FOREIGN KEY (UserID)
-		REFERENCES SuperUser(UserID),
+	REFERENCES SuperUser(UserID),
 	FOREIGN KEY (AttachmentID)
-		REFERENCES Attachments(AttachmentID)
+	REFERENCES Attachments(AttachmentID)
 );
 
 CREATE TABLE Bug (
@@ -85,22 +85,23 @@ CREATE TABLE BugReports (
 	Keywords varchar(50),
 	Priority ENUM('Low', 'Medium', 'High', 'Emergency'),
 	BugSeverity ENUM ('Critical', ' Major', 'Minor', 'Cosmetic'),
-# 	ReporterID int,
-# 	AssignedTo int,
-# 	CommentID int,
+	# 	ReporterID int,
+	# 	AssignedTo int,
+	# 	CommentID int,
 	PRIMARY KEY (BugReportID),
 	FOREIGN KEY (BugID)
-		REFERENCES Bug(BugID)
-# 	FOREIGN KEY (ReporterID)
-# 		REFERENCES RegisteredUser(UserID)
-# 	FOREIGN KEY (AssignedTo)
-# 		REFERENCES SysAdminUser(UserID),
-# 	FOREIGN KEY (CommentID)
-# 		REFERENCES Comments(CommentID)
+	REFERENCES Bug(BugID)
+	# 	FOREIGN KEY (ReporterID)
+	# 		REFERENCES RegisteredUser(UserID)
+	# 	FOREIGN KEY (AssignedTo)
+	# 		REFERENCES SysAdminUser(UserID),
+	# 	FOREIGN KEY (CommentID)
+	# 		REFERENCES Comments(CommentID)
 );
 
 ##### CREATE PROCEDURES/FUNCTIONS HERE ######
 DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewUser;
+DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 													IN lName varchar(20), IN email varchar(20),
@@ -111,10 +112,12 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 		INSERT INTO RegisteredUser (UserID, UserReputation, BugReport, AccountStatus) VALUES
 			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 'New', 0, 'Active');
 
-	END;
+	END//
+DELIMITER ;
 
 
 DROP FUNCTION IF EXISTS BugTrackerPrime.verifyLogIn;
+DELIMITER //
 CREATE DEFINER='root'@'localhost'
 FUNCTION `verifyLogIn`(uName VARCHAR(30), pass VARCHAR(16)) RETURNS INT DETERMINISTIC
 	BEGIN
@@ -130,7 +133,8 @@ FUNCTION `verifyLogIn`(uName VARCHAR(30), pass VARCHAR(16)) RETURNS INT DETERMIN
 		END IF;
 
 		RETURN (sLevel);
-	END;
+	END //
+DELIMITER ;
 
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';

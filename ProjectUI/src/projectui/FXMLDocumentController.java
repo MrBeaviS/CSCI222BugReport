@@ -49,7 +49,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
         switch(DBCon.loginDB(usernameField.getText(), passwordField.getText())){
-            case 0:
+            case 1:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
@@ -64,7 +64,7 @@ public class FXMLDocumentController implements Initializable {
                 app_stage.show();
                 break;
             }
-            case 1:
+            case 2:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
