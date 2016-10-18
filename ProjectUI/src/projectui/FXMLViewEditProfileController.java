@@ -5,9 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +17,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -68,27 +69,27 @@ public class FXMLViewEditProfileController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //UPDATE superuser SET Email ='jt@test.net', JoinedDate ='2016-10-14' WHERE UserID = '1';
-     
-        String fullName = DBCon.getfullName();
-        
-        String[] parts = fullName.split("\\s+");
-        String fName = parts[0];
-        String lName = parts[1];
-        
-        firstNameBox.setText(fName);
-        lastNameBox.setText(lName);
-        
-        emailBox.setText(DBCon.getEmail());
-
-        String accessLevel = Integer.toString(DBCon.getsecLevel());
-        currAccessLevel.setText(accessLevel);
-        String noReports = Integer.toString(DBCon.getnumReports());
-        currNoReports.setText(noReports);
-        String repLevel = Integer.toString(DBCon.getrepLevel());
-        currRep.setText(repLevel);
-        dateJoined.setText(DBCon.getdateJoined());
-        
-        errorText.setText(" ");
+//
+//        String fullName = DBCon.getfullName();
+//
+//        String[] parts = fullName.split("\\s+");
+//        String fName = parts[0];
+//        String lName = parts[1];
+//
+//        firstNameBox.setText(fName);
+//        lastNameBox.setText(lName);
+//
+//        emailBox.setText(DBCon.getEmail());
+//
+//        String accessLevel = Integer.toString(DBCon.getsecLevel());
+//        currAccessLevel.setText(accessLevel);
+//        String noReports = Integer.toString(DBCon.getnumReports());
+//        currNoReports.setText(noReports);
+//        String repLevel = Integer.toString(DBCon.getrepLevel());
+//        currRep.setText(repLevel);
+//        dateJoined.setText(DBCon.getdateJoined());
+//
+//        errorText.setText(" ");
     }    
 
     @FXML

@@ -48,45 +48,45 @@ public class FXMLDocumentController implements Initializable {
     //login screen start on completion will take to menu
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
+        switch(DBCon.loginDB(usernameField.getText(), passwordField.getText())){
+            case 0:
+            {
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
+                FXMLMenuController controller = new FXMLMenuController(DBCon);
+                loader.setController(controller);
+                Parent menuPage_parent = loader.load();
+                Scene menuPage_scene = new Scene(menuPage_parent);
 
-        if(DBCon.loginDB(usernameField.getText(), passwordField.getText()) == 1){
-            
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
-            FXMLMenuController controller = new FXMLMenuController(DBCon);
-            loader.setController(controller);
-            Parent menuPage_parent = loader.load();
-            Scene menuPage_scene = new Scene(menuPage_parent);
-            
-            //takes to menu.
-            app_stage.hide();
-            app_stage.setScene(menuPage_scene);
-            app_stage.show();
-            
+                //takes to menu.
+                app_stage.hide();
+                app_stage.setScene(menuPage_scene);
+                app_stage.show();
+                break;
+            }
+            case 1:
+            {
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
+                FXMLAuthMenuController controller = new FXMLAuthMenuController(DBCon);
+                loader.setController(controller);
+                Parent menuPage_parent = loader.load();
+                Scene menuPage_scene = new Scene(menuPage_parent);
+
+                //takes to menu.
+                app_stage.hide();
+                app_stage.setScene(menuPage_scene);
+                app_stage.show();
+                break;
+            }
+            default:
+            {
+                //error incorrect details.
+                usernameField.clear();
+                passwordField.clear();
+                loginFail.setText("Incorrect Login");
+            }
         }
-        else if(DBCon.loginDB(usernameField.getText(), passwordField.getText()) > 1){
-            
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
-            FXMLAuthMenuController controller = new FXMLAuthMenuController(DBCon);
-            loader.setController(controller);
-            Parent menuPage_parent = loader.load();
-            Scene menuPage_scene = new Scene(menuPage_parent);
-            
-            //takes to menu.
-            app_stage.hide();
-            app_stage.setScene(menuPage_scene);
-            app_stage.show();
-        }
-        else
-        {
-            //error incorrect details.
-            usernameField.clear();
-            passwordField.clear();
-            loginFail.setText("Incorrect Login");
-        }
-        
-           
     }
     
     //takes you to registration

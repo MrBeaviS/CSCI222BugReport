@@ -99,9 +99,9 @@ CREATE TABLE BugReports (
 # 		REFERENCES Comments(CommentID)
 );
 
-##### CREATE PROCEDURES HERE ######
+##### CREATE PROCEDURES/FUNCTIONS HERE ######
 DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewUser;
-CREATE DEFINER=`root`@`localhost`
+CREATE DEFINER='root'@'localhost'
 PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 													IN lName varchar(20), IN email varchar(20),
 													IN pWord varchar(20))
@@ -113,6 +113,25 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 
 	END;
 
+
+DROP FUNCTION IF EXISTS BugTrackerPrime.verifyLogIn;
+CREATE DEFINER='root'@'localhost'
+FUNCTION `verifyLogIn`(uName VARCHAR(30), pass VARCHAR(16)) RETURNS INT DETERMINISTIC
+	BEGIN
+		DECLARE sLevel INT;
+		DECLARE pWord VARCHAR(16);
+
+		SELECT Password INTO pWord FROM BugTrackerPrime.SuperUser WHERE UserName = uName;
+
+		IF(pWord = pass)
+		THEN SELECT SecLevel INTO sLevel FROM BugTrackerPrime.SuperUser WHERE SuperUser.UserName = uName;
+		ELSEIF(pWord != pass)
+			THEN SET sLevel = 0;
+		END IF;
+
+		RETURN (sLevel);
+	END;
+
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -120,18 +139,20 @@ GRANT INSERT, SELECT ON BugTrackerPrime.SuperUser TO 'newUser'@'localhost' IDENT
 GRANT INSERT, SELECT ON BugTrackerPrime.RegisteredUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.insertNewUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON FUNCTION BugTrackerPrime.verifyLogIn TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
 
 #INSERTS A REGISTERED USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (0, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
+VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'), 'New',0,'Active');
 
 #INSERTS A SYSADMIN USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (0, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
+VALUES (2, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Reviewer');
 

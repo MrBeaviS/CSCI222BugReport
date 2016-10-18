@@ -12,65 +12,8 @@ import java.sql.*;
  * @author Nathan
  */
 public class MySQLController {
-    
-    private class currUser {
-        
-        String username;
-        String fullName;
-        String email;
-        String dateJoined;
-        int secLevel = -1;
-        int repLevel;
-        int numReports;
-        
-        
-        private void setFullName(String FName, String LName){
-            fullName = FName + " " + LName;
-        }
-        private void setEmail(String newEmail){
-            email = newEmail;
-        }
-        private void setUsername(String uName){
-            username = uName;
-        }
-        private void setdateJoined(String newDate){
-            dateJoined = newDate;
-        }
-        private void setSecLevel(int newLevel){
-            secLevel = newLevel;
-        }
-        private void setrepLevel(int newRep){
-            repLevel = newRep;
-        }
-        private void setnumReports(int nReports){
-            numReports = nReports;
-        }
-        
-        
-        public String getEmail(){
-            return email;
-        }
-        public String getfullName(){
-            return fullName;
-        }
-        public String getdateJoined(){
-            return dateJoined;
-        }
-        public String getUsername(){
-            return username;
-        }
-        public int getsecLevel(){
-            return secLevel;
-        }
-        public int getrepLevel(){
-            return repLevel;
-        }
-        public int getnumReports(){
-            return numReports;
-        }
-    }
-    
-    currUser currentUser = new currUser();
+
+    CurrentUser currentUser = new CurrentUser();
     
     String driver = "com.mysql.jdbc.Driver";
     String dbURL = "jdbc:mysql://localhost:3306/BugTrackerPrime";
@@ -79,28 +22,28 @@ public class MySQLController {
     Statement stmt;
     Connection conn;
     
-    public int getsecLevel(){
-        return currentUser.getsecLevel();
-    }
-    public int getrepLevel(){
-            return currentUser.getrepLevel();
-        }
-    public int getnumReports(){
-            return currentUser.getnumReports();
-        }
-    
-    public String getUsername(){
-        return currentUser.getUsername();
-    }
-    public String getEmail(){
-            return currentUser.getEmail();
-        }
-    public String getfullName(){
-            return currentUser.getfullName();
-        }
-    public String getdateJoined(){
-            return currentUser.getdateJoined();
-        }
+//    public int getsecLevel(){
+//        return currentUser.getsecLevel();
+//    }
+//    public int getrepLevel(){
+//            return currentUser.getrepLevel();
+//        }
+//    public int getnumReports(){
+//            return currentUser.getnumReports();
+//        }
+//
+//    public String getUsername(){
+//        return currentUser.getUsername();
+//    }
+//    public String getEmail(){
+//            return currentUser.getEmail();
+//        }
+//    public String getfullName(){
+//            return currentUser.getfullName();
+//        }
+//    public String getdateJoined(){
+//            return currentUser.getdateJoined();
+//        }
 
     public void getConnection(){
         try{
@@ -131,40 +74,27 @@ public class MySQLController {
         }
     }
     public int loginDB(String uName, String pWord){
-       
-        
-        try{
-            
-            getConnection();
-            String SQLAccessor = "SELECT * FROM superuser WHERE Username= " + "'" + uName + "'" 
-                + " AND Password= " + "'" + pWord + "'";
 
-            ResultSet rs = stmt.executeQuery(SQLAccessor);
-            
-            while(rs.next()){
-                if(rs.getString("USERNAME") != null && rs.getString("PASSWORD") != null){
-                    currentUser.setUsername(rs.getString("USERNAME"));
-                    String password = rs.getString("PASSWORD");
-                    currentUser.setSecLevel(rs.getInt("SecLevel"));
-                    currentUser.setFullName(rs.getString("FName"),rs.getString("LName"));
-                    currentUser.setEmail(rs.getString("Email"));
-                    currentUser.setnumReports(0);
-                    currentUser.setrepLevel(0);
-                    currentUser.setdateJoined(rs.getString("JoinedDate"));
-                    
-                    
-                }
+        int access = 0;
+        try{
+            getConnection();
+
+            String statement = "SELECT BugTrackerPrime.verifyLogIn(\'" + uName + "\' , \'" + pWord + "\')";
+
+            ResultSet seclevel = stmt.executeQuery(statement);
+
+            while(seclevel.next()){
+                access = seclevel.getInt(1);
             }
+
             closeConnection();
-            rs.close();
-            
-            
-            
+            seclevel.close();
+
         } catch(Exception e){
             System.out.println(e);
             System.exit(0);
         }
-        return getsecLevel();
+        return access;
         
     }
 
