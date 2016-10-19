@@ -100,6 +100,27 @@ CREATE TABLE BugReports (
 );
 
 ##### CREATE PROCEDURES/FUNCTIONS HERE ######
+USE BugTrackerPrime;
+DROP PROCEDURE IF EXISTS BugTrackerPrime.setCurrentUser;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `setCurrentUser`(uName VARCHAR(30))
+	BEGIN
+		SELECT UserName, FName, LName, Email, JoinedDate, UserReputation, AccountStatus FROM
+			BugTrackerPrime.SuperUser JOIN BugTrackerPrime.RegisteredUser WHERE UserName = uname;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.setCurrentAdmin;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `setCurrentAdmin`(uName VARCHAR(30))
+	BEGIN
+		SELECT UserName, FName, LName, Email, JoinedDate, Role FROM
+			BugTrackerPrime.SuperUser JOIN BugTrackerPrime.SysAdminUser WHERE UserName = uname;
+	END //
+DELIMITER ;
+
 DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewUser;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
@@ -136,6 +157,27 @@ FUNCTION `verifyLogIn`(uName VARCHAR(30), pass VARCHAR(16)) RETURNS INT DETERMIN
 	END //
 DELIMITER ;
 
+USE BugTrackerPrime;
+DROP PROCEDURE IF EXISTS BugTrackerPrime.updateAdmin;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `updateAdmin`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40),
+												pWord VARCHAR(40))
+	BEGIN
+		UPDATE SuperUser SET FName = fName, LName = lName, Email = email, Password = pWord WHERE UserName = uname;
+	END //
+DELIMITER ;
+
+USE BugTrackerPrime;
+DROP PROCEDURE IF EXISTS BugTrackerPrime.updateAdminNoP;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `updateAdminNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40))
+	BEGIN
+		UPDATE SuperUser SET FName = fName, LName = lName, Email = email WHERE UserName = uname;
+	END //
+DELIMITER ;
+
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -143,7 +185,15 @@ GRANT INSERT, SELECT ON BugTrackerPrime.SuperUser TO 'newUser'@'localhost' IDENT
 GRANT INSERT, SELECT ON BugTrackerPrime.RegisteredUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.insertNewUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setCurrentUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setCurrentAdmin TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 GRANT EXECUTE ON FUNCTION BugTrackerPrime.verifyLogIn TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateAdmin TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateAdminNoP TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####

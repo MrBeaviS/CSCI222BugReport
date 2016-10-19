@@ -5,12 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,18 +14,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import static javax.management.Query.value;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -43,10 +35,10 @@ public class FXMLSearchBugsController implements Initializable {
     
     ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","BugStatus","Priority");
     
-    MySQLController DBCon;
+    CurrentUser currentUser;
     
-    public FXMLSearchBugsController (MySQLController pDB){
-        DBCon = pDB;
+    public FXMLSearchBugsController (CurrentUser curr){
+        currentUser = curr;
     }
 
     @FXML
@@ -101,7 +93,7 @@ public class FXMLSearchBugsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        System.out.println("Search Bugs");
         searchBy.setValue("Search By");
         searchBy.setItems(searchbyList);
         
@@ -112,7 +104,7 @@ public class FXMLSearchBugsController implements Initializable {
         //make sure security level is still set correctly
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
-            FXMLMenuController controller = new FXMLMenuController(DBCon);
+            FXMLMenuController controller = new FXMLMenuController(currentUser);
             loader.setController(controller);
             Parent menuPage_parent = loader.load();
             Scene menuPage_scene = new Scene(menuPage_parent);

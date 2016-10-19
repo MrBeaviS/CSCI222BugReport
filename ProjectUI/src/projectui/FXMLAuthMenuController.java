@@ -5,9 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * FXML Controller class
  *
@@ -26,10 +27,10 @@ import javafx.stage.Stage;
 public class FXMLAuthMenuController implements Initializable {
 
     
-    MySQLController DBCon;
+    CurrentUser currentUser;
     
-    public FXMLAuthMenuController (MySQLController pDB){
-        DBCon = pDB;
+    public FXMLAuthMenuController (CurrentUser curr){
+        currentUser = curr;
     }
     
     @FXML
@@ -54,7 +55,7 @@ public class FXMLAuthMenuController implements Initializable {
         
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewEditProfile.fxml"));
-        FXMLViewEditProfileController controller = new FXMLViewEditProfileController(DBCon);
+        FXMLViewEditProfileController controller = new FXMLViewEditProfileController(currentUser);
         loader.setController(controller);
         Parent menuPage_parent = loader.load();
         Scene menuPage_scene = new Scene(menuPage_parent);

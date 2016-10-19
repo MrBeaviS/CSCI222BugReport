@@ -27,10 +27,10 @@ import java.util.ResourceBundle;
  */
 public class FXMLViewProfileController implements Initializable {
     
-    MySQLController DBCon;
+    CurrentUser currentUser;
     
-    public FXMLViewProfileController (MySQLController pDB){
-        DBCon = pDB;
+    public FXMLViewProfileController (CurrentUser curr){
+        currentUser = curr;
     }
     
     
@@ -67,18 +67,13 @@ public class FXMLViewProfileController implements Initializable {
     }
 
     private void populateDetails(){
-        
+        System.out.println("Populate Details");
 
-//        currUsername.setText(DBCon.getUsername());
-//        currEmail.setText(DBCon.getEmail());
-//        currName.setText(DBCon.getfullName());
-//        String accessLevel = Integer.toString(DBCon.getsecLevel());
-//        currAccessLevel.setText(accessLevel);
-//        String noReports = Integer.toString(DBCon.getnumReports());
-//        currNoReports.setText(noReports);
-//        String repLevel = Integer.toString(DBCon.getrepLevel());
-//        currRep.setText(repLevel);
-//        dateJoined.setText(DBCon.getdateJoined());
+        currUsername.setText(currentUser.getUserName());
+        currName.setText(currentUser.getfName() + " " + currentUser.getlName());
+        currEmail.setText(currentUser.getEmail());
+        currRep.setText(currentUser.getUserRep());
+        dateJoined.setText(currentUser.getJoinDate());
         
     }
 
@@ -87,7 +82,7 @@ public class FXMLViewProfileController implements Initializable {
         
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
-        FXMLMenuController controller = new FXMLMenuController(DBCon);
+        FXMLMenuController controller = new FXMLMenuController(currentUser);
         loader.setController(controller);
         Parent menuPage_parent = loader.load();
         Scene menuPage_scene = new Scene(menuPage_parent);

@@ -26,10 +26,10 @@ import java.util.ResourceBundle;
  */
 public class FXMLMenuController implements Initializable {
 
-    MySQLController DBCon;
+    CurrentUser currentUser;
     
-    public FXMLMenuController (MySQLController pDB){
-        DBCon = pDB;
+    public FXMLMenuController (CurrentUser curr){
+        currentUser = curr;
     }
     
     @FXML
@@ -50,13 +50,16 @@ public class FXMLMenuController implements Initializable {
 
     @FXML
     private void viewProfileAction(ActionEvent event) throws IOException {
-        
+
+        System.out.println("View Profile");
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewProfile.fxml"));
-        FXMLViewProfileController controller = new FXMLViewProfileController(DBCon);
+        FXMLViewProfileController controller = new FXMLViewProfileController(currentUser);
         loader.setController(controller);
         Parent viewProfilePage_parent = loader.load();
         Scene viewProfilePage_scene = new Scene(viewProfilePage_parent);
+
         //takes to menu.
         app_stage.hide();
         app_stage.setScene(viewProfilePage_scene);
@@ -69,7 +72,7 @@ public class FXMLMenuController implements Initializable {
 
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLSearchBugs.fxml"));
-        FXMLSearchBugsController controller = new FXMLSearchBugsController(DBCon);
+        FXMLSearchBugsController controller = new FXMLSearchBugsController(currentUser);
         loader.setController(controller);
         Parent searchBugPage_parent = loader.load();
         Scene searchBugPage_scene = new Scene(searchBugPage_parent);
@@ -77,8 +80,8 @@ public class FXMLMenuController implements Initializable {
         app_stage.hide();
         app_stage.setScene(searchBugPage_scene);
         app_stage.show();
-        
-        
+
+
     }
 
     @FXML

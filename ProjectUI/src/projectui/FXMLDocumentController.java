@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -47,13 +48,23 @@ public class FXMLDocumentController implements Initializable {
     
     //login screen start on completion will take to menu
     @FXML
-    private void loginAction(ActionEvent event) throws IOException {
+    private void loginAction(ActionEvent event) throws IOException, SQLException {
         switch(DBCon.loginDB(usernameField.getText(), passwordField.getText())){
             case 1:
             {
+                System.out.println("Registered User Verified");
+                //TO DO: CREATE CURRENT USER OBJECT TO BE PASSED AS OPPOSED TO A DB CONNECTION
+                //CALL PROCEDURE setCurrentUser on input user name
+                CurrentUser currentUser = new CurrentUser(usernameField.getText());
+                currentUser.setUserDetails();
+
+
+
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
-                FXMLMenuController controller = new FXMLMenuController(DBCon);
+
+                //FUNCTION BELOW WILL TAKE A CurrentUser Object
+                FXMLMenuController controller = new FXMLMenuController(currentUser);
                 loader.setController(controller);
                 Parent menuPage_parent = loader.load();
                 Scene menuPage_scene = new Scene(menuPage_parent);
@@ -66,9 +77,15 @@ public class FXMLDocumentController implements Initializable {
             }
             case 2:
             {
+                //TO DO: CREATE A NEW CURRENT USER OBJECT
+                //CREATE A PROCEDURE TO RETRIEVE REQUIRED SYSADMIN DETAILS
+                System.out.println("System User Verified");
+                CurrentUser currentUser = new CurrentUser(usernameField.getText());
+                currentUser.setAdminDetails();
+
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
-                FXMLAuthMenuController controller = new FXMLAuthMenuController(DBCon);
+                FXMLAuthMenuController controller = new FXMLAuthMenuController(currentUser);
                 loader.setController(controller);
                 Parent menuPage_parent = loader.load();
                 Scene menuPage_scene = new Scene(menuPage_parent);

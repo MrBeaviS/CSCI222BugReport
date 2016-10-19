@@ -1,70 +1,114 @@
 package projectui;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by michaelbeavis on 18/10/2016.
  */
 public class CurrentUser {
 
-    String username;
-    String fullName;
-    String email;
-    String dateJoined;
-    int secLevel;
-    int repLevel;
-    int numReports;
+    private String userName;
+    private String fName;
+    private String lName;
+    private String email;
+    private String joinDate;
+    private String userRep;
+    private String accStatus;
+    private String adminRole;
+    private String newPass;
 
-    CurrentUser(){}
+    CurrentUser(String uName){
+        userName = uName;
+    }
 
-    public void setDetails(ResultSet rs) {
+    public void setUserDetails() throws SQLException {
+
+        MySQLController conn = new MySQLController();
+        try{
+            ResultSet rs = conn.setCurrentUser(this);
+
+            while (rs.next()) {
+                userName = rs.getString("UserName");
+                fName = rs.getString("FName");
+                lName = rs.getString("Lname");
+                email = rs.getString("Email");
+                joinDate = rs.getString("JoinedDate");
+                userRep = rs.getString("UserReputation");
+                accStatus = rs.getString("AccountStatus");
+
+            }
+//            printUser();
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+    }
+
+    public void setAdminDetails() throws SQLException {
+        MySQLController conn = new MySQLController();
+        try{
+            ResultSet rs = conn.setCurrentAdmin(this);
+
+            while (rs.next()) {
+                userName = rs.getString("UserName");
+                fName = rs.getString("FName");
+                lName = rs.getString("Lname");
+                email = rs.getString("Email");
+                joinDate = rs.getString("JoinedDate");
+                adminRole = rs.getString("Role");
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAdminNoP(String first, String last, String nEmail) throws SQLException {
+        fName = first;
+        lName = last;
+        email = nEmail;
+        MySQLController conn = new MySQLController();
+        try{
+            conn.updateAdminNoP(this);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAdmin(String first, String last, String nEmail, String pass) throws SQLException {
+        fName = first;
+        lName = last;
+        email = nEmail;
+        newPass = pass;
+        MySQLController conn = new MySQLController();
+        try{
+            conn.updateAdmin(this);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
 
-
-    public void setFullName(String FName, String LName){
-        fullName = FName + " " + LName;
+    public void printUser(){
+        System.out.println(userName + " " + fName);
     }
+
+
+
     public void setEmail(String newEmail){
         email = newEmail;
     }
-    public void setUsername(String uName){
-        username = uName;
-    }
-    public void setdateJoined(String newDate){
-        dateJoined = newDate;
-    }
-    public void setSecLevel(int newLevel){
-        secLevel = newLevel;
-    }
-    public void setrepLevel(int newRep){
-        repLevel = newRep;
-    }
-    public void setnumReports(int nReports){
-        numReports = nReports;
-    }
 
+    public String getUserName(){return userName;}
+    public String getfName(){return  fName;}
+    public String getlName(){return lName;}
+    public String getEmail(){return email;}
+    public String getJoinDate(){return joinDate;}
+    public String getUserRep(){return userRep;}
+    public String getAccStatus(){return accStatus;}
+    public String getAdminRole(){return adminRole;}
+    public String getNewPass(){return newPass;}
 
-    public String getEmail(){
-        return email;
-    }
-    public String getfullName(){
-        return fullName;
-    }
-    public String getdateJoined(){
-        return dateJoined;
-    }
-    public String getUsername(){
-        return username;
-    }
-    public int getsecLevel(){
-        return secLevel;
-    }
-    public int getrepLevel(){
-        return repLevel;
-    }
-    public int getnumReports(){
-        return numReports;
-    }
 }
+

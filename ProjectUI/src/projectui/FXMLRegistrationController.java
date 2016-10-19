@@ -66,18 +66,9 @@ public class FXMLRegistrationController implements Initializable {
     //function for registering new acc.
     private void registerAcc(ActionEvent event) throws IOException
     {
-        /*Completed on Function
-        -On Register button execute 
-        -Take data and insert into table
-        */
-        
-        /*To be done
-        -Textfields need to be validated before entering.
-        */
-
         try{
+            //TO DO: CHECK THE USER INPUT
             NewUser newU = new NewUser();
-
             newU.setNewUser(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText());
             
             Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
@@ -91,9 +82,6 @@ public class FXMLRegistrationController implements Initializable {
             System.out.println(e);
             System.exit(0);
         }
-        
-        
-        
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
