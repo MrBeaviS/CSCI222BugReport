@@ -5,8 +5,6 @@
  */
 package projectui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,16 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -48,8 +44,8 @@ public class FXMLBugsController implements Initializable {
     ////////////////////////////////
     //Tabs
     ///////////////////////////////
-    @FXML
-    private TabPane createBugTab;
+//    @FXML
+//    private TabPane createBugTab;
     ////////////////////////////////
     //Search Fields
     ///////////////////////////////
@@ -233,8 +229,8 @@ public class FXMLBugsController implements Initializable {
 
     @FXML
     private void editBugDetails(ActionEvent event) {
-        
-        
+
+        System.out.println("Edit Button Pressed");
         //On button press hides uneditable text
         selectedbugDesc.editableProperty();
         selectedbugReso.editableProperty();
@@ -276,7 +272,7 @@ public class FXMLBugsController implements Initializable {
     }
     
     @FXML
-    private void backtoMenu(ActionEvent event) {
+    private void backtoMenu(ActionEvent event) throws IOException {
         
         //IF User is Authenticated or above go here:
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
