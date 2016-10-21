@@ -1,3 +1,8 @@
+UPDATE 6 22/10
+-Fixed various button issues.
+-Added menus for View, Edit and Create bugs.
+-Added menus for admin User control.
+
 UPDATE 5 MAJOR UPDATE 19/10 - Michael
 -Refactored login action to a switch statement
 -A MySQLController object is no longer passed from screen to screen, a CurrentUser object will now be passed
@@ -7,7 +12,6 @@ UPDATE 5 MAJOR UPDATE 19/10 - Michael
 -Created new procedure to save changes made in Admin users profile
 -Admin users must now enter their current password before any changes to their profile will be saved
 - TO DO: AuthMenu logout button
--
 
 UPDATE 4 18/10 - Michael
 -Created Classes NewUser and CurrentUser
