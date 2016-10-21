@@ -67,7 +67,20 @@ public class FXMLAuthMenuController implements Initializable {
     }
 
     @FXML
-    private void searhcommentBugsAction(ActionEvent event) {
+    private void searhcommentBugsAction(ActionEvent event) throws IOException {
+
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLBugs.fxml"));
+        FXMLBugsController controller = new FXMLBugsController(currentUser);
+        loader.setController(controller);
+        Parent searchBugPage_parent = loader.load();
+        Scene searchBugPage_scene = new Scene(searchBugPage_parent);
+
+        //takes to menu.
+        app_stage.hide();
+        app_stage.setScene(searchBugPage_scene);
+        app_stage.show();
+
     }
 
     @FXML
