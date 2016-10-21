@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -41,6 +42,10 @@ public class FXMLAuthMenuController implements Initializable {
     private Button logoutButton;
     @FXML
     private Button generateReports;
+    @FXML
+    private Button viewadminProfile;
+    @FXML
+    private Text viewadminText;
 
     /**
      * Initializes the controller class.
@@ -48,6 +53,10 @@ public class FXMLAuthMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        //Set these to false if sec level less than admin.
+        //viewadminText.setVisible(false);
+        //viewadminProfile.setVisible(false);
     }    
 
     @FXML
@@ -67,15 +76,36 @@ public class FXMLAuthMenuController implements Initializable {
     }
 
     @FXML
-    private void searhcommentBugsAction(ActionEvent event) {
+    private void searhcommentBugsAction(ActionEvent event) throws IOException {
+        
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLBugs.fxml"));
+        FXMLBugsController controller = new FXMLBugsController(currentUser);
+        loader.setController(controller);
+        Parent searchBugPage_parent = loader.load();
+        Scene searchBugPage_scene = new Scene(searchBugPage_parent);
+        app_stage.hide();
+        app_stage.setScene(searchBugPage_scene);
+        app_stage.show();
     }
 
     @FXML
-    private void logoutAction(ActionEvent event) {
+    private void logoutAction(ActionEvent event)throws IOException {
+        
+        Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Scene loginPage_scene = new Scene(loginPage_parent);
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        app_stage.hide();
+        app_stage.setScene(loginPage_scene);
+        app_stage.show();
     }
 
     @FXML
     private void generateReportAction(ActionEvent event) {
     }
     
+    @FXML
+    private void viewadminProfileAction(ActionEvent event) throws IOException {
+        
+    }
 }

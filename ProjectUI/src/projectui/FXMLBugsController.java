@@ -5,8 +5,6 @@
  */
 package projectui;
 
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,16 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -48,8 +44,8 @@ public class FXMLBugsController implements Initializable {
     ////////////////////////////////
     //Tabs
     ///////////////////////////////
-    @FXML
-    private TabPane createBugTab;
+//    @FXML
+//    private TabPane createBugTab;
     ////////////////////////////////
     //Search Fields
     ///////////////////////////////
@@ -124,7 +120,7 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField versionBox;
     @FXML
-    private TextField assignBox;
+    private TextField assignedBox;
     @FXML
     private TextField cmpntBox;
     @FXML
@@ -204,6 +200,10 @@ public class FXMLBugsController implements Initializable {
         //CHECK SECURITY LEVEL IF USER IS UNAUTHENTICATED DISABLE CREATE BUG TAB
         //createBugTab.setDisable(true);
         
+        //make the following visible to reporter and up
+        editButton.setVisible(true);
+        saveButton.setVisible(true);
+        
         
     }    
 
@@ -233,11 +233,11 @@ public class FXMLBugsController implements Initializable {
 
     @FXML
     private void editBugDetails(ActionEvent event) {
-        
-        
+
+        System.out.println("Edit Button Pressed");
         //On button press hides uneditable text
-        selectedbugDesc.editableProperty();
-        selectedbugReso.editableProperty();
+        selectedbugDesc.setEditable(true);
+        selectedbugReso.setEditable(true);
         selectedBugName.setVisible(false);
         selectedStatus.setVisible(false);
         selectedPriority.setVisible(false);
@@ -249,17 +249,25 @@ public class FXMLBugsController implements Initializable {
         selectedAssign.setVisible(false);
         
         //Show editable fields
-        editButton.setVisible(true);
-        saveButton.setVisible(true);    
+        
+        
+        
         productBox.setVisible(true);   
         bugNamebox.setVisible(true);  
         versionBox.setVisible(true);  
-        assignBox.setVisible(true);    
+        assignedBox.setVisible(true);    
         cmpntBox.setVisible(true);    
         osBox.setVisible(true);    
         statusBox.setVisible(true);   
         priorityBox.setVisible(true);   
         severityBox.setVisible(true);
+        
+        productBox.setEditable(true);
+        bugNamebox.setEditable(true);
+        versionBox.setEditable(true);
+        assignedBox.setEditable(true);    
+        cmpntBox.setEditable(true);   
+        osBox.setEditable(true); 
         
         // need to fill editable fields with current data from database
         //if none show empty
@@ -273,10 +281,42 @@ public class FXMLBugsController implements Initializable {
     private void saveBugDetails(ActionEvent event) {
         
         //update fields to database
+        
+        //reveal non editable fields
+        selectedbugDesc.setEditable(false);
+        selectedbugReso.setEditable(false);
+        selectedBugName.setVisible(true);
+        selectedStatus.setVisible(true);
+        selectedPriority.setVisible(true);
+        selectedProduct.setVisible(true);
+        selectedOS.setVisible(true);
+        selectedCmpnt.setVisible(true);
+        selectedVer.setVisible(true);
+        selectSev.setVisible(true);
+        selectedAssign.setVisible(true);
+        
+        //make editable fields invisible and disabled
+        productBox.setVisible(false);   
+        bugNamebox.setVisible(false);  
+        versionBox.setVisible(false);  
+        assignedBox.setVisible(false);    
+        cmpntBox.setVisible(false);    
+        osBox.setVisible(false);    
+        statusBox.setVisible(false);   
+        priorityBox.setVisible(false);   
+        severityBox.setVisible(false);
+        
+        productBox.setEditable(false);
+        bugNamebox.setEditable(false);
+        versionBox.setEditable(false);
+        assignedBox.setEditable(false);    
+        cmpntBox.setEditable(false);   
+        osBox.setEditable(false); 
+        
     }
     
     @FXML
-    private void backtoMenu(ActionEvent event) {
+    private void backtoMenu(ActionEvent event) throws IOException {
         
         //IF User is Authenticated or above go here:
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -303,6 +343,13 @@ public class FXMLBugsController implements Initializable {
         app_stage.show();
         */
         
+        
+    }
+    
+    @FXML
+    private void submitnewBug(ActionEvent event) {
+        
+        //take all variables from the table and save into DB
         
     }
     
