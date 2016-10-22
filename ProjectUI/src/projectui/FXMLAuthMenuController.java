@@ -46,6 +46,8 @@ public class FXMLAuthMenuController implements Initializable {
     private Button viewadminProfile;
     @FXML
     private Text viewadminText;
+    @FXML
+    private Button createnewUser;
 
     /**
      * Initializes the controller class.
@@ -101,11 +103,33 @@ public class FXMLAuthMenuController implements Initializable {
     }
 
     @FXML
-    private void generateReportAction(ActionEvent event) {
+    private void generateReportAction(ActionEvent event) throws IOException {
     }
     
     @FXML
     private void viewadminProfileAction(ActionEvent event) throws IOException {
+       
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewAdminProfile.fxml"));
+        FXMLViewAdminProfileController controller = new FXMLViewAdminProfileController(currentUser);
+        loader.setController(controller);
+        Parent searchBugPage_parent = loader.load();
+        Scene searchBugPage_scene = new Scene(searchBugPage_parent);
+        app_stage.hide();
+        app_stage.setScene(searchBugPage_scene);
+        app_stage.show();
         
+    }
+    
+    @FXML void newUserAction(ActionEvent event) throws IOException {
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAdminCreateUser.fxml"));
+        FXMLAdminCreateUserController controller = new FXMLAdminCreateUserController(currentUser);
+        loader.setController(controller);
+        Parent searchBugPage_parent = loader.load();
+        Scene searchBugPage_scene = new Scene(searchBugPage_parent);
+        app_stage.hide();
+        app_stage.setScene(searchBugPage_scene);
+        app_stage.show();
     }
 }

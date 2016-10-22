@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -26,48 +27,36 @@ import javafx.stage.Stage;
  *
  * @author Nathan
  */
-public class FXMLViewAdminProfileController implements Initializable {
+public class FXMLAdminCreateUserController implements Initializable {
 
     CurrentUser currentUser;
     
-    public  FXMLViewAdminProfileController (CurrentUser curr){
+    public FXMLAdminCreateUserController (CurrentUser curr){
         currentUser = curr;
     }
-
+    
     @FXML
-    private Button backToMenu;
+    private TextField newUsername;
     @FXML
-    private Button saveChangesButton;
+    private TextField newEmail;
     @FXML
-    private Text currRep;
+    private TextField newFname;
     @FXML
-    private Text currNoReports;
+    private TextField newLname;
     @FXML
-    private Text dateJoined;
+    private Label errUserTaken;
     @FXML
-    private TextField firstNameBox;
+    private Label errEmailTaken;
     @FXML
-    private TextField emailBox;
+    private Button newRegister;
     @FXML
-    private PasswordField passwordBox;
-    @FXML
-    private TextField lastNameBox;
-    @FXML
-    private Text currUsername;
+    private Button backtoLog;
     @FXML
     private PasswordField newPassword;
     @FXML
-    private Text errorText;
+    private TextField setAccesslevel;
     @FXML
-    private PasswordField accessLevelBox;
-    @FXML
-    private TextField searchField;
-    @FXML
-    private Button increaseRepButton;
-    @FXML
-    private Button decreaseRepbutton;
-    @FXML
-    private Button deleteProfileButton;
+    private Text inputError;
 
     /**
      * Initializes the controller class.
@@ -78,43 +67,20 @@ public class FXMLViewAdminProfileController implements Initializable {
     }    
 
     @FXML
-    private void backtoMenu(ActionEvent event) throws IOException {
+    private void registerAcc(ActionEvent event) {
+    }
+
+    @FXML
+    private void backAction(ActionEvent event) throws IOException {
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
         FXMLAuthMenuController controller = new FXMLAuthMenuController(currentUser);
         loader.setController(controller);
         Parent menuPage_parent = loader.load();
         Scene menuPage_scene = new Scene(menuPage_parent);
-            
-        //takes to menu.
         app_stage.hide();
         app_stage.setScene(menuPage_scene);
         app_stage.show();
-    }
-
-    @FXML
-    private void saveChanges(ActionEvent event) {
-        
-        //saves changes to user
-    }
-
-    @FXML
-    private void findUser(ActionEvent event) {
-        //searches user and fills all the fields
-    }
-
-    @FXML
-    private void increaseRepButton(ActionEvent event) {
-        //increases rep
-    }
-
-    @FXML
-    private void decreaseRep(ActionEvent event) {
-        //decreases rep
-    }
-    
-    private void deleteProfileAction(ActionEvent event) {
-        //delete current profile
     }
     
 }
