@@ -1,3 +1,9 @@
+UPDATE 7 23/10 - Nathan
+-Create User UI for admin created
+-added aditional buttons to various menus eg. Delete function for User profiles in admin
+-fixed more various button issues 
+-fixed a few java exceptions related to JavaFX CSS
+
 UPDATE 6 22/10 - Nathan
 -Fixed various button issues.
 -Added menus for View, Edit and Create bugs.
