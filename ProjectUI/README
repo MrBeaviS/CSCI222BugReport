@@ -1,13 +1,15 @@
-UPDATE 8 24/10 - Nathan
+UPDATE 9 24/10 - Nathan
 -Fixed button issues with View Profile
 -normalised variable names among the auth menu
+-Fixed various function names to normalise it accross the board.
+-Fixed text issues all text should now display the same accross all Operating Systems
+
+UPDATE 8 23/10 - Nathan
 -created base UI for Generate reports
 -Added Comment buttons for Bug reports
 -Added Rep buttons for Bug Reports
 -Added rep text for Bug Reports
 -Added patch button to Bug Reports currently serves no purpose
--Fixed various function names to normalise it accross the board.
--Fixed text issues all text should now display the same accross all Operating Systems
 
 UPDATE 7 23/10 - Nathan
 -Create User UI for admin created
