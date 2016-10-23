@@ -16,10 +16,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 /**
@@ -27,63 +25,47 @@ import javafx.stage.Stage;
  *
  * @author Nathan
  */
-public class FXMLAdminCreateUserController implements Initializable {
+public class FXMLGenerateReportController implements Initializable {
 
     CurrentUser currentUser;
     
-    public FXMLAdminCreateUserController (CurrentUser curr){
+    public FXMLGenerateReportController (CurrentUser curr){
         currentUser = curr;
     }
     
     @FXML
-    private TextField newUsername;
+    private ChoiceBox<String> bugReportBox;
     @FXML
-    private TextField newEmail;
+    private Button bugReportButton;
     @FXML
-    private TextField newFname;
+    private  ChoiceBox<String> useReportBox;
     @FXML
-    private TextField newLname;
+    private Button userReportButton;
     @FXML
-    private Button newRegister;
-    @FXML
-    private Button backtoLog;
-    @FXML
-    private PasswordField newPassword;
-    @FXML
-    private TextField setAccesslevel;
-    @FXML
-    private Text inputError;
-    @FXML
-    private Text createdText;
+    private Button backButton;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        inputError.setText("");    
-        createdText.setVisible(false);
-        
-        
+        // TODO
     }    
 
     @FXML
-    private void registerAcc(ActionEvent event) {
+    private void generateBugReport(ActionEvent event) {
         
-       //IF ERROR
-       //inputError.setText("NAME OF ERROR");    
-       
-       //IF SUCCESSFUL 
-       //createdText.setVisible(true);
-       
-       
-       //dont forget already exists checks on username and email
-        
-        
+        //reports per week, month year etc.
     }
 
     @FXML
-    private void backAction(ActionEvent event) throws IOException {
+    private void generateUserReport(ActionEvent event) {
+        //reports per week, month year etc.
+    }
+    
+    @FXML
+    private void backtoMenu(ActionEvent event) throws IOException {
+        
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
         FXMLAuthMenuController controller = new FXMLAuthMenuController(currentUser);
@@ -93,6 +75,7 @@ public class FXMLAdminCreateUserController implements Initializable {
         app_stage.hide();
         app_stage.setScene(menuPage_scene);
         app_stage.show();
+
     }
     
 }

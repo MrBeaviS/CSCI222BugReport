@@ -11,23 +11,23 @@
       <Rectangle arcWidth="5.0" fill="#ebebeb" height="74.0" stroke="#6b6b6b" strokeType="OUTSIDE" strokeWidth="0.0" width="602.0" />
       <Text fill="#5b5b5b" layoutX="21.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BUGTRACKER">
          <font>
-            <Font name="Calibri Bold" size="27.0" />
+            <Font name="System Bold" size="27.0" />
          </font>
       </Text>
-      <Text fill="#3e404a" layoutX="173.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
+      <Text fill="#3e404a" layoutX="194.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
          <font>
-            <Font name="Calibri Italic" size="22.0" />
+            <Font name="System Italic" size="22.0" />
          </font>
       </Text>
       <Text fill="#5b5b5b" layoutX="434.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Main Menu">
          <font>
-            <Font name="Calibri Bold Italic" size="18.0" />
+            <Font name="System Bold Italic" size="18.0" />
          </font>
       </Text>
       <Rectangle arcWidth="5.0" fill="#ebebeb" height="421.0" layoutX="353.0" layoutY="74.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="249.0" />
-      <Text layoutX="379.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome USER &#10;&#10;From this menu you can access&#10;BugTracker Primes various features.&#10;&#10;If you believe you are missing access&#10;to some features please contact your&#10;system administrator.&#10;" textAlignment="CENTER">
+      <Text layoutX="374.0" layoutY="126.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome USER &#10;&#10;From this menu you can access&#10;BugTracker Primes various features.&#10;&#10;If you believe you are missing access&#10;to some features please contact your&#10;system administrator.&#10;" textAlignment="CENTER">
          <font>
-            <Font name="Calibri" size="13.0" />
+            <Font size="13.0" />
          </font>
       </Text>
       <Button fx:id="vieweditProfile" layoutX="86.0" layoutY="117.0" mnemonicParsing="false" onAction="#vieweditProfileAction" prefHeight="25.0" prefWidth="175.0" text="Profile" />

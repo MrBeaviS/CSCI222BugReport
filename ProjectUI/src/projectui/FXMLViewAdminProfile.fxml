@@ -15,17 +15,17 @@
             <Rectangle arcWidth="5.0" fill="#ebebeb" height="87.0" layoutY="-1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="600.0" />
             <Text fill="#5b5b5b" layoutX="41.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BUGTRACKER">
                <font>
-                  <Font name="Calibri Bold" size="27.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Text>
-            <Text fill="#3e404a" layoutX="193.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
+            <Text fill="#3e404a" layoutX="215.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
                <font>
-                  <Font name="Calibri Italic" size="22.0" />
+                  <Font name="System Italic" size="22.0" />
                </font>
             </Text>
             <Text fill="#5b5b5b" layoutX="447.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Profiles">
                <font>
-                  <Font name="Calibri Bold Italic" size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
             <Text fill="WHITE" layoutX="42.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:">
@@ -45,9 +45,9 @@
             </Text>
             <Rectangle arcWidth="5.0" fill="#ebebeb" height="376.0" layoutX="388.0" layoutY="85.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="212.0" />
             <Button fx:id="backToMenu" layoutX="254.0" layoutY="416.0" mnemonicParsing="false" onAction="#backtoMenu" prefHeight="25.0" prefWidth="92.0" text="Back" />
-            <Text layoutX="394.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From here you will be able to&#10;edit current user profiles.&#10;&#10;You can grant extra permissions&#10;or change their current reputation." textAlignment="CENTER" wrappingWidth="194.4091796875">
+            <Text layoutX="397.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From here you will be able to&#10;edit current user profiles.&#10;&#10;You can grant extra permissions&#10;or change their current reputation." textAlignment="CENTER" wrappingWidth="194.4091796875">
                <font>
-                  <Font name="Calibri" size="13.0" />
+                  <Font size="13.0" />
                </font>
             </Text>
             <Button fx:id="saveChangesButton" layoutX="48.0" layoutY="416.0" mnemonicParsing="false" onAction="#saveChanges" prefHeight="25.0" prefWidth="92.0" text="Save Changes" />
@@ -98,7 +98,7 @@
             <PasswordField fx:id="accessLevelBox" layoutX="151.0" layoutY="299.0" prefHeight="25.0" prefWidth="194.0" />
             <TextField fx:id="searchField" layoutX="85.0" layoutY="112.0" prefHeight="25.0" prefWidth="152.0" />
             <Button layoutX="252.0" layoutY="112.0" mnemonicParsing="false" onAction="#findUser" prefHeight="25.0" prefWidth="92.0" text="Search" />
-            <Button fx:id="increaseRepButton" layoutX="177.0" layoutY="332.0" mnemonicParsing="false" onAction="#increaseRepButton" prefHeight="22.0" prefWidth="30.0" text="+">
+            <Button fx:id="increaseRepButton" layoutX="177.0" layoutY="332.0" mnemonicParsing="false" onAction="#increaseRep" prefHeight="22.0" prefWidth="30.0" text="+">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -108,7 +108,7 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Button>
-            <Button fx:id="deleteProfileButton" layoutX="151.0" layoutY="416.0" mnemonicParsing="false" onAction="#deleteProfileAction" prefHeight="25.0" prefWidth="92.0" text="Delete" />
+            <Button fx:id="deleteProfileButton" layoutX="151.0" layoutY="416.0" mnemonicParsing="false" onAction="#deleteProfile" prefHeight="25.0" prefWidth="92.0" text="Delete" />
          </children>
       </AnchorPane>
    </children>

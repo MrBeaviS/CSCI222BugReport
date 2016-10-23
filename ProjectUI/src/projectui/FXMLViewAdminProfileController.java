@@ -104,7 +104,7 @@ public class FXMLViewAdminProfileController implements Initializable {
     }
 
     @FXML
-    private void increaseRepButton(ActionEvent event) {
+    private void increaseRep(ActionEvent event) {
         //increases rep
     }
 
@@ -113,7 +113,8 @@ public class FXMLViewAdminProfileController implements Initializable {
         //decreases rep
     }
     
-    private void deleteProfileAction(ActionEvent event) {
+    @FXML
+    private void deleteProfile(ActionEvent event) {
         //delete current profile
     }
     

@@ -131,6 +131,19 @@ public class FXMLBugsController implements Initializable {
     private ChoiceBox<String> priorityBox;
     @FXML
     private ChoiceBox<String> severityBox;
+    @FXML
+    private Button increaseRepButton;
+    @FXML
+    private Button decreaseRepButton;
+    @FXML
+    private Button addCommentButton;
+    @FXML
+    private Button submitCommentButton;
+    @FXML
+    private Button uploadPatchButton;
+    @FXML
+    private Text repLevel;
+    
     
     ////////////////////////////////
     //Create Bugs
@@ -169,6 +182,8 @@ public class FXMLBugsController implements Initializable {
     private TableColumn<?, ?> selectedUsercmnt;
     @FXML
     private TableColumn<?, ?> selectedDatecmnt;
+    
+    
 
     /**
      * Initializes the controller class.
@@ -203,6 +218,13 @@ public class FXMLBugsController implements Initializable {
         //make the following visible to reporter and up
         editButton.setVisible(true);
         saveButton.setVisible(true);
+        increaseRepButton.setVisible(true);
+        decreaseRepButton.setVisible(true);
+        addCommentButton.setVisible(true);
+        submitCommentButton.setVisible(true);
+        
+        //dev and up
+        uploadPatchButton.setVisible(true);
         
         
     }    
@@ -350,6 +372,42 @@ public class FXMLBugsController implements Initializable {
     private void submitnewBug(ActionEvent event) {
         
         //take all variables from the table and save into DB
+        
+    }
+    
+    @FXML
+    private void addComment(ActionEvent event) {
+        
+        //adds an editable row into already existing content of the comment table
+        //allows edit in said row
+        
+    }
+    
+    @FXML
+    private void submitComment(ActionEvent event) {
+        
+        //take all variables from the table and save into DB
+        //takes last row added and adds it to the db as a new comment
+    }
+    
+    @FXML
+    private void uploadPatch(ActionEvent event) {
+        
+        //opens new window to upload patch? How?
+        
+    }
+    
+    @FXML
+    private void decreaseRep(ActionEvent event) {
+        
+        //obvious decrease rep. After 1 press disable both the button
+        
+    }
+    
+    @FXML
+    private void increaseRep(ActionEvent event) {
+        
+        //obvious increase rep. After 1 press disable both the button
         
     }
     

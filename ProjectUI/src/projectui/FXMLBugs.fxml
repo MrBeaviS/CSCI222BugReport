@@ -20,22 +20,22 @@
             <Rectangle arcWidth="5.0" fill="#ebebeb" height="76.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="814.0" />
             <Text fill="#5b5b5b" layoutX="14.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BUGTRACKER">
                <font>
-                  <Font name="Calibri Bold" size="27.0" />
+                  <Font name="System Bold" size="27.0" />
                </font>
             </Text>
-            <Text fill="#3e404a" layoutX="166.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
+            <Text fill="#3e404a" layoutX="187.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="PRIME">
                <font>
-                  <Font name="Calibri Italic" size="22.0" />
+                  <Font name="System Italic" size="22.0" />
                </font>
             </Text>
             <Text fill="#5b5b5b" layoutX="649.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Bugs">
                <font>
-                  <Font name="Calibri Bold Italic" size="18.0" />
+                  <Font name="System Bold Italic" size="18.0" />
                </font>
             </Text>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="76.0" prefHeight="707.0" prefWidth="814.0">
+      <AnchorPane layoutY="76.0" prefHeight="747.0" prefWidth="814.0">
          <children>
             <TabPane layoutY="7.0" prefHeight="661.0" prefWidth="814.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <tabs>
@@ -43,7 +43,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="814.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="574.0" layoutX="-2.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" width="820.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ebebeb" height="617.0" layoutX="-2.0" layoutY="58.0" stroke="BLACK" strokeType="INSIDE" width="820.0" />
                               <TextField fx:id="searchBox" layoutX="14.0" layoutY="19.0" />
                               <ChoiceBox fx:id="searchBy" layoutX="173.0" layoutY="19.0" prefHeight="25.0" prefWidth="97.0" />
                               <Button fx:id="searchButton" layoutX="280.0" layoutY="19.0" mnemonicParsing="false" onAction="#searchBugs" prefHeight="25.0" prefWidth="90.0" text="Search" />
@@ -105,7 +105,7 @@
                                  </font>
                               </Text>
                               <Text fx:id="selectedReporter" layoutX="554.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <TableView fx:id="selectedCmnt" layoutY="493.0" prefHeight="139.0" prefWidth="814.0">
+                              <TableView fx:id="selectedCmnt" editable="true" layoutY="491.0" prefHeight="148.0" prefWidth="814.0">
                                 <columns>
                                   <TableColumn fx:id="selectedUsercmnt" prefWidth="101.0" text="User" />
                                   <TableColumn prefWidth="608.0" text="Comment" />
@@ -149,7 +149,7 @@
                               </Text>
                               <Text fx:id="selectedAssign" layoutX="554.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                               <Button fx:id="editButton" layoutX="664.0" layoutY="253.0" mnemonicParsing="false" onAction="#editBugDetails" prefHeight="25.0" prefWidth="115.0" text="Edit" />
-                              <Button fx:id="saveButton" layoutX="664.0" layoutY="309.0" mnemonicParsing="false" onAction="#saveBugDetails" prefHeight="25.0" prefWidth="115.0" text="Save" />
+                              <Button fx:id="saveButton" layoutX="664.0" layoutY="281.0" mnemonicParsing="false" onAction="#saveBugDetails" prefHeight="25.0" prefWidth="115.0" text="Save" />
                               <TextField fx:id="productBox" editable="false" layoutX="64.0" layoutY="309.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="bugNamebox" editable="false" layoutX="64.0" layoutY="254.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="versionBox" editable="false" layoutX="214.0" layoutY="309.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
@@ -159,6 +159,25 @@
                               <ChoiceBox fx:id="statusBox" layoutX="214.0" layoutY="253.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <ChoiceBox fx:id="priorityBox" layoutX="214.0" layoutY="281.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <ChoiceBox fx:id="severityBox" layoutX="367.0" layoutY="309.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
+                              <Text layoutX="663.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rep:">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="repLevel" layoutX="693.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="65" />
+                              <Button fx:id="increaseRepButton" layoutX="721.0" layoutY="310.0" mnemonicParsing="false" onAction="#increaseRep" text="+">
+                                 <font>
+                                    <Font name="System Bold" size="11.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="decreaseRepButton" layoutX="754.0" layoutY="310.0" mnemonicParsing="false" onAction="#decreaseRep" prefHeight="24.0" prefWidth="25.0" text="-">
+                                 <font>
+                                    <Font name="System Bold" size="11.0" />
+                                 </font>
+                              </Button>
+                              <Button fx:id="submitCommentButton" layoutX="683.0" layoutY="643.0" mnemonicParsing="false" onAction="#submitComment" prefHeight="25.0" prefWidth="122.0" text="Submit Comment" />
+                              <Button fx:id="addCommentButton" layoutX="541.0" layoutY="643.0" mnemonicParsing="false" onAction="#addComment" prefHeight="25.0" prefWidth="122.0" text="Add Comment" />
+                              <Button fx:id="uploadPatchButton" layoutX="10.0" layoutY="643.0" mnemonicParsing="false" onAction="#uploadPatch" prefHeight="25.0" prefWidth="109.0" text="Edit Patch" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -240,7 +259,7 @@
                 </Tab>
               </tabs>
             </TabPane>
-            <Button fx:id="backButton" layoutX="683.0" layoutY="673.0" mnemonicParsing="false" onAction="#backtoMenu" prefHeight="25.0" prefWidth="122.0" text="Back" />
+            <Button fx:id="backButton" layoutX="683.0" layoutY="713.0" mnemonicParsing="false" onAction="#backtoMenu" prefHeight="25.0" prefWidth="122.0" text="Back" />
          </children>
       </AnchorPane>
    </children>
