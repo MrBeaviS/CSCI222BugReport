@@ -7,6 +7,7 @@ UPDATE 8 24/10 - Nathan
 -Added rep text for Bug Reports
 -Added patch button to Bug Reports currently serves no purpose
 -Fixed various function names to normalise it accross the board.
+-Fixed text issues all text should now display the same accross all Operating Systems
 
 UPDATE 7 23/10 - Nathan
 -Create User UI for admin created
