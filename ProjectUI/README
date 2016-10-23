@@ -1,3 +1,13 @@
+UPDATE 8 24/10 - Nathan
+-Fixed button issues with View Profile
+-normalised variable names among the auth menu
+-created base UI for Generate reports
+-Added Comment buttons for Bug reports
+-Added Rep buttons for Bug Reports
+-Added rep text for Bug Reports
+-Added patch button to Bug Reports currently serves no purpose
+-Fixed various function names to normalise it accross the board.
+
 UPDATE 7 23/10 - Nathan
 -Create User UI for admin created
 -added aditional buttons to various menus eg. Delete function for User profiles in admin
