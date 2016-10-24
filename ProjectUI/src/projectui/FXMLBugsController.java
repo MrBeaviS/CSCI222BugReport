@@ -236,7 +236,7 @@ public class FXMLBugsController implements Initializable {
         //Access DB and search bugs
         //Once search completed populate the table
         
-        //https://www.youtube.com/watch?v=2ZZ7UOGjY54
+        //https://www.youtube.com/watch?v=UKzx4NRaZyM
         //New class will need to be created with results from search
         //Then the ?,? imn table view will need to be changed to Object, Variable
         //EG TableColumn<Bug, String> tableuserName;
