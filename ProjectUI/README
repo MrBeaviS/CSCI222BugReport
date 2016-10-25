@@ -22,7 +22,7 @@ UPDATE 11 24/10 - Nathan
 -Added and Updated multiple Procedures to Data base in reference to the above searches
 -Added security level to all menus so users permissions now reflect what they see
 -Changed Bug Search UI to be more appealing and consistant
--Created UI for Generate reports
+-Revised and finalised UI for Generate reports
 -Fixed an issue in the SearchByStatus Procedure in the WHERE BugStatus = bugStatus. MYSQL doesn't care about caps you were comparing to it self.
 -Changed to BugStatus = bStatus
 
