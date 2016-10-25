@@ -47,6 +47,8 @@ public class FXMLAuthMenuController implements Initializable {
     @FXML
     private Text viewadminText;
     @FXML
+    private Text createUserText;
+    @FXML
     private Button createnewUser;
 
     /**
@@ -54,11 +56,27 @@ public class FXMLAuthMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        
-        //Set these to false if sec level less than admin.
-        //viewadminText.setVisible(false);
-        //viewadminProfile.setVisible(false);
+        switch(currentUser.getSecLevel()){
+            case 1:
+            case 2:
+            case 3:
+                viewadminProfile.setVisible(false);
+                viewadminText.setText("");
+                createnewUser.setVisible(false);
+                createUserText.setText("");
+                break;
+            case 4:
+                viewadminProfile.setVisible(true);
+                createnewUser.setVisible(true);
+                break;
+            default:
+                viewadminProfile.setVisible(false);
+                viewadminText.setText("");
+                createnewUser.setVisible(false);
+                createUserText.setText("");
+                break;
+                
+        }
     }    
 
     @FXML
