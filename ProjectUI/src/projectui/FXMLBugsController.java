@@ -343,7 +343,7 @@ public class FXMLBugsController implements Initializable {
 
 
         switch(currentUser.getSecLevel()){
-            case "0":
+            case 0:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
@@ -356,7 +356,7 @@ public class FXMLBugsController implements Initializable {
                 app_stage.setScene(menuPage_scene);
                 app_stage.show();
             }
-            case "4":
+            case 4:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
