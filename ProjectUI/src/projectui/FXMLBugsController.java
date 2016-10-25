@@ -542,19 +542,19 @@ public class FXMLBugsController implements Initializable {
     }
     
     @FXML
-    private void addComment(ActionEvent event) {
+    private void addComment(ActionEvent event) throws IOException {
         
-        //adds an editable row into already existing content of the comment table
-        //allows edit in said row
+        Stage cmmt_stage = new Stage();
+        FXMLLoader cmmtloader = new FXMLLoader(getClass().getResource("FXMLAddComment.fxml"));
+        FXMLAddCommentController controller = new FXMLAddCommentController(currentUser);
+        cmmtloader.setController(controller);
+        Parent cmmt_parent = cmmtloader.load();
+        Scene cmmt_scene = new Scene(cmmt_parent);
+        cmmt_stage.setScene(cmmt_scene);
+        cmmt_stage.show(); 
         
     }
     
-    @FXML
-    private void submitComment(ActionEvent event) {
-        
-        //take all variables from the table and save into DB
-        //takes last row added and adds it to the db as a new comment
-    }
     
     @FXML
     private void uploadPatch(ActionEvent event) {

@@ -171,8 +171,7 @@
                                     <Font name="System Bold" size="11.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="submitCommentButton" layoutX="683.0" layoutY="643.0" mnemonicParsing="false" onAction="#submitComment" prefHeight="25.0" prefWidth="122.0" text="Submit Comment" />
-                              <Button fx:id="addCommentButton" layoutX="541.0" layoutY="643.0" mnemonicParsing="false" onAction="#addComment" prefHeight="25.0" prefWidth="122.0" text="Add Comment" />
+                              <Button fx:id="addCommentButton" layoutX="681.0" layoutY="643.0" mnemonicParsing="false" onAction="#addComment" prefHeight="25.0" prefWidth="122.0" text="Add Comment" />
                               <Button fx:id="uploadPatchButton" layoutX="10.0" layoutY="643.0" mnemonicParsing="false" onAction="#uploadPatch" prefHeight="25.0" prefWidth="109.0" text="Edit Patch" />
                               <ComboBox fx:id="searchBy" layoutX="168.0" layoutY="19.0" prefHeight="25.0" prefWidth="108.0" />
                               <ComboBox fx:id="statusBox" layoutX="210.0" layoutY="254.0" prefHeight="25.0" prefWidth="102.0" />
