@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -60,19 +61,19 @@ public class FXMLBugsController implements Initializable {
     //Search Bugs
     ///////////////////////////////
     @FXML
-    private TableView<?> tablebugSearch;
+    private TableView<BugReportDetails> tablebugSearch;
     @FXML
     private TableColumn<?, ?> tablebugUser;
     @FXML
     private TableColumn<?, ?> tableuserName;
     @FXML
-    private TableColumn<?, ?> tableshortDesc;
+    private TableColumn<BugReportDetails, String> tableshortDesc;
     @FXML
-    private TableColumn<?, ?> tablebStatus;
+    private TableColumn<BugReportDetails, String> tablebStatus;
     @FXML
-    private TableColumn<?, ?> tablePriority;
+    private TableColumn<BugReportDetails, String> tablePriority;
     @FXML
-    private TableColumn<?, ?> tableDate;
+    private TableColumn<BugReportDetails, String> tableDate;
     
     ////////////////////////////////
     //Bug Details
@@ -230,8 +231,12 @@ public class FXMLBugsController implements Initializable {
     }    
 
     @FXML
-    private void searchBugs(ActionEvent event) {
-        
+    private void searchBugs(ActionEvent event) throws SQLException {
+        SearchReports reports = new SearchReports();
+
+        reports.searchReportsByStatus("Reported");
+
+        System.out.println("SEARCHING");
         
         //Access DB and search bugs
         //Once search completed populate the table

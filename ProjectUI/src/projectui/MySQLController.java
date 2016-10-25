@@ -59,7 +59,6 @@ public class MySQLController {
             ResultSet seclevel = stmt.executeQuery(sql);
             while(seclevel.next()){
                 access = seclevel.getInt(1);
-                System.out.println(seclevel.getInt(1));
             }
             closeConnection();
             seclevel.close();
@@ -151,6 +150,18 @@ public class MySQLController {
             e.printStackTrace();
         }
 
+    }
+
+    public ResultSet searchDetailsByStatus(String search){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.setSearchDetailsByStatus(\'" + search + "\')";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
     }
     
 }
