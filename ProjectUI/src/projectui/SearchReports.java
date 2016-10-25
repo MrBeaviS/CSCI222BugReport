@@ -1,15 +1,17 @@
 package projectui;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 /**
  * Created by michaelbeavis on 26/10/2016.
  */
 public class SearchReports {
 
-    ArrayList reportDetails = new ArrayList();
+    private ObservableList<BugReportDetails> reportDetails = FXCollections.observableArrayList();
 
     public void searchReportsByStatus(String status) throws SQLException {
         MySQLController conn = new MySQLController();
@@ -21,4 +23,6 @@ public class SearchReports {
 
         }
     }
+
+    public ObservableList<BugReportDetails> getReportDetails(){return reportDetails;}
 }

@@ -15,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -237,7 +238,15 @@ public class FXMLBugsController implements Initializable {
         reports.searchReportsByStatus("Reported");
 
         System.out.println("SEARCHING");
-        
+
+        tableshortDesc.setCellValueFactory(new PropertyValueFactory<>("shortDesc"));
+        tablebStatus.setCellValueFactory(new PropertyValueFactory<>("bugStatus"));
+        tablePriority.setCellValueFactory(new PropertyValueFactory<>("priority"));
+        tableDate.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
+
+        tablebugSearch.setItems(null);
+        tablebugSearch.setItems(reports.getReportDetails());
+
         //Access DB and search bugs
         //Once search completed populate the table
         
@@ -253,7 +262,21 @@ public class FXMLBugsController implements Initializable {
 
     @FXML
     private void bugSelected(MouseEvent event) {
-        
+//
+//        selectedbugDesc.setText();
+//        selectedbugReso;
+//        selectedBugName;
+//        selectedBugID;
+//        selectedStatus;
+//        selectedPriority;
+//        selectedDate;
+//        selectedReporter;
+//        selectedProduct;
+//        selectedOS;
+//        selectedCmpnt;
+//        selectedVer;
+//        selectSev;
+//        selectedAssign;
         //once bug searched and selected on table
         //populate extended bug details
     }
