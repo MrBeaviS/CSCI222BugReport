@@ -40,6 +40,6 @@
       <Button fx:id="viewadminProfile" layoutX="85.0" layoutY="309.0" mnemonicParsing="false" onAction="#viewadminProfileAction" prefHeight="25.0" prefWidth="175.0" text="User Profiles" />
       <Text fx:id="viewadminText" fill="#d7d7d7" layoutX="82.0" layoutY="353.0" strokeType="OUTSIDE" strokeWidth="0.0" text="View, Edit and Delete User Profiles" textAlignment="CENTER" />
       <Button fx:id="createnewUser" layoutX="85.0" layoutY="369.0" mnemonicParsing="false" onAction="#newUserAction" prefHeight="25.0" prefWidth="175.0" text="Create User" />
-      <Text fx:id="viewadminText1" fill="#d7d7d7" layoutX="122.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new User" textAlignment="CENTER" />
+      <Text fx:id="createUserText" fill="#d7d7d7" layoutX="122.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new User" textAlignment="CENTER" />
    </children>
 </AnchorPane>
