@@ -69,16 +69,22 @@ public class FXMLAdminCreateUserController implements Initializable {
 
     @FXML
     private void registerAcc(ActionEvent event) {
-        
-       //IF ERROR
-       //inputError.setText("NAME OF ERROR");    
-       
-       //IF SUCCESSFUL 
-       //createdText.setVisible(true);
-       
-       
+
        //dont forget already exists checks on username and email
-        
+       
+       try{
+            //TO DO: CHECK THE USER INPUT
+            NewUser newU = new NewUser();
+            int accesslevel;
+            accesslevel = Integer.valueOf(setAccesslevel.getText());
+            newU.setNewUserAdmin(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText(), accesslevel);
+            createdText.setVisible(true);
+            
+        }catch(Exception e){
+            System.out.println(e);
+            inputError.setText("NAME OF ERROR");  
+        }
+       
         
     }
 

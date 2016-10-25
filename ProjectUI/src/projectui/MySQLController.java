@@ -158,6 +158,21 @@ public class MySQLController {
             System.out.println(e);
         }
     }
+    
+    public void registerNewUserAdmin(NewUser newUser){
+
+        getConnection();
+        try{
+            String statement = "CALL BugTrackerPrime.insertNewUserAdmin(\'" +newUser.getAccessLevel() + "\', \'"+ newUser.getUserName() + "\', \'"  + newUser.getfName() + "\', \'" +
+                    newUser.getlName() + "\', \'" +  newUser.getEmail() + "\', \'" + newUser.getPassWord() + "\')";
+            System.out.println(statement);
+            stmt.executeQuery(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }
+    
 
     public ResultSet setCurrentUser(CurrentUser currUser) {
         getConnection();
