@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -44,6 +45,8 @@ public class FXMLAuthMenuController implements Initializable {
     @FXML
     private Button viewadminProfile;
     @FXML
+    private Text viewadminText;
+    @FXML
     private Button createnewUser;
 
     /**
@@ -52,6 +55,10 @@ public class FXMLAuthMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        
+        //Set these to false if sec level less than admin.
+        //viewadminText.setVisible(false);
+        //viewadminProfile.setVisible(false);
     }    
 
     @FXML
@@ -61,18 +68,18 @@ public class FXMLAuthMenuController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewEditProfile.fxml"));
         FXMLViewEditProfileController controller = new FXMLViewEditProfileController(currentUser);
         loader.setController(controller);
-        Parent menuPage_parent = loader.load();
-        Scene menuPage_scene = new Scene(menuPage_parent);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
 
         app_stage.hide();
-        app_stage.setScene(menuPage_scene);
+        app_stage.setScene(scene);
         app_stage.show();
         
     }
 
     @FXML
     private void searhcommentBugsAction(ActionEvent event) throws IOException {
-
+        
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLBugs.fxml"));
         FXMLBugsController controller = new FXMLBugsController(currentUser);
@@ -85,33 +92,54 @@ public class FXMLAuthMenuController implements Initializable {
     }
 
     @FXML
-    private void logoutAction(ActionEvent event) {
-    }
-
-    @FXML
-    private void generateReportAction(ActionEvent event) {
-    }
-
-
-    @FXML
-    private void viewadminProfileAction(ActionEvent event) throws IOException {
-
+    private void logoutAction(ActionEvent event)throws IOException {
+        
+        Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Scene loginPage_scene = new Scene(loginPage_parent);
         Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewEditProfile.fxml"));
-        FXMLViewEditProfileController controller = new FXMLViewEditProfileController(currentUser);
-        loader.setController(controller);
-        Parent menuPage_parent = loader.load();
-        Scene menuPage_scene = new Scene(menuPage_parent);
-
         app_stage.hide();
-        app_stage.setScene(menuPage_scene);
+        app_stage.setScene(loginPage_scene);
         app_stage.show();
-
     }
 
     @FXML
-    private void newUserAction(ActionEvent event) throws IOException {
-
+    private void generateReportAction(ActionEvent event) throws IOException {
+        
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLGenerateReport.fxml"));
+        FXMLGenerateReportController controller = new FXMLGenerateReportController(currentUser);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        app_stage.hide();
+        app_stage.setScene(scene);
+        app_stage.show();
     }
     
+    @FXML
+    private void viewadminProfileAction(ActionEvent event) throws IOException {
+        
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewAdminProfile.fxml"));
+        FXMLViewAdminProfileController controller = new FXMLViewAdminProfileController(currentUser);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        app_stage.hide();
+        app_stage.setScene(scene);
+        app_stage.show();
+        
+    }
+    
+    @FXML void newUserAction(ActionEvent event) throws IOException {
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAdminCreateUser.fxml"));
+        FXMLAdminCreateUserController controller = new FXMLAdminCreateUserController(currentUser);
+        loader.setController(controller);
+        Parent parent = loader.load();
+        Scene scene = new Scene(parent);
+        app_stage.hide();
+        app_stage.setScene(scene);
+        app_stage.show();
+    }
 }
