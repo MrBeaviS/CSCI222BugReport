@@ -340,10 +340,10 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private void backtoMenu(ActionEvent event) throws IOException {
 
-
+        System.out.println("BACK TO MENU");
 
         switch(currentUser.getSecLevel()){
-            case 0:
+            case 1:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
@@ -356,7 +356,7 @@ public class FXMLBugsController implements Initializable {
                 app_stage.setScene(menuPage_scene);
                 app_stage.show();
             }
-            case 4:
+            case 2:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));

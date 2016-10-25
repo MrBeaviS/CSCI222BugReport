@@ -28,7 +28,7 @@ public class CurrentUser {
         MySQLController conn = new MySQLController();
         try{
             ResultSet rs = conn.setCurrentUser(this);
-
+            System.out.println("Setting Current User");
             while (rs.next()) {
                 userName = rs.getString("UserName");
                 fName = rs.getString("FName");
@@ -59,6 +59,7 @@ public class CurrentUser {
                 email = rs.getString("Email");
                 joinDate = rs.getString("JoinedDate");
                 adminRole = rs.getString("Role");
+                secLevel = rs.getInt("SecLevel");
             }
         }catch (Exception e) {
             e.printStackTrace();

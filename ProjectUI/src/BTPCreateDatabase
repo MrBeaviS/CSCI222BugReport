@@ -217,13 +217,13 @@ FLUSH PRIVILEGES;
 
 #INSERTS A REGISTERED USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (0, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
+VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'), 'New',0,'Active');
 
 #INSERTS A SYSADMIN USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (4, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
+VALUES (5, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Reviewer');
 

@@ -59,6 +59,7 @@ public class MySQLController {
             ResultSet seclevel = stmt.executeQuery(sql);
             while(seclevel.next()){
                 access = seclevel.getInt(1);
+                System.out.println(seclevel.getInt(1));
             }
             closeConnection();
             seclevel.close();
@@ -66,6 +67,7 @@ public class MySQLController {
             System.out.println(e);
             System.exit(0);
         }
+        System.out.println("access : " + access);
         return access;
         
     }
