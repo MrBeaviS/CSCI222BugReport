@@ -41,6 +41,10 @@ public class FXMLAuthMenuController implements Initializable {
     private Button logoutButton;
     @FXML
     private Button generateReports;
+    @FXML
+    private Button viewadminProfile;
+    @FXML
+    private Button createnewUser;
 
     /**
      * Initializes the controller class.
@@ -86,6 +90,28 @@ public class FXMLAuthMenuController implements Initializable {
 
     @FXML
     private void generateReportAction(ActionEvent event) {
+    }
+
+
+    @FXML
+    private void viewadminProfileAction(ActionEvent event) throws IOException {
+
+        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLViewEditProfile.fxml"));
+        FXMLViewEditProfileController controller = new FXMLViewEditProfileController(currentUser);
+        loader.setController(controller);
+        Parent menuPage_parent = loader.load();
+        Scene menuPage_scene = new Scene(menuPage_parent);
+
+        app_stage.hide();
+        app_stage.setScene(menuPage_scene);
+        app_stage.show();
+
+    }
+
+    @FXML
+    private void newUserAction(ActionEvent event) throws IOException {
+
     }
     
 }
