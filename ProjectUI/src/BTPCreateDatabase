@@ -210,6 +210,8 @@ GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateAdmin TO 'newUser'@'localhost' 
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateAdminNoP TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.insertNewUserAdmin TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
 
