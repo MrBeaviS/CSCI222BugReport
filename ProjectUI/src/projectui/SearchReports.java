@@ -11,18 +11,18 @@ import java.sql.SQLException;
  */
 public class SearchReports {
 
-    private ObservableList<BugReportDetails> reportDetails = FXCollections.observableArrayList();
+    private ObservableList<BugReportTableDetails> reportDetails = FXCollections.observableArrayList();
 
     public void searchReportsByStatus(String status) throws SQLException {
         MySQLController conn = new MySQLController();
         ResultSet rs =  conn.searchDetailsByStatus(status);
 
         while (rs.next()) {
-            BugReportDetails temp = new BugReportDetails(rs);
+            BugReportTableDetails temp = new BugReportTableDetails(rs);
             reportDetails.add(temp);
 
         }
     }
 
-    public ObservableList<BugReportDetails> getReportDetails(){return reportDetails;}
+    public ObservableList<BugReportTableDetails> getReportDetails(){return reportDetails;}
 }

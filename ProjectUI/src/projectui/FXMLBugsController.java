@@ -5,8 +5,6 @@
  */
 package projectui;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,10 +36,10 @@ public class FXMLBugsController implements Initializable {
         currentUser = curr;
     }
     
-    ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","BugStatus","Priority");
-    ObservableList<String> priorityList = FXCollections.observableArrayList("Select", "Low", "Medium", "High", "Emergency");
-    ObservableList<String> statusList = FXCollections.observableArrayList("Select", "Reported","Progressing","Solved");
-    ObservableList<String> severityList = FXCollections.observableArrayList("Select", "Critical","Major","Minor", "Cosmetic");
+//    ObservableList<String> searchbyList = FXCollections.observableArrayList("Search By", "User","BugStatus","Priority");
+//    ObservableList<String> priorityList = FXCollections.observableArrayList("Select", "Low", "Medium", "High", "Emergency");
+//    ObservableList<String> statusList = FXCollections.observableArrayList("Select", "Reported","Progressing","Solved");
+//    ObservableList<String> severityList = FXCollections.observableArrayList("Select", "Critical","Major","Minor", "Cosmetic");
     
     ////////////////////////////////
     //Tabs
@@ -54,7 +52,7 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField searchBox;
     @FXML
-    private ChoiceBox<String> searchBy;
+    private ComboBox<String> searchBy;
     @FXML
     private Button searchButton;
     
@@ -62,19 +60,19 @@ public class FXMLBugsController implements Initializable {
     //Search Bugs
     ///////////////////////////////
     @FXML
-    private TableView<BugReportDetails> tablebugSearch;
+    private TableView<BugReportTableDetails> tablebugSearch;
     @FXML
     private TableColumn<?, ?> tablebugUser;
     @FXML
     private TableColumn<?, ?> tableuserName;
     @FXML
-    private TableColumn<BugReportDetails, String> tableshortDesc;
+    private TableColumn<BugReportTableDetails, String> tableshortDesc;
     @FXML
-    private TableColumn<BugReportDetails, String> tablebStatus;
+    private TableColumn<BugReportTableDetails, String> tablebStatus;
     @FXML
-    private TableColumn<BugReportDetails, String> tablePriority;
+    private TableColumn<BugReportTableDetails, String> tablePriority;
     @FXML
-    private TableColumn<BugReportDetails, String> tableDate;
+    private TableColumn<BugReportTableDetails, String> tableDate;
     
     ////////////////////////////////
     //Bug Details
@@ -128,11 +126,11 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField osBox;
     @FXML
-    private ChoiceBox<String> statusBox;
+    private ComboBox<String> statusBox;
     @FXML
-    private ChoiceBox<String> priorityBox;
+    private ComboBox<String> priorityBox;
     @FXML
-    private ChoiceBox<String> severityBox;
+    private ComboBox<String> severityBox;
     @FXML
     private Button increaseRepButton;
     @FXML
@@ -167,11 +165,11 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField NewAssignedName;
     @FXML
-    private ChoiceBox<String> newSeverity;
+    private ComboBox<String> newSeverity;
     @FXML
-    private ChoiceBox<String> newPriority;
+    private ComboBox<String> newPriority;
     @FXML
-    private ChoiceBox<String> newStatus;
+    private ComboBox<String> newStatus;
     @FXML
     private Button backButton;
     
@@ -192,27 +190,28 @@ public class FXMLBugsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         searchBy.setValue("Search By");
-        searchBy.setItems(searchbyList);
-        
+        searchBy.getItems().addAll("Search By", "User","BugStatus","Priority");
+
+
         statusBox.setValue("Select");
-        statusBox.setItems(statusList);
-        
+        statusBox.getItems().addAll("Select", "Reported","Progressing","Solved");
+
         priorityBox.setValue("Select");
-        priorityBox.setItems(priorityList);
-        
+        priorityBox.getItems().addAll("Select", "Low", "Medium", "High", "Emergency");
+
         severityBox.setValue("Select");
-        severityBox.setItems(severityList);
-        
+        severityBox.getItems().addAll("Select", "Critical","Major","Minor", "Cosmetic");
+
         newStatus.setValue("Select");
-        newStatus.setItems(statusList);
-        
+        newStatus.getItems().addAll("Select", "Reported","Progressing","Solved");
+
         newPriority.setValue("Select");
-        newPriority.setItems(priorityList);
-        
+        newPriority.getItems().addAll("Select", "Low", "Medium", "High", "Emergency");
+
         newSeverity.setValue("Select");
-        newSeverity.setItems(severityList);
+        newSeverity.getItems().addAll("Select", "Critical","Major","Minor", "Cosmetic");
         
         //CHECK SECURITY LEVEL IF USER IS UNAUTHENTICATED DISABLE CREATE BUG TAB
         //createBugTab.setDisable(true);
@@ -247,36 +246,31 @@ public class FXMLBugsController implements Initializable {
         tablebugSearch.setItems(null);
         tablebugSearch.setItems(reports.getReportDetails());
 
-        //Access DB and search bugs
-        //Once search completed populate the table
-        
-        //https://www.youtube.com/watch?v=UKzx4NRaZyM
-        //New class will need to be created with results from search
-        //Then the ?,? imn table view will need to be changed to Object, Variable
-        //EG TableColumn<Bug, String> tableuserName;
-        
-        
-        
-        
     }
 
     @FXML
-    private void bugSelected(MouseEvent event) {
-//
+    private void bugSelected(MouseEvent event) throws SQLException {
+        BugReportTableDetails table = tablebugSearch.getSelectionModel().getSelectedItem();
+        System.out.println(table.getBugReportID() + " --XXXXX");
+
+        BugReportExtDetails extDetails = new BugReportExtDetails(table.getBugReportID());
+
 //        selectedbugDesc.setText();
 //        selectedbugReso;
-//        selectedBugName;
-//        selectedBugID;
-//        selectedStatus;
-//        selectedPriority;
-//        selectedDate;
-//        selectedReporter;
-//        selectedProduct;
-//        selectedOS;
-//        selectedCmpnt;
-//        selectedVer;
-//        selectSev;
-//        selectedAssign;
+        System.out.println("YYY--- " + extDetails.getBugName());
+
+        selectedBugName.setText(extDetails.getBugName());
+        selectedBugID.setText(extDetails.getBugID());
+        selectedStatus.setText(extDetails.getStatus());
+        selectedPriority.setText(extDetails.getPriority());
+        selectedDate.setText(extDetails.getDate());
+        //selectedReporter;
+        selectedProduct.setText(extDetails.getProduct());
+        selectedOS.setText(extDetails.getOperSys());
+        selectedCmpnt.setText(extDetails.getComponent());
+        selectedVer.setText(extDetails.getVersion());
+        selectSev.setText(extDetails.getSeverity());
+//        selectedAssign.setText(extDetails.getAssigned());
         //once bug searched and selected on table
         //populate extended bug details
     }

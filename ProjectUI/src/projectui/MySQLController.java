@@ -163,5 +163,17 @@ public class MySQLController {
         }
         return rs;
     }
+
+    public ResultSet populateExtDetails(int id){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.populateExtReportDetails(" + id + ")";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
     
 }
