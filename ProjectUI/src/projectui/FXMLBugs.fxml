@@ -28,7 +28,7 @@
                   <Font name="System Italic" size="22.0" />
                </font>
             </Text>
-            <Text fill="#5b5b5b" layoutX="649.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Bugs">
+            <Text fill="#5b5b5b" layoutX="489.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Search, Edit and Create Bug Reports">
                <font>
                   <Font name="System Bold Italic" size="18.0" />
                </font>
@@ -48,12 +48,12 @@
                               <Button fx:id="searchButton" layoutX="280.0" layoutY="19.0" mnemonicParsing="false" onAction="#searchBugs" prefHeight="25.0" prefWidth="90.0" text="Search" />
                               <TableView fx:id="tablebugSearch" layoutY="59.0" onMouseClicked="#bugSelected" prefHeight="178.0" prefWidth="814.0">
                                 <columns>
-                                  <TableColumn fx:id="tablebugUser" prefWidth="89.0" text="User" />
-                                  <TableColumn fx:id="tablebugName" prefWidth="124.0" text="Name" />
-                                    <TableColumn fx:id="tableshortDesc" prefWidth="291.0" text="Short Description" />
+                                  <TableColumn fx:id="tablebugName" prefWidth="125.0" text="Name" />
+                                    <TableColumn fx:id="tableshortDesc" prefWidth="290.0" text="Short Description" />
                                     <TableColumn fx:id="tablebStatus" prefWidth="91.0" text="Status" />
                                     <TableColumn fx:id="tablePriority" prefWidth="114.0" text="Priority" />
                                     <TableColumn fx:id="tableDate" prefWidth="104.0" text="Date" />
+                                    <TableColumn fx:id="tablebugReporter" prefWidth="89.0" text="Reporter" />
                                 </columns>
                               </TableView>
                               <TextArea fx:id="selectedbugDesc" editable="false" layoutX="11.0" layoutY="361.0" prefHeight="127.0" prefWidth="381.0" />
@@ -134,13 +134,13 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="selectedVer" layoutX="374.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <Text fx:id="selectedSev" layoutX="374.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                               <Text layoutX="313.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Severity:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="selectSev" layoutX="224.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                              <Text fx:id="selectedVer" layoutX="224.0" layoutY="325.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                               <Text layoutX="473.0" layoutY="297.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned To:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
@@ -151,8 +151,8 @@
                               <Button fx:id="saveButton" layoutX="664.0" layoutY="281.0" mnemonicParsing="false" onAction="#saveBugDetails" prefHeight="25.0" prefWidth="115.0" text="Save" />
                               <TextField fx:id="productBox" editable="false" layoutX="64.0" layoutY="309.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="bugNamebox" editable="false" layoutX="64.0" layoutY="254.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
-                              <TextField fx:id="versionBox" editable="false" layoutX="214.0" layoutY="309.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
-                              <TextField fx:id="osBox" editable="false" layoutX="367.0" layoutY="281.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
+                              <TextField fx:id="versionBox" editable="false" layoutX="210.0" layoutY="309.0" prefHeight="25.0" prefWidth="102.0" visible="false" />
+                              <TextField fx:id="osBox" editable="false" layoutX="364.0" layoutY="281.0" prefHeight="25.0" prefWidth="102.0" visible="false" />
                               <TextField fx:id="assignedBox" editable="false" layoutX="552.0" layoutY="281.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="cmpntBox" editable="false" layoutX="552.0" layoutY="254.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <Text layoutX="663.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rep:">
@@ -178,6 +178,11 @@
                               <ComboBox fx:id="statusBox" layoutX="210.0" layoutY="254.0" prefHeight="25.0" prefWidth="102.0" />
                               <ComboBox fx:id="priorityBox" layoutX="210.0" layoutY="281.0" prefHeight="25.0" prefWidth="102.0" />
                               <ComboBox fx:id="severityBox" layoutX="364.0" layoutY="310.0" prefHeight="25.0" prefWidth="102.0" />
+                              <Text fx:id="searchError" fill="RED" layoutX="381.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                   </content>
@@ -253,6 +258,12 @@
                               <ComboBox fx:id="newSeverity" layoutX="461.0" layoutY="66.0" prefHeight="25.0" prefWidth="122.0" />
                               <ComboBox fx:id="newPriority" layoutX="461.0" layoutY="95.0" prefHeight="25.0" prefWidth="122.0" />
                               <ComboBox fx:id="newStatus" layoutX="461.0" layoutY="124.0" prefHeight="25.0" prefWidth="122.0" />
+                              <Rectangle arcWidth="5.0" fill="#282828" height="59.0" stroke="BLACK" strokeType="INSIDE" width="814.0" />
+                              <Text fill="#ebebeb" layoutX="18.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new Bug Report">
+                                 <font>
+                                    <Font name="System Bold Italic" size="17.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </AnchorPane>
                   </content>

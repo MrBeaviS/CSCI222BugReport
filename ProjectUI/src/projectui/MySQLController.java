@@ -163,6 +163,30 @@ public class MySQLController {
         }
         return rs;
     }
+    
+    public ResultSet searchDetailsByUser(String search){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.setSearchDetailsByUser(\'" + search + "\')";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    
+    public ResultSet searchDetailsByPriority(String search){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.setSearchDetailsByPriority(\'" + search + "\')";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 
     public ResultSet populateExtDetails(int id){
         getConnection();

@@ -20,6 +20,29 @@ public class SearchReports {
         while (rs.next()) {
             BugReportTableDetails temp = new BugReportTableDetails(rs);
             reportDetails.add(temp);
+            //System.out.println(temp.getuserName());
+
+        }
+    }
+    public void searchReportsByUser(String user) throws SQLException {
+        MySQLController conn = new MySQLController();
+        ResultSet rs =  conn.searchDetailsByUser(user);
+
+        while (rs.next()) {
+            BugReportTableDetails temp = new BugReportTableDetails(rs);
+            reportDetails.add(temp);
+            //System.out.println(temp.getuserName());
+
+        }
+    }
+    public void searchReportsByPriority(String priority) throws SQLException {
+        MySQLController conn = new MySQLController();
+        ResultSet rs =  conn.searchDetailsByPriority(priority);
+
+        while (rs.next()) {
+            BugReportTableDetails temp = new BugReportTableDetails(rs);
+            reportDetails.add(temp);
+            //System.out.println(temp.getuserName());
 
         }
     }

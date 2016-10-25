@@ -18,7 +18,7 @@ public class BugReportExtDetails {
         private String Priority;
         private String Date;
 
-//        private String Reporter;
+        private String Reporter;
 
         private String Product;
         private String operSys;
@@ -26,7 +26,7 @@ public class BugReportExtDetails {
         private String version;
         private String severity;
 
-//        private String assignedTo;
+        private String assignedTo;
 
     public BugReportExtDetails(int id) throws SQLException {
         MySQLController conn = new MySQLController();
@@ -42,6 +42,9 @@ public class BugReportExtDetails {
                 component = rs.getString(8);
                 version = rs.getString(9);
                 severity = rs.getString(10);
+                Reporter = rs.getString(11);
+                assignedTo = rs.getString(12);
+
             }
         } catch (Exception e){
             System.out.println(e);
@@ -63,4 +66,7 @@ public class BugReportExtDetails {
     public String getComponent(){return component;}
     public String getVersion(){return version;}
     public String getSeverity(){return severity;}
+    public String getReporter(){return Reporter;}
+    public String getAssignedTo(){return assignedTo;}
+    
 }

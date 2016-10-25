@@ -81,6 +81,27 @@ public class FXMLViewEditProfileController implements Initializable {
         errorText.setText("");
 
         //UPDATE superuser SET Email ='jt@test.net', JoinedDate ='2016-10-14' WHERE UserID = '1';
+//
+//        String fullName = DBCon.getfullName();
+//
+//        String[] parts = fullName.split("\\s+");
+//        String fName = parts[0];
+//        String lName = parts[1];
+//
+//        firstNameBox.setText(fName);
+//        lastNameBox.setText(lName);
+//
+//        emailBox.setText(DBCon.getEmail());
+//
+//        String accessLevel = Integer.toString(DBCon.getsecLevel());
+//        currAccessLevel.setText(accessLevel);
+//        String noReports = Integer.toString(DBCon.getnumReports());
+//        currNoReports.setText(noReports);
+//        String repLevel = Integer.toString(DBCon.getrepLevel());
+//        currRep.setText(repLevel);
+//        dateJoined.setText(DBCon.getdateJoined());
+//
+//        errorText.setText(" ");
     }    
 
     @FXML
@@ -130,6 +151,28 @@ public class FXMLViewEditProfileController implements Initializable {
             }
             errorText.setText("Changes Saved");
         }
+
+//        if(passwordBox.getText().equals(DBCon.getPassword())){
+//
+//            System.out.println("Entering");
+//
+//            if(newPassword.getText().trim().isEmpty() || newPassword.getText() == null)
+//            {
+//                DBCon.updateUser(firstNameBox.getText(),lastNameBox.getText(), passwordBox.getText(), emailBox.getText());
+//                System.out.println("Update1");
+//                errorText.setText("Saved");
+//            }
+//            else if(!newPassword.getText().trim().isEmpty())
+//            {
+//                DBCon.updateUser(firstNameBox.getText(),lastNameBox.getText(), newPassword.getText(), emailBox.getText());
+//                System.out.println("Update2");
+//                errorText.setText("Saved");
+//            }
+//        }
+//        else
+//        {
+//            errorText.setText("Password Incorrect");
+//        }
 
     }
     
