@@ -11,7 +11,10 @@ Please change Rep to be an integer so it can be increased and decreased as per s
 I dont think there is a need for the ENUM("Reviewer", "Developer", "Triage"); Security Level makes this obsolete
 we can create front end functions that check the integer and assignes the approriate string.
 
-
+UPDATE 12 24/10 - Nathan
+-Created Add Comment window allows for text field input so AddComment in Bugs Controller opens a new window
+-Removed Submit comment from BugsController
+TO DO: Add refresh button that updates comment table(or calls populate comments again) so updated comments display.
 
 UPDATE 11 24/10 - Nathan
 -Fixed classes and functions related to Bug Table Data and Extended Data to include some missing variables
