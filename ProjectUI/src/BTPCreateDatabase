@@ -116,7 +116,7 @@ DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `setCurrentAdmin`(uName VARCHAR(30))
 	BEGIN
-		SELECT UserName, FName, LName, Email, JoinedDate, Role FROM
+		SELECT UserName, FName, LName, Email, JoinedDate, Role, SecLevel FROM
 			BugTrackerPrime.SuperUser JOIN BugTrackerPrime.SysAdminUser WHERE UserName = uname;
 	END //
 DELIMITER ;
@@ -230,6 +230,15 @@ INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 
 #INSERTS A BUG AND A BUG REPORT
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
 VALUES ('Bug 1', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
+
+INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (1, 'rep','Jill', 'User', 'buser@btp.com', 'pass123', CURDATE());
+
+INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (2, 'dev','Dave', 'User', 'buser@btp.com', 'pass123', CURDATE());
+
+INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (3, 'tri','Jack', 'User', 'buser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus, Resolution, Keywords, Priority, BugSeverity)
 VALUES (CURDATE(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported', 'This is a resolution', 'Some Keywords here', 'Medium', 'Minor');
