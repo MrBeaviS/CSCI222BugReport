@@ -50,7 +50,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void loginAction(ActionEvent event) throws IOException, SQLException {
         switch(DBCon.loginDB(usernameField.getText(), passwordField.getText())){
-            case 0:
+            case 1:
             {
                 System.out.println("Registered User Verified");
                 //TO DO: CREATE CURRENT USER OBJECT TO BE PASSED AS OPPOSED TO A DB CONNECTION
@@ -75,7 +75,10 @@ public class FXMLDocumentController implements Initializable {
                 app_stage.show();
                 break;
             }
+            case 2:
+            case 3:
             case 4:
+            case 5:
             {
                 //TO DO: CREATE A NEW CURRENT USER OBJECT
                 //CREATE A PROCEDURE TO RETRIEVE REQUIRED SYSADMIN DETAILS
