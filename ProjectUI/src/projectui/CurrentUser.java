@@ -17,6 +17,7 @@ public class CurrentUser {
     private String accStatus;
     private String adminRole;
     private String newPass;
+    private String secLevel;
 
     CurrentUser(String uName){
         userName = uName;
@@ -36,6 +37,7 @@ public class CurrentUser {
                 joinDate = rs.getString("JoinedDate");
                 userRep = rs.getString("UserReputation");
                 accStatus = rs.getString("AccountStatus");
+                secLevel = rs.getString("SecLevel");
 
             }
 //            printUser();
@@ -109,6 +111,7 @@ public class CurrentUser {
     public String getAccStatus(){return accStatus;}
     public String getAdminRole(){return adminRole;}
     public String getNewPass(){return newPass;}
+    public String getSecLevel(){return secLevel;}
 
 }
 

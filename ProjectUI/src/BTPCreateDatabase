@@ -106,7 +106,7 @@ DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `setCurrentUser`(uName VARCHAR(30))
 	BEGIN
-		SELECT UserName, FName, LName, Email, JoinedDate, UserReputation, AccountStatus FROM
+		SELECT UserName, FName, LName, Email, JoinedDate, UserReputation, AccountStatus, SecLevel FROM
 			BugTrackerPrime.SuperUser JOIN BugTrackerPrime.RegisteredUser WHERE UserName = uname;
 	END //
 DELIMITER ;
@@ -217,13 +217,13 @@ FLUSH PRIVILEGES;
 
 #INSERTS A REGISTERED USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
+VALUES (0, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'), 'New',0,'Active');
 
 #INSERTS A SYSADMIN USER
 INSERT INTO SuperUser(SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (2, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
+VALUES (4, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', CURDATE());
 
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Reviewer');
 

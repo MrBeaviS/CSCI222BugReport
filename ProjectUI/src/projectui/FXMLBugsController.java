@@ -339,33 +339,36 @@ public class FXMLBugsController implements Initializable {
     
     @FXML
     private void backtoMenu(ActionEvent event) throws IOException {
-        
-        //IF User is Authenticated or above go here:
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
-        FXMLAuthMenuController controller = new FXMLAuthMenuController(currentUser);
-        loader.setController(controller);
-        Parent menuPage_parent = loader.load();
-        Scene menuPage_scene = new Scene(menuPage_parent);
-        app_stage.hide();
-        app_stage.setScene(menuPage_scene);
-        app_stage.show();
-        
-        //IF User is UnAuthenticated go here:
-        /*
-        Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
-        FXMLMenuController controller = new FXMLMenuController(currentUser);
-        loader.setController(controller);
-        Parent menuPage_parent = loader.load();
-        Scene menuPage_scene = new Scene(menuPage_parent);
-        //takes to menu.
-        app_stage.hide();
-        app_stage.setScene(menuPage_scene);
-        app_stage.show();
-        */
-        
-        
+
+
+
+        switch(currentUser.getSecLevel()){
+            case "0":
+            {
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));
+                FXMLMenuController controller = new FXMLMenuController(currentUser);
+                loader.setController(controller);
+                Parent menuPage_parent = loader.load();
+                Scene menuPage_scene = new Scene(menuPage_parent);
+                //takes to menu.
+                app_stage.hide();
+                app_stage.setScene(menuPage_scene);
+                app_stage.show();
+            }
+            case "4":
+            {
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLAuthMenu.fxml"));
+                FXMLAuthMenuController controller = new FXMLAuthMenuController(currentUser);
+                loader.setController(controller);
+                Parent menuPage_parent = loader.load();
+                Scene menuPage_scene = new Scene(menuPage_parent);
+                app_stage.hide();
+                app_stage.setScene(menuPage_scene);
+                app_stage.show();
+            }
+        }
     }
     
     @FXML
