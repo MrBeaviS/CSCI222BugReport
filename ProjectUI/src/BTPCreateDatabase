@@ -136,6 +136,21 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 	END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewUserAdmin;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `insertNewUserAdmin`(IN ascLvl int, IN uName varchar(20), IN fName varchar(20),
+													IN lName varchar(20), IN email varchar(20),
+													IN pWord varchar(20))
+	BEGIN
+		INSERT INTO SuperUser (SecLevel, UserName, FName, LName, Email, Password, JoinedDate)
+		VALUES (ascLvl, uName, fName, lName, email, pWord, CURDATE());
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReport, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 'New', 0, 'Active');
+
+	END //
+DELIMITER ;
+
 
 DROP FUNCTION IF EXISTS BugTrackerPrime.verifyLogIn;
 DELIMITER //
