@@ -2,6 +2,23 @@
 #############YOU CAN USE THIS AS ITS EASY TO FOLLOW
 
 
+UPDATE 11 24/10 - Nathan
+-Fixed classes and functions related to Bug Table Data and Extended Data to include some missing variables
+-Added capability to select and search by status, priority and user with error checking on input
+-Fixed text not going into text fields
+-Fixed Reporter and Bug name not appearing in table
+-Fixed Assigned to and Reporter not appearing in extended data
+-Added Assigned to and Reporter to Bug Table with reference to SuperUser
+-Added and Updated multiple Procedures to Data base in reference to the above searches
+-Added security level to all menus so users permissions now reflect what they see
+-Changed Bug Search UI to be more appealing and consistant
+-Created UI for Generate reports
+
+UPDATE 10 24/10 - Michael
+-Created classes and functions for Bug TableData and Bug Extended Data
+-Created procedure for searching and presenting bug report table data(bug name and user not working)
+-Created procedure for searching and presenting bug extended data(reporter and assigned not working, neither were comboBoxes or textfields)
+
 UPDATE 9 24/10 - Nathan
 -Fixed button issues with View Profile
 -normalised variable names among the auth menu
