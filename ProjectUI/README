@@ -4,6 +4,7 @@
 MICHAEL
 Please finish comments displaying at the bottom table
 Please finsih editing current parameters and sending an update to the Database
+Please add keyword search to the search functions and procedures.
 Please get counts happening on reports
 Please change Rep to be an integer so it can be increased and decreased as per specification.
 I dont think there is a need for the ENUM("Reviewer", "Developer", "Triage"); Security Level makes this obsolete
