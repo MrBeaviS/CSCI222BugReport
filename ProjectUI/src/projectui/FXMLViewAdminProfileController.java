@@ -52,8 +52,6 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private TextField emailBox;
     @FXML
-    private PasswordField passwordBox;
-    @FXML
     private TextField lastNameBox;
     @FXML
     private Text currUsername;
@@ -62,7 +60,7 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private Text errorText;
     @FXML
-    private PasswordField accessLevelBox;
+    private TextField accessLevelBox;
     @FXML
     private TextField searchField;
     @FXML
