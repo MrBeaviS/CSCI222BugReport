@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -46,6 +47,10 @@ public class FXMLRegistrationController implements Initializable {
     private Button newRegister;
     @FXML
     private Button backtoLog;
+    @FXML
+    private Text errorText;
+    
+    InputValidation valid;
 
     @FXML
     //function for back button
@@ -66,22 +71,44 @@ public class FXMLRegistrationController implements Initializable {
     //function for registering new acc.
     private void registerAcc(ActionEvent event) throws IOException
     {
-        try{
-            //TO DO: CHECK THE USER INPUT
-            NewUser newU = new NewUser();
-            newU.setNewUser(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText());
-            
-            Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-            Scene loginPage_scene = new Scene(loginPage_parent);
-            Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            app_stage.hide();
-            app_stage.setScene(loginPage_scene);
-            app_stage.show();
-            
-        }catch(Exception e){
-            System.out.println(e);
-            System.exit(0);
+        if(newUsername.getText().trim().isEmpty() || 
+                    newFname.getText().trim().isEmpty() || 
+                    newLname.getText().trim().isEmpty() || 
+                    newEmail.getText().trim().isEmpty() || 
+                    newPassword.getText().trim().isEmpty() )
+        {
+            errorText.setText("ERROR: Input fields are Empty");
         }
+        else if(valid.isUserName(newUsername.getText()) && 
+                    valid.isFname(newFname.getText()) && 
+                    valid.isLname(newLname.getText())&& 
+                    valid.isEmail(newEmail.getText())&& 
+                    valid.isPword(newPassword.getText()))
+        {
+            try{
+                //TO DO: CHECK THE USER INPUT
+                NewUser newU = new NewUser();
+                
+                newU.setNewUser(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText());
+            
+                Parent loginPage_parent = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+                Scene loginPage_scene = new Scene(loginPage_parent);
+                Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                app_stage.hide();
+                app_stage.setScene(loginPage_scene);
+                app_stage.show();
+            
+            }catch(Exception e){
+                System.out.println(e);
+                System.exit(0);
+            }
+        }
+        else
+        {
+            errorText.setText("ERROR: Check input details");
+        }
+            
+       
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
