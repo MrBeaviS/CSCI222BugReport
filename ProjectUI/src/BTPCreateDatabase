@@ -324,9 +324,9 @@ DELIMITER ;
 DROP PROCEDURE IF EXISTS BugTrackerPrime.newBugReports;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `newBugReports`(dayRange INT)
+PROCEDURE `newBugReports`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY);
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE());
 	END //
 DELIMITER ;
 
@@ -334,9 +334,9 @@ USE BugTrackerPrime;
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportsAssigned;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countReportsAssigned`(dayRange INT)
+PROCEDURE `countReportsAssigned`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND AssignedTo IS NOT NULL ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND AssignedTo IS NOT NULL ;
 	END //
 DELIMITER ;
 
@@ -344,108 +344,108 @@ USE BugTrackerPrime;
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportsUnassigned;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countReportsUnassigned`(dayRange INT)
+PROCEDURE `countReportsUnassigned`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND AssignedTo IS NULL ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND AssignedTo IS NULL ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportedBugs;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countReportedBugs`(dayRange INT)
+PROCEDURE `countReportedBugs`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Reported' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugStatus = 'Reported' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countProgressBugs;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countProgressBugs`(dayRange INT)
+PROCEDURE `countProgressBugs`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Progressing' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugStatus = 'Progressing' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countSolvedBugs;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countSolvedBugs`(dayRange INT)
+PROCEDURE `countSolvedBugs`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Solved' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugStatus = 'Solved' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countLowPriority;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countLowPriority`(dayRange INT)
+PROCEDURE `countLowPriority`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Low' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND Priority = 'Low' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countMedPriority;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countMedPriority`(dayRange INT)
+PROCEDURE `countMedPriority`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Medium' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND Priority = 'Medium' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countHighPriority;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countHighPriority`(dayRange INT)
+PROCEDURE `countHighPriority`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'High' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND Priority = 'High' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countEmergencyPriority;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countEmergencyPriority`(dayRange INT)
+PROCEDURE `countEmergencyPriority`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Emergency' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND Priority = 'Emergency' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countCosmeticSev;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countCosmeticSev`(dayRange INT)
+PROCEDURE `countCosmeticSev`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Cosmetic' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugSeverity = 'Cosmetic' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countMinorSev;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countMinorSev`(dayRange INT)
+PROCEDURE `countMinorSev`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Minor' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugSeverity = 'Minor' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countMajorSev;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countMajorSev`(dayRange INT)
+PROCEDURE `countMajorSev`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Major' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugSeverity = 'Major' ;
 	END //
 DELIMITER ;
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.countCriticalSev;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `countCriticalSev`(dayRange INT)
+PROCEDURE `countCriticalSev`(timeRange INT)
 	BEGIN
-		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Critical' ;
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE (CreationTimestamp BETWEEN DATE_SUB(CURDATE(), INTERVAL timeRange DAY) AND CURDATE()) AND BugSeverity = 'Critical' ;
 	END //
 DELIMITER ;
 
