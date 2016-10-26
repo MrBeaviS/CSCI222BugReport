@@ -1,14 +1,28 @@
 
 MICHAEL
-Please finish editing current parameters and sending an update to the Database
 Please add keyword search to the search functions and procedures.
 
-UPDATE 15 24/10 - Nathan
+UPDATE 17 27/10 - Nathan
+-Fixed submit new bug report procedures and functions so correct parameters were set and nothing was missing
+-Fixed random spaces in strings of ENUMS in createnewBug procedure that was causing SQL Truncated errors
+-Added Short Desc box and removed assigned to and bugstatus boxes to submit new report so proper parameters were set
+-Added functionality, classes and variables for editing and saving a searched bug report
+-Added functionality to decrease and increase a users rep through searched report
+-Added more variables to retrieving extended bug details to allow other features to work correctly
+-Eddited retrieved Extended details procedure to return more variables
+
+
+UPDATE 16 27/10 - Michael
+-Added rep increase decrease on admin profiles
+-Added procedure for submit new bug report
+-Added functions and classes for submitting a new bug reports
+
+UPDATE 15 26/10 - Nathan
 -Fixed major DB connection crash related to too many connections
 -Fixed program memory leak and lag.
 
 
-UPDATE 14 24/10 - Nathan
+UPDATE 14 26/10 - Nathan
 -Added Create Comment functionality
 -Updated Comments table in Database
 -Created Classes required to add Comments
@@ -20,7 +34,7 @@ UPDATE 14 24/10 - Nathan
 
 UPDATE 13 -Michael
 
-UPDATE 12 24/10 - Nathan
+UPDATE 12 25/10 - Nathan
 -Created Add Comment window allows for text field input so AddComment in Bugs Controller opens a new window
 -Removed Submit comment from BugsController
 TO DO: Add refresh button that updates comment table(or calls populate comments again) so updated comments display.
