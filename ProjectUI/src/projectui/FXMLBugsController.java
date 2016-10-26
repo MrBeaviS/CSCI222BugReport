@@ -546,8 +546,28 @@ public class FXMLBugsController implements Initializable {
     
     @FXML
     private void submitnewBug(ActionEvent event) {
-        
         //take all variables from the table and save into DB
+        MySQLController conn = new MySQLController();
+
+        if(conn.searchUser(NewAssignedName.getText())){
+            NewBugReport report = new NewBugReport();
+            report.setBugName(newBugName.getText());
+            report.setComponent(newComponentname.getText());
+            report.setBugSev(newSeverity.getValue());
+            report.setProduct(newProductname.getText());
+            report.setOperSys(newOSName.getText());
+            report.setPriority(newPriority.getValue());
+            report.setVersion(newVersionName.getText());
+            report.setAssigned(NewAssignedName.getText());
+            report.setBugStatus(newStatus.getValue());
+            report.setLongDesc(newDesc.getText());
+            report.setKeywords(newKeywords.getText());
+        } else {
+            System.out.println("Invalid User Assigned");
+            //errorText.setText("Invalid User Assigned");
+        }
+
+
         
     }
     

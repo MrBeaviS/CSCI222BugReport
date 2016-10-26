@@ -449,6 +449,22 @@ PROCEDURE `countCriticalSev`(timeRange INT)
 	END //
 DELIMITER ;
 
+######################### Submit Report ##############################################################################
+DROP PROCEDURE IF EXISTS BugTrackerPrime.submitReport;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `submitReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50), vers VARCHAR(10), oSys VARCHAR(50),
+                         bStatus VARCHAR(30), kWords VARCHAR(50), prio VARCHAR(30), bSev VARCHAR(30), lDesc VARCHAR(500), assi VARCHAR(30))
+  BEGIN
+    INSERT INTO BugTrackerPrime.Bug (BugName, Product, Component, Version, OperatingSystem)
+    VALUES (bName, prod, compon, vers, oSys);
+
+    INSERT INTO BugTrackerPrime.BugReports (CreationTimestamp, BugID, BugStatus, Keywords, Priority, BugSeverity, LongDescription , AssignedTo)
+    VALUES (current_date, (SELECT BugID FROM BugTrackerPrime.Bug WHERE BugName = bName), bStatus, kWords, prio, bSev, lDesc,
+            (SELECT UserID FROM BugTrackerPrime.SuperUser WHERE UserName = assi));
+  END //
+DELIMITER ;
+
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -514,6 +530,9 @@ FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countMajorSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countCriticalSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.submitReport TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####

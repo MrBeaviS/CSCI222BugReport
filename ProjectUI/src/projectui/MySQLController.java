@@ -247,6 +247,22 @@ public class MySQLController {
 
         return rs;
     }
+
+    public boolean searchUser(String user){
+        getConnection();
+        ResultSet rs;
+        try {
+            String sql = "CALL BugTrackerPrime.setCurrentUser(\'" + user + "\')";
+            rs = stmt.executeQuery(sql);
+            if(rs == null){
+                return false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return true;
+    }
    
     /////////////////////////////NATHAN/////////////////////
      public ResultSet searchComments(int search){
@@ -442,6 +458,21 @@ public class MySQLController {
             e.printStackTrace();
         }
         return rs;
+    }
+
+    public void submitReport(NewBugReport report){
+        getConnection();
+        try {
+            String sql = "CALL BugTrackerPrime.submitReport(\'" + report.getBugName() + "\' , \'" +
+                    report.getProduct() + "\' , \'" + report.getComponent() + "\' , \'" +
+                    report.getVersion() + "\' , \'" + report.getOperSys() + "\' , \'" +
+                    report.getBugStatus() + "\' , \'" + report.getKeywords() + "\' , \'" +
+                    report.getPriority() + "\' , \'" + report.getBugSev() + "\' , \'" +
+                    report.getLongDesc() + "\' , \'" + report.getAssigned() + "\')";
+            stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
