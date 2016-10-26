@@ -132,9 +132,9 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 													IN pWord varchar(20))
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-		VALUES (0, uName, fName, lName, email, pWord, NOW());
-		INSERT INTO RegisteredUser (UserID, UserReputation, BugReport, AccountStatus) VALUES
-			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 'New', 0, 'Active');
+		VALUES (1, uName, fName, lName, email, pWord, NOW());
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0, 'Active');
 
 	END //
 DELIMITER ;
@@ -148,8 +148,8 @@ PROCEDURE `insertNewUserAdmin`(IN ascLvl int, IN uName varchar(20), IN fName var
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 		VALUES (ascLvl, uName, fName, lName, email, pWord, NOW());
-		INSERT INTO RegisteredUser (UserID, UserReputation, AccountStatus) VALUES
-			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0,'Active');
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0,'Active');
 
 	END //
 DELIMITER ;
