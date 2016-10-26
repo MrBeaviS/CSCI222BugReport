@@ -149,8 +149,43 @@ public class MySQLController {
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateUserNoP(CurrentUser currUser){
+        getConnection();
+        try{
+            String sql = "CALL BugTrackerPrime.updateAdminNoP(\'" + currUser.getUserName() + "\' , \'" +
+                    currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
+                    currUser.getEmail() + "\')";
+            stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
+
+    public void updateUser(CurrentUser currUser){
+        getConnection();
+        try{
+            String sql = "CALL BugTrackerPrime.updateAdmin(\'" + currUser.getUserName() + "\' , \'" +
+                    currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
+                    currUser.getEmail() + "\' , \'" + currUser.getNewPass() + "\')";
+            stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(CurrentUser curr){
+        getConnection();;
+        try{
+            String sql = "CALL BugTrackerPrime.deleteUser(\'" + curr.getUserName() + "\')";
+            stmt.executeQuery(sql);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
 
     public ResultSet searchDetailsByStatus(String search){
         getConnection();

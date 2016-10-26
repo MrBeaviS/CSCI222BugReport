@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 public class FXMLViewAdminProfileController implements Initializable {
 
     CurrentUser currentUser;
+    CurrentUser searchUser;
     
     public  FXMLViewAdminProfileController (CurrentUser curr){
         currentUser = curr;
@@ -77,6 +78,11 @@ public class FXMLViewAdminProfileController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        currUsername.setText("");
+        currRep.setText("");
+        currNoReports.setText("");
+        dateJoined.setText("");
+        errorText.setText("");
     }    
 
     @FXML
@@ -95,18 +101,24 @@ public class FXMLViewAdminProfileController implements Initializable {
     }
 
     @FXML
-    private void saveChanges(ActionEvent event) {
-        
-        //saves changes to user
+    private void saveChanges(ActionEvent event) throws SQLException {
+        System.out.println("Saving Changes");
+        if(newPassword.getText().isEmpty()){
+            searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText());
+            errorText.setText("Changes Saved");
+        } else {
+            searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText());
+            errorText.setText("Changes Saved");
+        }
     }
 
     @FXML
     private void findUser(ActionEvent event) throws SQLException {
         System.out.println("Searching for User");
         //searches user and fills all the fields
-        CurrentUser searchUser = new CurrentUser(searchField.getText());
+        searchUser = new CurrentUser(searchField.getText());
         searchUser.searchUser();
-        if(searchUser.getAccessLevel() == -1){
+        if(searchUser.getAccessLevel() == 0){
             errorText.setText("User Not Found");
         } else {
             currUsername.setText(searchUser.getUserName());
@@ -114,6 +126,9 @@ public class FXMLViewAdminProfileController implements Initializable {
             lastNameBox.setText(searchUser.getlName());
             emailBox.setText(searchUser.getEmail());
             accessLevelBox.setText(searchUser.determineAccessLevelStr());
+            currRep.setText(searchUser.getUserRep());
+            currNoReports.setText(""); //TO DO: Count a users reports
+            dateJoined.setText(searchUser.getJoinDate());
         }
     }
 
@@ -130,6 +145,26 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private void deleteProfile(ActionEvent event) {
         //delete current profile
+        System.out.println("Deleting User");
+        searchUser.deleteUser();
+        errorText.setText("User Deleted");
+        clearScreen();
+    }
+
+    private void clearScreen(){
+        currUsername.setText("");
+        currRep.setText("");
+        currNoReports.setText("");
+        dateJoined.setText("");
+        //errorText.setText("");
+        currUsername.setText("");
+        firstNameBox.setText("");
+        lastNameBox.setText("");
+        emailBox.setText("");
+        accessLevelBox.setText("");
+        currRep.setText("");
+        currNoReports.setText(""); //TO DO: Count a users reports
+        dateJoined.setText("");
     }
     
 }

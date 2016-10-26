@@ -8,10 +8,6 @@ import java.sql.SQLException;
  */
 public class BugReportExtDetails {
 
-        //not in DB yet
-//        private String bugDesc;
-//        private String bugReso;
-
     private String BugName;
     private String BugID;
     private String Status;
