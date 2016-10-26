@@ -6,8 +6,8 @@ USE BugTrackerPrime;
 
 CREATE TABLE SuperUser (
 	UserID int NOT NULL AUTO_INCREMENT,
-	##########
-	AccessRights int,
+    ##AccessRights,
+	AccessRights int NOT NULL,
 	UserName varchar(30) UNIQUE,
 	FName varchar(60),
 	LName varchar(60),
@@ -19,10 +19,9 @@ CREATE TABLE SuperUser (
 
 CREATE TABLE RegisteredUser (
 	UserID int NOT NULL DEFAULT 0,
-	########
-	Role VARCHAR(20),
-	UserReputation int,
-	#######
+    ##NATHAN: USER REPUTATION NEEDS TO BE INTEGER
+    Role varchar(20),
+    UserReputation int,
 	BugReportCount int,
 	AccountStatus ENUM('Active', 'Suspended', 'Deleted'),
 	FOREIGN KEY (UserID)
@@ -32,16 +31,15 @@ CREATE TABLE RegisteredUser (
 
 CREATE TABLE SysAdminUser (
 	UserID int NOT NULL DEFAULT 0,
-	######
-	Role VARCHAR(20),
+    Role varchar(20),
 	# 	AssignedBug int,
-	# 	CommentID int,
 	# 	AttachmentID int,
 	FOREIGN KEY (UserID)
 		REFERENCES SuperUser(UserID)
 		ON DELETE CASCADE
 );
 
+##Not for comments
 CREATE TABLE Attachments (
 	AttachmentID int NOT NULL,
 	CreationTimestamp date,
@@ -51,21 +49,8 @@ CREATE TABLE Attachments (
 	FileSize int,
 	AttacherID int,
 	PRIMARY KEY (AttachmentID),
-		FOREIGN KEY (AttacherID)
-	REFERENCES SysAdminUser(UserID)
-);
-
-CREATE TABLE Comments (
-	CommentID int,
-	UserID int,
-	CreationTimestamp date,
-	CommentText varchar(500),
-	AttachmentID int,
-	PRIMARY KEY (CommentID),
-		FOREIGN KEY (UserID)
-	REFERENCES SuperUser(UserID),
-		FOREIGN KEY (AttachmentID)
-	REFERENCES Attachments(AttachmentID)
+	FOREIGN KEY (AttacherID)
+		REFERENCES SysAdminUser(UserID)
 );
 
 CREATE TABLE Bug (
@@ -77,7 +62,6 @@ CREATE TABLE Bug (
 	OperatingSystem varchar(50),
 	PRIMARY KEY (BugID)
 );
-
 
 CREATE TABLE BugReports (
 	BugReportID int NOT NULL AUTO_INCREMENT,
@@ -92,7 +76,7 @@ CREATE TABLE BugReports (
 	BugSeverity ENUM ('Critical', ' Major', 'Minor', 'Cosmetic'),
 	ReporterID int,
 	AssignedTo int,
-	LongDescription VARCHAR(500),
+    LongDescription VARCHAR(500),
 	##CommentID int,
     ##NATHAN: THESE NOW WORK AND ARE NEEDED FOR WHEN
     ##YOU DO MULTIPLE JOINS TO RETRIEVE USERNAMES
@@ -103,8 +87,19 @@ CREATE TABLE BugReports (
 		REFERENCES SuperUser(UserID),
 	FOREIGN KEY (AssignedTo)
 		REFERENCES SuperUser(UserID)
-	##FOREIGN KEY (CommentID)
-	 	##REFERENCES Comments(CommentID)
+);
+
+CREATE TABLE Comments (
+	CommentID int NOT NULL AUTO_INCREMENT,
+	UserID int,
+    BugReportID int,
+	CreationTimestamp date,
+	CommentText varchar(500),
+	PRIMARY KEY (CommentID),
+	FOREIGN KEY (UserID)
+		REFERENCES SuperUser(UserID),
+	FOREIGN KEY (BugReportID)
+		REFERENCES BugReports(BugReportID)
 );
 
 ##### CREATE PROCEDURES/FUNCTIONS HERE ######
@@ -137,9 +132,9 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 													IN pWord varchar(20))
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-		VALUES (0, uName, fName, lName, email, pWord, NOW());
-		INSERT INTO RegisteredUser (UserID, UserReputation, BugReport, AccountStatus) VALUES
-			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 'New', 0, 'Active');
+		VALUES (1, uName, fName, lName, email, pWord, NOW());
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0, 'Active');
 
 	END //
 DELIMITER ;
@@ -153,8 +148,8 @@ PROCEDURE `insertNewUserAdmin`(IN ascLvl int, IN uName varchar(20), IN fName var
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 		VALUES (ascLvl, uName, fName, lName, email, pWord, NOW());
-		INSERT INTO RegisteredUser (UserID, UserReputation, AccountStatus) VALUES
-			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0,'Active');
+		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
+			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0,'Active');
 
 	END //
 DELIMITER ;
@@ -200,8 +195,7 @@ PROCEDURE `updateAdminNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(6
 		UPDATE SuperUser SET FName = fName, LName = lName, Email = email WHERE UserName = uname;
 	END //
 DELIMITER ;
-
-###################################################################################################################
+#
 DROP PROCEDURE IF EXISTS BugTrackerPrime.updateUser;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
@@ -221,7 +215,6 @@ PROCEDURE `updateUserNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60
 		UPDATE SuperUser SET FName = fName, LName = lName, Email = email WHERE UserName = uname;
 	END //
 DELIMITER ;
-######################################################################################################################
 
 DROP PROCEDURE IF EXISTS BugTrackerPrime.deleteUser;
 DELIMITER //
@@ -231,6 +224,8 @@ PROCEDURE deleteUser(userToDel VARCHAR(30))
 		DELETE FROM BugTrackerPrime.SuperUser WHERE UserName = userToDel;
 	END //
 DELIMITER ;
+
+#
 
 ##NATHAN: NEW UPDATED
 DROP PROCEDURE IF EXISTS BugTrackerPrime.setSearchDetailsByStatus;
@@ -279,6 +274,21 @@ PROCEDURE `setSearchDetailsByUser`(repName varchar(20))
 	END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.setFindComments;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `setFindComments`(brID INT)
+	BEGIN
+		SELECT DISTINCT Comments.CreationTimestamp, CommentText, superuser.UserName
+        FROM  BugTrackerPrime.Comments
+        LEFT JOIN BugTrackerPrime.BugReports 
+        ON Comments.BugReportID = BugReports.BugReportID
+        LEFT JOIN BugTrackerPrime.superuser 
+        ON Comments.UserID = superuser.UserID
+		WHERE BugReports.BugReportID = brID;
+	END //
+DELIMITER ;
+
 ##NATHAN: UPDATED
 DROP PROCEDURE IF EXISTS BugTrackerPrime.populateExtReportDetails;
 DELIMITER //
@@ -295,6 +305,18 @@ PROCEDURE `populateExtReportDetails`(bId INT)
         LEFT JOIN BugTrackerPrime.superuser b
         ON BugReports.AssignedTo = b.UserID
 		WHERE BugReportID = bId;
+	END //
+DELIMITER ;
+
+
+##########################
+DROP PROCEDURE IF EXISTS BugTrackerPrime.insertNewComment;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `insertNewComment`(IN uID int, IN brID INT, cmnt varchar(500))
+	BEGIN
+		INSERT INTO Comments (userID, bugReportID, creationTimestamp, commentText)
+		VALUES (uID, brID, CURDATE(), cmnt);
 	END //
 DELIMITER ;
 
@@ -323,9 +345,17 @@ GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setSearchDetailsByUser TO 'newUser'@'
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setSearchDetailsByPriority TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setFindComments TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.populateExtReportDetails TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.insertNewComment TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.deleteUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateUserNoP TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
@@ -334,24 +364,24 @@ FLUSH PRIVILEGES;
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', NOW());
 
-INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'),'Reporter', 0 ,0,'Active');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'),'User', 0 ,0,'Active');
 
 #INSERTS A SYSADMIN USER
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (2, 'rep','Jill', 'User', 'buser@btp.com', 'pass123', NOW());
-INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'rep'), 'Reviewer');
+VALUES (2, 'rep','Jill', 'User', 'buser@btp.com', 'pass123', current_date());
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'rep'), 'Reporter');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (3, 'dev','Dave', 'User', 'buser@btp.com', 'pass123', NOW());
+VALUES (3, 'dev','Dave', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'dev'), 'Developer');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (4, 'tri','Jack', 'User', 'buser@btp.com', 'pass123', NOW());
+VALUES (4, 'tri','Jack', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'tri'), 'Triage');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (5, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', NOW());
-INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Reviewer');
+VALUES (5, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', current_date());
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'SysAdmin');
 
 #INSERTS A BUG AND A BUG REPORT
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
@@ -363,7 +393,8 @@ VALUES ('Bug 2', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
 VALUES ('Bug 3', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
 
-##############################################################################################
+
+#############
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (NOW(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported',
@@ -381,3 +412,8 @@ INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugI
 VALUES (NOW(), 'THIS HAS BEEN SOLVED!!!', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 3'), 'Solved',
 							 'This is a resolution for bug 3', 'Some Keywords here', 'Medium', 'Minor', 2, 3,
 								'This is Bug 3, it is also a very very nice bug. It likes sunshine, beaches and playing in the sun');
+
+
+INSERT INTO Comments(CreationTimestamp, UserID, CommentText, BugReportID) VALUES (current_date(), 3, 'This is a comment', 2);
+
+INSERT INTO Comments(CreationTimestamp, UserID, CommentText, BugReportID) VALUES (current_date(), 3, 'Another Comment', 3);

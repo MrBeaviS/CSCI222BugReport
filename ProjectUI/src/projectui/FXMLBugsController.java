@@ -32,6 +32,7 @@ public class FXMLBugsController implements Initializable {
     
     CurrentUser currentUser;
     
+    int bReportID;
     public FXMLBugsController (CurrentUser curr){
         currentUser = curr;
     }
@@ -53,7 +54,7 @@ public class FXMLBugsController implements Initializable {
     private Button searchButton;
     @FXML
     private Text searchError;
-
+    
     ////////////////////////////////
     //Search Bugs
     ///////////////////////////////
@@ -141,7 +142,7 @@ public class FXMLBugsController implements Initializable {
     private Button uploadPatchButton;
     @FXML
     private Text repLevel;
-
+    
     
     ////////////////////////////////
     //Create Bugs
@@ -175,15 +176,15 @@ public class FXMLBugsController implements Initializable {
     //Comments
     ///////////////////////////////
     @FXML
-    private TableView<?> selectedCmntTable;
+    private TableView<BugComments> selectedCmntTable;
     @FXML
-    private TableColumn<?, String> selectedUsercmnt;
+    private TableColumn<BugComments, String> selectedUsercmnt;
     @FXML
-    private TableColumn<?, String> commentText;
+    private TableColumn<BugComments, String> commentText;
     @FXML
-    private TableColumn<?, String> selectedDatecmnt;
-
-
+    private TableColumn<BugComments, String> selectedDatecmnt;
+    
+    
 
     /**
      * Initializes the controller class.
@@ -213,14 +214,14 @@ public class FXMLBugsController implements Initializable {
         newSeverity.setValue("Select");
         newSeverity.getItems().addAll("Select", "Critical","Major","Minor", "Cosmetic");
         
-
-
+        
+        
         //make the following visible to reporter and up
-        statusBox.setVisible(false);
-        priorityBox.setVisible(false);
+        statusBox.setVisible(false);   
+        priorityBox.setVisible(false);   
         severityBox.setVisible(false);
-
-
+        
+        
         switch(currentUser.getAccessLevel()){
             case 1:
                 createBugTab.setDisable(true);
@@ -229,7 +230,6 @@ public class FXMLBugsController implements Initializable {
                 increaseRepButton.setVisible(false);
                 decreaseRepButton.setVisible(false);
                 addCommentButton.setVisible(false);
-                submitCommentButton.setVisible(false);
                 uploadPatchButton.setVisible(false);
                 break;
             case 2:
@@ -241,10 +241,10 @@ public class FXMLBugsController implements Initializable {
                 submitCommentButton.setVisible(true);
                 uploadPatchButton.setVisible(true);
                 statusBox.setDisable(true);
-                priorityBox.setDisable(true);
+                priorityBox.setDisable(true);  
                 severityBox.setDisable(true);
-                statusBox.setVisible(false);
-                priorityBox.setVisible(false);
+                statusBox.setVisible(false);   
+                priorityBox.setVisible(false);   
                 severityBox.setVisible(false);
                 break;
             case 3:
@@ -256,10 +256,10 @@ public class FXMLBugsController implements Initializable {
                 submitCommentButton.setVisible(true);
                 uploadPatchButton.setVisible(true);
                 statusBox.setDisable(false);
-                priorityBox.setDisable(false);
+                priorityBox.setDisable(false);  
                 severityBox.setDisable(false);
-                statusBox.setVisible(false);
-                priorityBox.setVisible(false);
+                statusBox.setVisible(false);   
+                priorityBox.setVisible(false);   
                 severityBox.setVisible(false);
             case 5:
                 break;
@@ -272,10 +272,10 @@ public class FXMLBugsController implements Initializable {
                 submitCommentButton.setVisible(false);
                 uploadPatchButton.setVisible(false);
                 break;
-
+                
         }
-
-
+        
+        
         //dev and up
         
         
@@ -286,7 +286,7 @@ public class FXMLBugsController implements Initializable {
         SearchReports reports = new SearchReports();
 
         if(searchBy.getValue().equals("BugStatus")){
-
+            
             switch(searchBox.getText()){
                 case "Reported":
                 case "reported":
@@ -309,7 +309,7 @@ public class FXMLBugsController implements Initializable {
             reports.searchReportsByUser(searchBox.getText());
         }
         else if(searchBy.getValue().equals("Priority")){
-
+            
             switch(searchBox.getText()){
                 case "Low":
                 case "low":
@@ -331,7 +331,7 @@ public class FXMLBugsController implements Initializable {
                      searchError.setText("You must either choose: Low, Medium, High, or Emergency");
                      break;
             }
-
+            
             //reports.searchReportsByPriority(searchBox.getText());
         }
         /*else if(searchBy.getValue().equals("Keywords")){
@@ -339,19 +339,19 @@ public class FXMLBugsController implements Initializable {
         }*/
         else{
             searchError.setText("You have not selected a Search by choice");
-
+            
         }
-
+    
 
         System.out.println("SEARCHING");
-
+        
         tablebugName.setCellValueFactory(new PropertyValueFactory<>("bugName"));
         tableshortDesc.setCellValueFactory(new PropertyValueFactory<>("shortDesc"));
         tablebStatus.setCellValueFactory(new PropertyValueFactory<>("bugStatus"));
         tablePriority.setCellValueFactory(new PropertyValueFactory<>("priority"));
         tableDate.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
         tablebugReporter.setCellValueFactory(new PropertyValueFactory<>("reporter"));
-
+        
 
         tablebugSearch.setItems(null);
         tablebugSearch.setItems(reports.getReportDetails());
@@ -361,8 +361,11 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private void bugSelected(MouseEvent event) throws SQLException {
         BugReportTableDetails table = tablebugSearch.getSelectionModel().getSelectedItem();
+        System.out.println(table.getBugReportID() + " --XXXXX");
 
         BugReportExtDetails extDetails = new BugReportExtDetails(table.getBugReportID());
+
+        System.out.println("YYY--- " + extDetails.getBugName());
 
         selectedBugName.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
@@ -378,16 +381,16 @@ public class FXMLBugsController implements Initializable {
         selectedSev.setText(extDetails.getSeverity());
         statusBox.setValue(extDetails.getStatus());
         priorityBox.setValue(extDetails.getPriority());
-
+     
         severityBox.setValue(extDetails.getSeverity());
-
+        
         selectedReporter.setText(extDetails.getReporter());
         selectedAssign.setText(extDetails.getAssignedTo());
-
+        
         //###THIS NEEDS TO BE ADDED SAME WITH RESOLUTION
         selectedbugDesc.setText(extDetails.getLongDesc());
         selectedbugReso.setText(extDetails.getResolution());
-
+        
         bugNamebox.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
         selectedStatus.setText(extDetails.getStatus());
@@ -402,15 +405,23 @@ public class FXMLBugsController implements Initializable {
         severityBox.setValue(extDetails.getSeverity());
         selectedReporter.setText(extDetails.getReporter());
         assignedBox.setText(extDetails.getAssignedTo());
-
-
+ 
         //#######You also need to populate the comment table####//
         //TableView<?> selectedCmnt;
         //TableColumn<?, ?> selectedUsercmnt;
         //TableColumn<?, ?> selectedDatecmnt;
         ///////////Same way you did the bug table data////////////
-
-
+        //int bugReportID = table.getBugReportID();
+        SearchComments comments = new SearchComments();
+        comments.searchCommentDetails(table.getBugReportID());
+        bReportID = table.getBugReportID();
+        
+        selectedUsercmnt.setCellValueFactory(new PropertyValueFactory<>("commenter"));
+        commentText.setCellValueFactory(new PropertyValueFactory<>("commentText"));
+        selectedDatecmnt.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
+        
+        selectedCmntTable.setItems(null);
+        selectedCmntTable.setItems(comments.getCommentDetails());
     }
 
     @FXML
@@ -431,12 +442,12 @@ public class FXMLBugsController implements Initializable {
         selectedAssign.setVisible(false);
         
         //Show editable fields
-
-
+        
+        
         productBox.setVisible(true);   
         bugNamebox.setVisible(true);  
         versionBox.setVisible(true);  
-        assignedBox.setVisible(true);
+        assignedBox.setVisible(true);    
         cmpntBox.setVisible(true);    
         osBox.setVisible(true);    
         statusBox.setVisible(true);   
@@ -446,10 +457,10 @@ public class FXMLBugsController implements Initializable {
         productBox.setEditable(true);
         bugNamebox.setEditable(true);
         versionBox.setEditable(true);
-        assignedBox.setEditable(true);
-        cmpntBox.setEditable(true);
-        osBox.setEditable(true);
-
+        assignedBox.setEditable(true);    
+        cmpntBox.setEditable(true);   
+        osBox.setEditable(true); 
+        
         // need to fill editable fields with current data from database
         //if none show empty
         
@@ -462,7 +473,7 @@ public class FXMLBugsController implements Initializable {
     private void saveBugDetails(ActionEvent event) {
         
         //TAKE NEW VALUES FROM FIELDS AND USE UPDATE STATEMENT//
-
+        
         //reveal non editable fields
         selectedbugDesc.setEditable(false);
         selectedbugReso.setEditable(false);
@@ -475,25 +486,25 @@ public class FXMLBugsController implements Initializable {
         selectedVer.setVisible(true);
         selectedSev.setVisible(true);
         selectedAssign.setVisible(true);
-
+        
         //make editable fields invisible and disabled
-        productBox.setVisible(false);
-        bugNamebox.setVisible(false);
-        versionBox.setVisible(false);
-        assignedBox.setVisible(false);
-        cmpntBox.setVisible(false);
-        osBox.setVisible(false);
-        statusBox.setVisible(false);
-        priorityBox.setVisible(false);
+        productBox.setVisible(false);   
+        bugNamebox.setVisible(false);  
+        versionBox.setVisible(false);  
+        assignedBox.setVisible(false);    
+        cmpntBox.setVisible(false);    
+        osBox.setVisible(false);    
+        statusBox.setVisible(false);   
+        priorityBox.setVisible(false);   
         severityBox.setVisible(false);
-
+        
         productBox.setEditable(false);
         bugNamebox.setEditable(false);
         versionBox.setEditable(false);
-        assignedBox.setEditable(false);
-        cmpntBox.setEditable(false);
-        osBox.setEditable(false);
-
+        assignedBox.setEditable(false);    
+        cmpntBox.setEditable(false);   
+        osBox.setEditable(false); 
+        
     }
     
     @FXML
@@ -532,46 +543,46 @@ public class FXMLBugsController implements Initializable {
             }
         }
     }
-
+    
     @FXML
     private void submitnewBug(ActionEvent event) {
-
+        
         //take all variables from the table and save into DB
-
+        
     }
-
+    
     @FXML
     private void addComment(ActionEvent event) throws IOException {
-
+        
         Stage cmmt_stage = new Stage();
         FXMLLoader cmmtloader = new FXMLLoader(getClass().getResource("FXMLAddComment.fxml"));
-        FXMLAddCommentController controller = new FXMLAddCommentController(currentUser);
+        FXMLAddCommentController controller = new FXMLAddCommentController(currentUser, bReportID);
         cmmtloader.setController(controller);
         Parent cmmt_parent = cmmtloader.load();
         Scene cmmt_scene = new Scene(cmmt_parent);
         cmmt_stage.setScene(cmmt_scene);
-        cmmt_stage.show();
-
+        cmmt_stage.show(); 
+        
     }
-
-
+    
+    
     @FXML
     private void uploadPatch(ActionEvent event) {
-
+        
         //opens new window to upload patch? How?
-
+        
     }
-
+    
     @FXML
     private void decreaseRep(ActionEvent event) {
-
+        
         //obvious decrease rep. After 1 press disable both the button
-
+        
     }
-
+    
     @FXML
     private void increaseRep(ActionEvent event) {
-
+        
         //obvious increase rep. After 1 press disable both the button
         
     }

@@ -150,7 +150,7 @@ public class MySQLController {
             e.printStackTrace();
         }
     }
-
+    
     public void updateUserNoP(CurrentUser currUser){
         getConnection();
         try{
@@ -185,8 +185,8 @@ public class MySQLController {
             e.printStackTrace();
         }
     }
-
-
+    
+    
     public ResultSet searchDetailsByStatus(String search){
         getConnection();
         ResultSet rs = null;
@@ -234,7 +234,7 @@ public class MySQLController {
         }
         return rs;
     }
-
+    
     public ResultSet searchUser(CurrentUser curr){
         getConnection();
         ResultSet rs = null;
@@ -246,6 +246,32 @@ public class MySQLController {
         }
 
         return rs;
+    }
+   
+    /////////////////////////////NATHAN/////////////////////
+     public ResultSet searchComments(int search){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.setFindComments(\'" + search + "\')";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+    
+     public void registerNewComment(newBugComment nComment){
+
+        getConnection();
+        try{
+            String statement = "CALL BugTrackerPrime.insertNewComment(\'" +nComment.getUserID() + "\', \'"+ nComment.getBugRepID() + "\', \'"  + nComment.getCommentText() + "\')";
+            System.out.println(statement);
+            stmt.executeQuery(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
     }
     
 }

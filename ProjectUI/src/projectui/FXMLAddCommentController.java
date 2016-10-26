@@ -23,9 +23,11 @@ import javafx.stage.Stage;
 public class FXMLAddCommentController implements Initializable {
 
     CurrentUser currentUser;
+    int brID;
     
-    public FXMLAddCommentController (CurrentUser curr){
+    public FXMLAddCommentController (CurrentUser curr, int bReportID){
         currentUser = curr;
+        brID = bReportID;
     }
     
     @FXML
@@ -44,8 +46,8 @@ public class FXMLAddCommentController implements Initializable {
     @FXML
     private void submitNewComment(ActionEvent event) {
         
-        //take current user and date and commentField and attach
-        //to a new class and submit to database
+        newBugComment newComment = new newBugComment();
+        newComment.setNewComment(currentUser.getUserID(), brID, commentField.getText());
         
        Stage cmmt_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
        cmmt_stage.close();
