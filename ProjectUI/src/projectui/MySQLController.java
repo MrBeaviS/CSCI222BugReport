@@ -6,9 +6,9 @@
 package projectui;
 
 import com.sun.rowset.CachedRowSetImpl;
-import java.io.IOException;
-import java.sql.*;
+
 import javax.sql.rowset.CachedRowSet;
+import java.sql.*;
 
 /**
  *
@@ -157,9 +157,9 @@ public class MySQLController {
     public void updateUserNoP(CurrentUser currUser){
         getConnection();
         try{
-            String sql = "CALL BugTrackerPrime.updateAdminNoP(\'" + currUser.getUserName() + "\' , \'" +
+            String sql = "CALL BugTrackerPrime.updateUserNoP(\'" + currUser.getUserName() + "\' , \'" +
                     currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
-                    currUser.getEmail() + "\')";
+                    currUser.getEmail() + "\' , \'" + currUser.getUserRep() + "\')";
             stmt.executeQuery(sql);
         }catch (Exception e) {
             e.printStackTrace();
@@ -170,9 +170,9 @@ public class MySQLController {
     public void updateUser(CurrentUser currUser){
         getConnection();
         try{
-            String sql = "CALL BugTrackerPrime.updateAdmin(\'" + currUser.getUserName() + "\' , \'" +
+            String sql = "CALL BugTrackerPrime.updateUser(\'" + currUser.getUserName() + "\' , \'" +
                     currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
-                    currUser.getEmail() + "\' , \'" + currUser.getNewPass() + "\')";
+                    currUser.getEmail() + "\' , \'" + currUser.getNewPass() + "\' , \'" + currUser.getUserRep()  + "\')";
             stmt.executeQuery(sql);
         }catch (Exception e) {
             e.printStackTrace();
@@ -508,7 +508,7 @@ public class MySQLController {
         return res;
     }
 
-    public void submitReport(NewBugReport report){
+    public void submitReport(NewBugReport report) throws SQLException{
         getConnection();
         try {
             String sql = "CALL BugTrackerPrime.submitReport(\'" + report.getBugName() + "\' , \'" +

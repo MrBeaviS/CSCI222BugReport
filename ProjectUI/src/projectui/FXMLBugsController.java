@@ -547,7 +547,7 @@ public class FXMLBugsController implements Initializable {
     }
     
     @FXML
-    private void submitnewBug(ActionEvent event) {
+    private void submitnewBug(ActionEvent event) throws SQLException {
         //take all variables from the table and save into DB
         MySQLController conn = new MySQLController();
 
@@ -565,6 +565,8 @@ public class FXMLBugsController implements Initializable {
             report.setLongDesc(newDesc.getText());
             report.setKeywords(newKeywords.getText());
             report.submitReport();
+            createErrorText.setText("Report Submitted");
+            clearScreen();
         } else {
             System.out.println("Invalid User Assigned");
             createErrorText.setText("Invalid User Assigned");
@@ -608,6 +610,19 @@ public class FXMLBugsController implements Initializable {
         
         //obvious increase rep. After 1 press disable both the button
         
+    }
+    private void clearScreen(){
+        newBugName.setText("");
+        newComponentname.setText("");
+        newSeverity.setValue("");
+        newProductname.setText("");
+        newOSName.setText("");
+        newPriority.setValue("");
+        newVersionName.setText("");
+        NewAssignedName.setText("");
+        newStatus.setValue("");
+        newDesc.setText("");
+        newKeywords.setText("");
     }
     
 }

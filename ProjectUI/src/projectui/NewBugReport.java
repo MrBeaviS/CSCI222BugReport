@@ -1,5 +1,7 @@
 package projectui;
 
+import java.sql.SQLException;
+
 /**
  * Created by michaelbeavis on 26/10/2016.
  */
@@ -21,9 +23,13 @@ public class NewBugReport {
     private String longDesc;
     private String assigned;
 
-    public void submitReport(){
+    public void submitReport() throws SQLException {
         MySQLController conn = new MySQLController();
-        conn.submitReport(this);
+        try {
+            conn.submitReport(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     //NewBugReport class setters

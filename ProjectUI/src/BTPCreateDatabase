@@ -200,9 +200,10 @@ DROP PROCEDURE IF EXISTS BugTrackerPrime.updateUser;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `updateUser`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40),
-												pWord VARCHAR(40))
+												pWord VARCHAR(40), rep INT)
 	BEGIN
 		UPDATE SuperUser SET FName = fName, LName = lName, Email = email, Password = pWord WHERE UserName = uname;
+		UPDATE RegisteredUser SET UserReputation = rep WHERE UserID = (SELECT SuperUser.UserID FROM SuperUser WHERE UserName = uName);
 	END //
 DELIMITER ;
 
@@ -210,9 +211,10 @@ USE BugTrackerPrime;
 DROP PROCEDURE IF EXISTS BugTrackerPrime.updateUserNoP;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `updateUserNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40))
+PROCEDURE `updateUserNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40), rep INT)
 	BEGIN
 		UPDATE SuperUser SET FName = fName, LName = lName, Email = email WHERE UserName = uname;
+		UPDATE RegisteredUser SET UserReputation = rep WHERE UserID = (SELECT SuperUser.UserID FROM SuperUser WHERE UserName = uName);
 	END //
 DELIMITER ;
 
@@ -454,7 +456,8 @@ DROP PROCEDURE IF EXISTS BugTrackerPrime.submitReport;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `submitReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50), vers VARCHAR(10), oSys VARCHAR(50),
-                         bStatus VARCHAR(30), kWords VARCHAR(50), prio VARCHAR(30), bSev VARCHAR(50), lDesc VARCHAR(500), assi VARCHAR(30))
+                         bStatus ENUM('Reported', 'Progressing', 'Solved'), kWords VARCHAR(50), prio ENUM('Low', 'Medium', 'High', 'Emergency'),
+  bSev ENUM ('Critical', ' Major', 'Minor', 'Cosmetic'), lDesc VARCHAR(500), assi VARCHAR(30))
   BEGIN
     INSERT INTO BugTrackerPrime.Bug (BugName, Product, Component, Version, OperatingSystem)
     VALUES (bName, prod, compon, vers, oSys);

@@ -72,7 +72,7 @@ public class FXMLViewProfileController implements Initializable {
         currUsername.setText(currentUser.getUserName());
         currName.setText(currentUser.getfName() + " " + currentUser.getlName());
         currEmail.setText(currentUser.getEmail());
-        currRep.setText(currentUser.getUserRep());
+        currRep.setText(String.valueOf(currentUser.getUserRep()));
         dateJoined.setText(currentUser.getJoinDate());
         
     }
@@ -91,5 +91,4 @@ public class FXMLViewProfileController implements Initializable {
         app_stage.setScene(menuPage_scene);
         app_stage.show();
     }
-    
 }

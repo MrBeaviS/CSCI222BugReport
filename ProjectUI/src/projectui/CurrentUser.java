@@ -14,7 +14,7 @@ public class CurrentUser {
     private String lName;
     private String email;
     private String joinDate;
-    private String userRep;
+    private int userRep;
     private String accStatus;
     private String adminRole;
     private String newPass;
@@ -37,7 +37,7 @@ public class CurrentUser {
                 lName = rs.getString("Lname");
                 email = rs.getString("Email");
                 joinDate = rs.getString("JoinedDate");
-                userRep = rs.getString("UserReputation");
+                userRep = rs.getInt("UserReputation");
                 accStatus = rs.getString("AccountStatus");
                 accessLevel = rs.getInt("AccessRights");
 
@@ -93,10 +93,11 @@ public class CurrentUser {
         }
     }
 
-    public void updateUserNoP(String first, String last, String nEmail) throws SQLException {
+    public void updateUserNoP(String first, String last, String nEmail, String rep) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
+        userRep = Integer.valueOf(rep);
         MySQLController conn = new MySQLController();
         try{
             conn.updateUserNoP(this);
@@ -105,11 +106,12 @@ public class CurrentUser {
         }
     }
 
-    public void updateUser(String first, String last, String nEmail, String pass) throws SQLException {
+    public void updateUser(String first, String last, String nEmail, String pass, String rep) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
         newPass = pass;
+        userRep = Integer.valueOf(rep);
         MySQLController conn = new MySQLController();
         try{
             conn.updateUser(this);
@@ -142,7 +144,7 @@ public class CurrentUser {
                     lName = rs.getString("Lname");
                     email = rs.getString("Email");
                     joinDate = rs.getString("JoinedDate");
-                    userRep = rs.getString("UserReputation");
+                    userRep = rs.getInt("UserReputation");
                     accStatus = rs.getString("AccountStatus");
                     accessLevel = rs.getInt("AccessRights");
                 }
@@ -171,7 +173,8 @@ public class CurrentUser {
 
 
 
-
+    public void incRep(){userRep++;}
+    public void decRep(){userRep--;}
     public void setEmail(String newEmail){
         email = newEmail;
     }
@@ -182,7 +185,7 @@ public class CurrentUser {
     public String getlName(){return lName;}
     public String getEmail(){return email;}
     public String getJoinDate(){return joinDate;}
-    public String getUserRep(){return userRep;}
+    public int getUserRep(){return userRep;}
     public String getAccStatus(){return accStatus;}
     public String getAdminRole(){return adminRole;}
     public String getNewPass(){return newPass;}

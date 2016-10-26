@@ -102,10 +102,10 @@ public class FXMLViewAdminProfileController implements Initializable {
     private void saveChanges(ActionEvent event) throws SQLException {
         System.out.println("Saving Changes");
         if(newPassword.getText().isEmpty()){
-            searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText());
+            searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText());
             errorText.setText("Changes Saved");
         } else {
-            searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText());
+            searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText());
             errorText.setText("Changes Saved");
         }
     }
@@ -124,7 +124,7 @@ public class FXMLViewAdminProfileController implements Initializable {
             lastNameBox.setText(searchUser.getlName());
             emailBox.setText(searchUser.getEmail());
             accessLevelBox.setText(searchUser.determineAccessLevelStr());
-            currRep.setText(searchUser.getUserRep());
+            currRep.setText(String.valueOf(searchUser.getUserRep()));
             currNoReports.setText(""); //TO DO: Count a users reports
             dateJoined.setText(searchUser.getJoinDate());
         }
@@ -133,11 +133,31 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private void increaseRep(ActionEvent event) {
         //increases rep
+        int count = 0;
+        while(count == 0){
+            increaseRepButton.setDisable(false);
+            System.out.println("INCREASE REP");
+            searchUser.incRep();
+            currRep.setText(String.valueOf(searchUser.getUserRep()));
+            count++;
+        }
+        increaseRepButton.setDisable(true);
+        decreaseRepbutton.setDisable(false);
     }
 
     @FXML
     private void decreaseRep(ActionEvent event) {
         //decreases rep
+        int count = 0;
+        while(count == 0){
+            decreaseRepbutton.setDisable(false);
+            System.out.println("DECREASE REP");
+            searchUser.decRep();
+            currRep.setText(String.valueOf(searchUser.getUserRep()));
+            count++;
+        }
+        decreaseRepbutton.setDisable(true);
+        increaseRepButton.setDisable(false);
     }
     
     @FXML
