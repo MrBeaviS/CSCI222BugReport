@@ -13,7 +13,7 @@ CREATE TABLE SuperUser (
 	LName varchar(60),
 	Email varchar(40),
 	Password varchar(16),
-	JoinedDate date,
+	JoinedDate DATE,
 	PRIMARY KEY(UserID)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE SysAdminUser (
 ##Not for comments
 CREATE TABLE Attachments (
 	AttachmentID int NOT NULL,
-	CreationTimestamp date,
+	CreationTimestamp DATE,
 	ShortDescription varchar(200),
 	FileName varchar(50),
 	FileType varchar(50),
@@ -67,7 +67,7 @@ CREATE TABLE BugReports (
 	BugReportID int NOT NULL AUTO_INCREMENT,
 	CreationTimestamp datetime,
 	ShortDescription varchar(200),
-	DeltaTimestamp datetime,
+	DeltaTimestamp DATE,
 	BugID int,
 	BugStatus ENUM('Reported', 'Progressing', 'Solved'),
 	Resolution varchar(500),
@@ -93,7 +93,7 @@ CREATE TABLE Comments (
 	CommentID int NOT NULL AUTO_INCREMENT,
 	UserID int,
     BugReportID int,
-	CreationTimestamp date,
+	CreationTimestamp DATE,
 	CommentText varchar(500),
 	PRIMARY KEY (CommentID),
 	FOREIGN KEY (UserID)
@@ -132,7 +132,7 @@ PROCEDURE `insertNewUser`(IN uName varchar(20), IN fName varchar(20),
 													IN pWord varchar(20))
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-		VALUES (1, uName, fName, lName, email, pWord, NOW());
+		VALUES (1, uName, fName, lName, email, pWord, current_date());
 		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
 			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0, 'Active');
 
@@ -147,7 +147,7 @@ PROCEDURE `insertNewUserAdmin`(IN ascLvl int, IN uName varchar(20), IN fName var
 													IN pWord varchar(20))
 	BEGIN
 		INSERT INTO SuperUser (AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-		VALUES (ascLvl, uName, fName, lName, email, pWord, NOW());
+		VALUES (ascLvl, uName, fName, lName, email, pWord, current_date());
 		INSERT INTO RegisteredUser (UserID, UserReputation, BugReportCount, AccountStatus) VALUES
 			((SELECT SuperUser.UserID FROM SuperUser WHERE SuperUser.UserName = uName), 0, 0,'Active');
 
@@ -320,6 +320,135 @@ PROCEDURE `insertNewComment`(IN uID int, IN brID INT, cmnt varchar(500))
 	END //
 DELIMITER ;
 
+################################# REPORT PROCEDURES #####################################################
+DROP PROCEDURE IF EXISTS BugTrackerPrime.newBugReports;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `newBugReports`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY);
+	END //
+DELIMITER ;
+
+USE BugTrackerPrime;
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportsAssigned;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countReportsAssigned`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND AssignedTo IS NOT NULL ;
+	END //
+DELIMITER ;
+
+USE BugTrackerPrime;
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportsUnassigned;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countReportsUnassigned`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND AssignedTo IS NULL ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countReportedBugs;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countReportedBugs`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Reported' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countProgressBugs;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countProgressBugs`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Progressing' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countSolvedBugs;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countSolvedBugs`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugStatus = 'Solved' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countLowPriority;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countLowPriority`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Low' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countMedPriority;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countMedPriority`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Medium' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countHighPriority;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countHighPriority`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'High' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countEmergencyPriority;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countEmergencyPriority`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND Priority = 'Emergency' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countCosmeticSev;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countCosmeticSev`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Cosmetic' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countMinorSev;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countMinorSev`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Minor' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countMajorSev;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countMajorSev`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Major' ;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.countCriticalSev;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `countCriticalSev`(dayRange INT)
+	BEGIN
+		SELECT COUNT(*) FROM BugTrackerPrime.BugReports WHERE DATE_SUB(CURDATE(), INTERVAL dayRange DAY) AND BugSeverity = 'Critical' ;
+	END //
+DELIMITER ;
+
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -357,12 +486,41 @@ GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateUser TO 'newUser'@'localhost' I
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateUserNoP TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+########################################## REPORT PROCEDURE PRIVS ####################################################
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.newBugReports TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countReportsAssigned TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countReportsUnassigned TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countReportedBugs TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countProgressBugs TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countSolvedBugs TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countLowPriority TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countMedPriority TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countHighPriority TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countEmergencyPriority TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countCosmeticSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countMinorSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countMajorSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.countCriticalSev TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
 
 #INSERTS A REGISTERED USER
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
-VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', NOW());
+VALUES (1, 'auser','Alex', 'User', 'auser@btp.com', 'pass123', current_date());
 
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'auser'),'User', 0 ,0,'Active');
 
@@ -397,19 +555,19 @@ VALUES ('Bug 3', 'Bug Tracker Prime', 'Database', 'v0.4', 'Windows');
 #############
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
-VALUES (NOW(), 'this is a short description', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported',
+VALUES (current_date(), 'this is a short description', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 1'), 'Reported',
 							 'This is a resolution for bug 1', 'Some Keywords here', 'Medium', 'Minor', 2, 3,
 								'This is Bug 1, its a very nice bug and just wants to be your friend');
 
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
-VALUES (NOW(), 'PROGRESSING THIS IS GREAT', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 2'), 'Progressing',
+VALUES (current_date(), 'PROGRESSING THIS IS GREAT', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 2'), 'Progressing',
 							 'This is a resolution for bug 2', 'Some Keywords here', 'Medium', 'Minor', 2, 3,
 								'This is Bug 2, Bug 2 is not nice, it likes darkness, moist moist areas and the smell of burning rubber');
 
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
-VALUES (NOW(), 'THIS HAS BEEN SOLVED!!!', NOW(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 3'), 'Solved',
+VALUES (current_date(), 'THIS HAS BEEN SOLVED!!!', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'Bug 3'), 'Solved',
 							 'This is a resolution for bug 3', 'Some Keywords here', 'Medium', 'Minor', 2, 3,
 								'This is Bug 3, it is also a very very nice bug. It likes sunshine, beaches and playing in the sun');
 

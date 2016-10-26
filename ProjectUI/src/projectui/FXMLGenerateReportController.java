@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
@@ -176,25 +177,93 @@ public class FXMLGenerateReportController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //call the generate weekly function
-        generateWeekly();
-        
+        try {
+            generateWeekly();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }    
 
     @FXML
-    private void generateWeekly() {
+    private void generateWeekly() throws SQLException {
         //get the counts of each text and set text
+        ReportStats week = new ReportStats(7);
+
+        newReportCountText.setText(week.getNewBugReports());
+        newReportAssText.setText(week.getReportsAssigned());
+        newReportunAssText.setText(week.getReportsUnassigned());
+        reportedBugsText.setText(week.getReportedBugs());
+        progresBugsText.setText(week.getProgressingBugs());
+        solvedBugsTest.setText(week.getSolvedBugs());
+        lowPrioText.setText(week.getLowPriority());
+        mediumPrioText.setText(week.getMedPriority());
+        highPrioText.setText(week.getHighPriority());
+        emergPrioText.setText(week.getEmergencyPriority());
+        cosSevText.setText(week.getCosmeticSev());
+        minorSevText.setText(week.getMinorSev());
+        majorSevText.setText(week.getMajorSev());
+        critSevText.setText(week.getCriticalSev());
     }
 
     @FXML
-    private void generateMonthly(Event event) {
+    private void generateMonthly(Event event) throws SQLException {
+        ReportStats month = new ReportStats(30);
+
+        mnewReportCountText.setText(month.getNewBugReports());
+        mnewReportAssText.setText(month.getReportsAssigned());
+        mnewReportunAssText.setText(month.getReportsUnassigned());
+        mreportedBugsText.setText(month.getReportedBugs());
+        mprogresBugsText.setText(month.getProgressingBugs());
+        msolvedBugsTest.setText(month.getSolvedBugs());
+        mlowPrioText.setText(month.getLowPriority());
+        mmediumPrioText.setText(month.getMedPriority());
+        mhighPrioText.setText(month.getHighPriority());
+        memergPrioText.setText(month.getEmergencyPriority());
+        mcosSevText.setText(month.getCosmeticSev());
+        mminorSevText.setText(month.getMinorSev());
+        mmajorSevText.setText(month.getMajorSev());
+        mcritSevText.setText(month.getCriticalSev());
     }
 
     @FXML
-    private void generateHalfYearly(Event event) {
+    private void generateHalfYearly(Event event) throws SQLException {
+        ReportStats halfYear = new ReportStats(183);
+
+        hnewReportCountText.setText(halfYear.getNewBugReports());
+        hnewReportAssText.setText(halfYear.getReportsAssigned());
+        hnewReportunAssText.setText(halfYear.getReportsUnassigned());
+        hreportedBugsText.setText(halfYear.getReportedBugs());
+        hprogresBugsText.setText(halfYear.getProgressingBugs());
+        hsolvedBugsTest.setText(halfYear.getSolvedBugs());
+        hlowPrioText.setText(halfYear.getLowPriority());
+        hmediumPrioText.setText(halfYear.getMedPriority());
+        hhighPrioText.setText(halfYear.getHighPriority());
+        hemergPrioText.setText(halfYear.getEmergencyPriority());
+        hcosSevText.setText(halfYear.getCosmeticSev());
+        hminorSevText.setText(halfYear.getMinorSev());
+        hmajorSevText.setText(halfYear.getMajorSev());
+        hcritSevText.setText(halfYear.getCriticalSev());
     }
 
     @FXML
-    private void generateYearly(Event event) {
+    private void generateYearly(Event event) throws SQLException {
+        ReportStats year = new ReportStats(366);
+
+        ynewReportCountText.setText(year.getNewBugReports());
+        ynewReportAssText.setText(year.getReportsAssigned());
+        ynewReportunAssText.setText(year.getReportsUnassigned());
+        yreportedBugsText.setText(year.getReportedBugs());
+        yprogresBugsText.setText(year.getProgressingBugs());
+        ysolvedBugsTest.setText(year.getSolvedBugs());
+        ylowPrioText.setText(year.getLowPriority());
+        ymediumPrioText.setText(year.getMedPriority());
+        yhighPrioText.setText(year.getHighPriority());
+        yemergPrioText.setText(year.getEmergencyPriority());
+        ycosSevText.setText(year.getCosmeticSev());
+        yminorSevText.setText(year.getMinorSev());
+        ymajorSevText.setText(year.getMajorSev());
+        ycritSevText.setText(year.getCriticalSev());
     }
 
     @FXML

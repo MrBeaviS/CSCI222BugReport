@@ -273,5 +273,175 @@ public class MySQLController {
             System.out.println(e);
         }
     }
-    
+
+    //----------------------------- REPORT GEN FUNCTIONS -------------------------------//
+
+    public ResultSet getNewBugReports (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.newBugReports(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getReportsAssigned (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countReportsAssigned(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getReportsUnassigned (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countReportsUnassigned(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getReportedBugs (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countReportedBugs(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getProgressingBugs (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countProgressBugs(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getSolvedBugs (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countSolvedBugs(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getLowPriority (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countLowPriority(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getMedPriority (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countMedPriority(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getHighPriority (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countHighPriority(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getEmergencyPriority (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countEmergencyPriority(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getCosmeticSev (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countCosmeticSev(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getMinorSev (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countMinorSev(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getMajorSev (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countMajorSev(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+    public ResultSet getCriticalSev (int range) {
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.countCriticalSev(" + range + ")";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
 }
