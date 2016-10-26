@@ -44,13 +44,11 @@ CREATE TABLE Attachments (
 	AttachmentID int NOT NULL,
 	CreationTimestamp DATE,
 	ShortDescription varchar(200),
-	FileName varchar(50),
-	FileType varchar(50),
-	FileSize int,
+	PatchURL varchar(400),
 	AttacherID int,
 	PRIMARY KEY (AttachmentID),
 	FOREIGN KEY (AttacherID)
-		REFERENCES SysAdminUser(UserID)
+		REFERENCES superuser(UserID)
 );
 
 CREATE TABLE Bug (
@@ -490,6 +488,17 @@ PROCEDURE `updateReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50)
   END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.getDevs;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `getDevs`()
+  BEGIN
+    SELECT UserName FROM superuser WHERE AccessRights = 3;
+  END //
+DELIMITER ;
+
+
+
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -561,6 +570,8 @@ GRANT EXECUTE ON PROCEDURE BugTrackerPrime.submitReport TO 'newUser'@'localhost'
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateReport TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getDevs TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
 
@@ -580,6 +591,11 @@ INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, Joi
 VALUES (3, 'dev','Dave', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'dev'), 'Developer');
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'dev'),'Developer', 10 ,0,'Active');
+
+INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (3, 'DavetheDev','Dave', 'User', 'buser@btp.com', 'pass123', current_date());
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'DavetheDev'), 'Developer');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'DavetheDev'),'Developer', 15 ,0,'Active');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (4, 'tri','Jack', 'User', 'buser@btp.com', 'pass123', current_date());
