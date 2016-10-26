@@ -171,6 +171,8 @@ public class FXMLBugsController implements Initializable {
     private ComboBox<String> newStatus;
     @FXML
     private Button backButton;
+    @FXML
+    private Text createErrorText;
     
     ////////////////////////////////
     //Comments
@@ -564,7 +566,7 @@ public class FXMLBugsController implements Initializable {
             report.setKeywords(newKeywords.getText());
         } else {
             System.out.println("Invalid User Assigned");
-            //errorText.setText("Invalid User Assigned");
+            createErrorText.setText("Invalid User Assigned");
         }
 
 

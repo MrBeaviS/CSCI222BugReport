@@ -235,7 +235,7 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
-                              <TextArea fx:id="newDesc" editable="false" layoutX="13.0" layoutY="177.0" prefHeight="139.0" prefWidth="319.0" />
+                              <TextArea fx:id="newDesc" layoutX="13.0" layoutY="177.0" prefHeight="139.0" prefWidth="319.0" />
                               <Text layoutX="14.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description:">
                                  <font>
                                     <Font name="System Bold" size="12.0" />
@@ -246,7 +246,7 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
-                              <TextArea fx:id="newKeywords" editable="false" layoutX="349.0" layoutY="177.0" prefHeight="139.0" prefWidth="319.0" />
+                              <TextArea fx:id="newKeywords" layoutX="349.0" layoutY="177.0" prefHeight="139.0" prefWidth="319.0" />
                               <TextField fx:id="newBugName" layoutX="82.0" layoutY="65.0" prefHeight="25.0" prefWidth="111.0" />
                               <TextField fx:id="newProductname" layoutX="82.0" layoutY="95.0" prefHeight="25.0" prefWidth="111.0" />
                               <TextField fx:id="newVersionName" layoutX="82.0" layoutY="125.0" prefHeight="25.0" prefWidth="111.0" />
@@ -261,6 +261,11 @@
                               <Text fill="#ebebeb" layoutX="18.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create a new Bug Report">
                                  <font>
                                     <Font name="System Bold Italic" size="17.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="createErrorText" fill="RED" layoutX="442.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
                            </children>
