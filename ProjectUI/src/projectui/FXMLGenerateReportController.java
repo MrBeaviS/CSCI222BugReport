@@ -5,9 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -20,6 +17,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -175,11 +176,12 @@ public class FXMLGenerateReportController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         //call the generate weekly function
+        generateWeekly();
         
     }    
 
     @FXML
-    private void generateWeekly(Event event) {
+    private void generateWeekly() {
         //get the counts of each text and set text
     }
 
