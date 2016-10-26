@@ -5,9 +5,6 @@
  */
 package projectui;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +17,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
 
 /**
  * FXML Controller class
@@ -99,8 +101,20 @@ public class FXMLViewAdminProfileController implements Initializable {
     }
 
     @FXML
-    private void findUser(ActionEvent event) {
+    private void findUser(ActionEvent event) throws SQLException {
+        System.out.println("Searching for User");
         //searches user and fills all the fields
+        CurrentUser searchUser = new CurrentUser(searchField.getText());
+        searchUser.searchUser();
+        if(searchUser.getAccessLevel() == -1){
+            errorText.setText("User Not Found");
+        } else {
+            currUsername.setText(searchUser.getUserName());
+            firstNameBox.setText(searchUser.getfName());
+            lastNameBox.setText(searchUser.getlName());
+            emailBox.setText(searchUser.getEmail());
+            accessLevelBox.setText(searchUser.determineAccessLevelStr());
+        }
     }
 
     @FXML

@@ -12,21 +12,20 @@ public class BugReportExtDetails {
 //        private String bugDesc;
 //        private String bugReso;
 
-        private String BugName;
-        private String BugID;
-        private String Status;
-        private String Priority;
-        private String Date;
-
-        private String Reporter;
-
-        private String Product;
-        private String operSys;
-        private String component;
-        private String version;
-        private String severity;
-
-        private String assignedTo;
+    private String BugName;
+    private String BugID;
+    private String Status;
+    private String Priority;
+    private String Date;
+    private String Reporter;
+    private String Product;
+    private String operSys;
+    private String component;
+    private String version;
+    private String severity;
+    private String assignedTo;
+    private String longDesc;
+    private String resolution;
 
     public BugReportExtDetails(int id) throws SQLException {
         MySQLController conn = new MySQLController();
@@ -44,14 +43,14 @@ public class BugReportExtDetails {
                 severity = rs.getString(10);
                 Reporter = rs.getString(11);
                 assignedTo = rs.getString(12);
+                longDesc = rs.getString(13);
+                resolution = rs.getString(14);
 
             }
         } catch (Exception e){
             System.out.println(e);
         }
 
-
-        //populate table based on id value passed
 
     }
 
@@ -68,5 +67,7 @@ public class BugReportExtDetails {
     public String getSeverity(){return severity;}
     public String getReporter(){return Reporter;}
     public String getAssignedTo(){return assignedTo;}
+    public String getLongDesc(){return longDesc;}
+    public String getResolution(){return resolution;}
     
 }

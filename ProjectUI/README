@@ -2,14 +2,19 @@
 #############YOU CAN USE THIS AS ITS EASY TO FOLLOW
 
 MICHAEL
-Please finsih Admin User Profiles and the search that goes with it.
-Please finish comments displaying at the bottom table
-Please finsih editing current parameters and sending an update to the Database
+Please finish Admin User Profiles and the search that goes with it.
+
+Please finish comments displaying at the bottom table <DONE >
+
+Please finish editing current parameters and sending an update to the Database
+
 Please add keyword search to the search functions and procedures.
-Please get counts happening on reports
-Please change Rep to be an integer so it can be increased and decreased as per specification.
-I dont think there is a need for the ENUM("Reviewer", "Developer", "Triage"); Security Level makes this obsolete
-we can create front end functions that check the integer and assignes the approriate string.
+Please get counts happening on reports < ATTRIBUTE IS ADDED >
+
+Please change Rep to be an integer so it can be increased and decreased as per specification. <DONE>
+
+I dont think there is a need for the ENUM("Reviewer", "Developer", "Triage"); Security Level makes this obsolete <ENUM GONE ADDED A ROLE VARCHAR ATTRIBUTE INSTEAD>
+we can create front end functions that check the integer and assignes the approriate string. < BAD PRACTICE VARCHAR ATTRIBUE WILL SORT THIS >
 
 UPDATE 12 24/10 - Nathan
 -Created Add Comment window allows for text field input so AddComment in Bugs Controller opens a new window

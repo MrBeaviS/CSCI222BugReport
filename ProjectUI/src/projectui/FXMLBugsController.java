@@ -219,7 +219,7 @@ public class FXMLBugsController implements Initializable {
         severityBox.setVisible(false);
         
         
-        switch(currentUser.getSecLevel()){
+        switch(currentUser.getAccessLevel()){
             case 1:
                 createBugTab.setDisable(true);
                 editButton.setVisible(false);
@@ -359,11 +359,8 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private void bugSelected(MouseEvent event) throws SQLException {
         BugReportTableDetails table = tablebugSearch.getSelectionModel().getSelectedItem();
-        System.out.println(table.getBugReportID() + " --XXXXX");
 
         BugReportExtDetails extDetails = new BugReportExtDetails(table.getBugReportID());
-
-        System.out.println("YYY--- " + extDetails.getBugName());
 
         selectedBugName.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
@@ -386,8 +383,8 @@ public class FXMLBugsController implements Initializable {
         selectedAssign.setText(extDetails.getAssignedTo());
         
         //###THIS NEEDS TO BE ADDED SAME WITH RESOLUTION
-        //selectedbugDesc.setText(extDetails.getDesc());
-        //selectedbugReso.setText(extDetails.getReso());
+        selectedbugDesc.setText(extDetails.getLongDesc());
+        selectedbugReso.setText(extDetails.getResolution());
         
         bugNamebox.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
@@ -502,7 +499,7 @@ public class FXMLBugsController implements Initializable {
 
         System.out.println("BACK TO MENU");
 
-        switch(currentUser.getSecLevel()){
+        switch(currentUser.getAccessLevel()){
             case 1:
             {
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

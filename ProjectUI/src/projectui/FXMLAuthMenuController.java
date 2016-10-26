@@ -13,12 +13,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -56,8 +56,7 @@ public class FXMLAuthMenuController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(currentUser.getSecLevel());
-        switch(currentUser.getSecLevel()){
+        switch(currentUser.getAccessLevel()){
             case 1:
             case 2:
             case 3:
@@ -65,7 +64,7 @@ public class FXMLAuthMenuController implements Initializable {
                 viewadminText.setText("");
                 createnewUser.setVisible(false);
                 createUserText.setText("");
-                System.out.println(currentUser.getSecLevel());
+                System.out.println(currentUser.getAccessLevel());
                 break;
             case 5:
                 viewadminProfile.setVisible(true);

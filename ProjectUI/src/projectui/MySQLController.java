@@ -199,5 +199,18 @@ public class MySQLController {
         }
         return rs;
     }
+
+    public ResultSet searchUser(CurrentUser curr){
+        getConnection();
+        ResultSet rs = null;
+        try {
+            String sql = "CALL BugTrackerPrime.setCurrentUser(\'" + curr.getUserName() + "\')";
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rs;
+    }
     
 }

@@ -3,6 +3,8 @@ package projectui;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static com.sun.tools.javac.jvm.ByteCodes.ret;
+
 /**
  * Created by michaelbeavis on 18/10/2016.
  */
@@ -17,7 +19,7 @@ public class CurrentUser {
     private String accStatus;
     private String adminRole;
     private String newPass;
-    private int secLevel;
+    private int accessLevel;
 
     CurrentUser(String uName){
         userName = uName;
@@ -37,7 +39,7 @@ public class CurrentUser {
                 joinDate = rs.getString("JoinedDate");
                 userRep = rs.getString("UserReputation");
                 accStatus = rs.getString("AccountStatus");
-                secLevel = rs.getInt("SecLevel");
+                accessLevel = rs.getInt("AccessLevel");
 
             }
 //            printUser();
@@ -59,7 +61,7 @@ public class CurrentUser {
                 email = rs.getString("Email");
                 joinDate = rs.getString("JoinedDate");
                 adminRole = rs.getString("Role");
-                secLevel = rs.getInt("SecLevel");
+                accessLevel = rs.getInt("AccessRights");
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -93,9 +95,47 @@ public class CurrentUser {
 
     }
 
-    public void printUser(){
-        System.out.println(userName + " " + fName);
+    public void searchUser() throws SQLException {
+        MySQLController conn = new MySQLController();
+
+        try{
+            ResultSet rs = conn.searchUser(this);
+            if(rs == null){
+                accessLevel = -1;
+            } else {
+                while (rs.next()) {
+                    userName = rs.getString("UserName");
+                    fName = rs.getString("FName");
+                    lName = rs.getString("Lname");
+                    email = rs.getString("Email");
+                    joinDate = rs.getString("JoinedDate");
+                    userRep = rs.getString("UserReputation");
+                    accStatus = rs.getString("AccountStatus");
+                    accessLevel = rs.getInt("AccessLevel");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
+    public String determineAccessLevelStr(){
+        switch (accessLevel){
+            case 1:
+                return "Reporter";
+            case 2:
+                return "Reviewer";
+            case 3:
+                return "Developer";
+            case 4:
+                return "Triage";
+            case 5:
+                return "Admin";
+            default:
+                return "No Role";
+        }
+    }
+
 
 
 
@@ -112,7 +152,8 @@ public class CurrentUser {
     public String getAccStatus(){return accStatus;}
     public String getAdminRole(){return adminRole;}
     public String getNewPass(){return newPass;}
-    public int getSecLevel(){return secLevel;}
+    public int getAccessLevel(){return accessLevel;}
+    public
 
 }
 
