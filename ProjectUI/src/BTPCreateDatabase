@@ -65,7 +65,7 @@ CREATE TABLE Bug (
 
 CREATE TABLE BugReports (
 	BugReportID int NOT NULL AUTO_INCREMENT,
-	CreationTimestamp datetime,
+	CreationTimestamp DATE,
 	ShortDescription varchar(200),
 	DeltaTimestamp DATE,
 	BugID int,
@@ -454,7 +454,7 @@ DROP PROCEDURE IF EXISTS BugTrackerPrime.submitReport;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `submitReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50), vers VARCHAR(10), oSys VARCHAR(50),
-                         bStatus VARCHAR(30), kWords VARCHAR(50), prio VARCHAR(30), bSev VARCHAR(30), lDesc VARCHAR(500), assi VARCHAR(30))
+                         bStatus VARCHAR(30), kWords VARCHAR(50), prio VARCHAR(30), bSev VARCHAR(50), lDesc VARCHAR(500), assi VARCHAR(30))
   BEGIN
     INSERT INTO BugTrackerPrime.Bug (BugName, Product, Component, Version, OperatingSystem)
     VALUES (bName, prod, compon, vers, oSys);

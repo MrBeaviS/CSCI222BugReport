@@ -562,6 +562,7 @@ public class FXMLBugsController implements Initializable {
             report.setBugStatus(newStatus.getValue());
             report.setLongDesc(newDesc.getText());
             report.setKeywords(newKeywords.getText());
+            report.submitReport();
         } else {
             System.out.println("Invalid User Assigned");
             //errorText.setText("Invalid User Assigned");
