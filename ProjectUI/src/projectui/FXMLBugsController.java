@@ -386,8 +386,8 @@ public class FXMLBugsController implements Initializable {
         selectedAssign.setText(extDetails.getAssignedTo());
         
         //###THIS NEEDS TO BE ADDED SAME WITH RESOLUTION
-        //selectedbugDesc.setText(extDetails.getDesc());
-        //selectedbugReso.setText(extDetails.getReso());
+        //selectedbugDesc.setText(extDetails.getLongDesc());
+        //selectedbugReso.setText(extDetails.getResolution());
         
         bugNamebox.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
@@ -419,9 +419,6 @@ public class FXMLBugsController implements Initializable {
         
         selectedCmntTable.setItems(null);
         selectedCmntTable.setItems(comments.getCommentDetails());
-
-        
-
     }
 
     @FXML
