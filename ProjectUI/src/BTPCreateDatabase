@@ -73,7 +73,7 @@ CREATE TABLE BugReports (
 	Resolution varchar(500),
 	Keywords varchar(50),
 	Priority ENUM('Low', 'Medium', 'High', 'Emergency'),
-	BugSeverity ENUM ('Critical', ' Major', 'Minor', 'Cosmetic'),
+	BugSeverity ENUM ('Critical', 'Major', 'Minor', 'Cosmetic'),
 	ReporterID int,
 	AssignedTo int,
     LongDescription VARCHAR(500),
@@ -298,12 +298,14 @@ CREATE DEFINER='root'@'localhost'
 PROCEDURE `populateExtReportDetails`(bId INT)
 	BEGIN
 		SELECT BugName, Bug.BugID, BugStatus, Priority, CreationTimestamp, Product, OperatingSystem, Component, Version,
-			BugSeverity, a.UserName, b.UserName, LongDescription, Resolution
+			BugSeverity, a.UserName, b.UserName, LongDescription, Resolution, x.UserReputation, a.UserID
 		FROM BugTrackerPrime.Bug 
         LEFT JOIN BugTrackerPrime.BugReports 
         ON Bug.BugID = BugReports.BugID
         LEFT JOIN BugTrackerPrime.superuser a
         ON BugReports.ReporterID = a.UserID
+        LEFT JOIN BugTrackerPrime.registereduser x
+        ON BugReports.ReporterID = x.UserID
         LEFT JOIN BugTrackerPrime.superuser b
         ON BugReports.AssignedTo = b.UserID
 		WHERE BugReportID = bId;
@@ -457,14 +459,34 @@ DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `submitReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50), vers VARCHAR(10), oSys VARCHAR(50),
                          bStatus ENUM('Reported', 'Progressing', 'Solved'), kWords VARCHAR(50), prio ENUM('Low', 'Medium', 'High', 'Emergency'),
-  bSev ENUM ('Critical', ' Major', 'Minor', 'Cosmetic'), lDesc VARCHAR(500), assi VARCHAR(30))
+  bSev ENUM ('Critical', 'Major', 'Minor', 'Cosmetic'), lDesc VARCHAR(500), repID VARCHAR(30), shortDesc VARCHAR(200))
   BEGIN
     INSERT INTO BugTrackerPrime.Bug (BugName, Product, Component, Version, OperatingSystem)
     VALUES (bName, prod, compon, vers, oSys);
 
-    INSERT INTO BugTrackerPrime.BugReports (CreationTimestamp, BugID, BugStatus, Keywords, Priority, BugSeverity, LongDescription , AssignedTo)
-    VALUES (current_date, (SELECT BugID FROM BugTrackerPrime.Bug WHERE BugName = bName), bStatus, kWords, prio, bSev, lDesc,
-            (SELECT UserID FROM BugTrackerPrime.SuperUser WHERE UserName = assi));
+    INSERT INTO BugTrackerPrime.BugReports (CreationTimestamp, BugID, BugStatus, Keywords, Priority, BugSeverity, LongDescription , ReporterID, ShortDescription)
+    VALUES (current_date(), (SELECT BugID FROM BugTrackerPrime.Bug WHERE BugName = bName), bStatus, kWords, prio, bSev, lDesc, repID, shortDesc);
+  END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.updateReport;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `updateReport`(bName VARCHAR(50), prod VARCHAR(50), compon VARCHAR(50), vers VARCHAR(10), oSys VARCHAR(50),
+                         bStatus ENUM('Reported', 'Progressing', 'Solved'), kWords VARCHAR(50), prio ENUM('Low', 'Medium', 'High', 'Emergency'),
+  bSev ENUM ('Critical', 'Major', 'Minor', 'Cosmetic'), lDesc VARCHAR(500), repID INT, bID INT, reso VARCHAR(200), assign VARCHAR(20), userRep INT)
+  BEGIN
+    UPDATE BugTrackerPrime.Bug SET BugName = bName, Product = prod, Component = compon, Version = vers, OperatingSystem = oSys
+    WHERE Bug.BugID = bID;
+
+	UPDATE BugTrackerPrime.BugReports 
+    SET DeltaTimestamp = current_date(), BugStatus = bStatus, Priority = prio, BugSeverity = bSev, 
+    LongDescription = lDesc, Resolution = reso,
+    AssignedTo = (SELECT UserID FROM superuser WHERE superuser.UserName = assign)
+	WHERE BugReports.BugID = bID;
+    
+    UPDATE BugTrackerPrime.registereduser SET UserReputation = userRep
+    WHERE registereduser.UserID = repID;
   END //
 DELIMITER ;
 
@@ -537,6 +559,8 @@ FLUSH PRIVILEGES;
 
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.submitReport TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateReport TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
 
@@ -550,18 +574,22 @@ INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (2, 'rep','Jill', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'rep'), 'Reporter');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'rep'),'Reporter', 32 ,0,'Active');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (3, 'dev','Dave', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'dev'), 'Developer');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'dev'),'Developer', 10 ,0,'Active');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (4, 'tri','Jack', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'tri'), 'Triage');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'tri'),'Triage', 103 ,0,'Active');
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (5, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', current_date());
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'SysAdmin');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'),'SysAdmin', 11 ,0,'Active');
 
 #INSERTS A BUG AND A BUG REPORT
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
