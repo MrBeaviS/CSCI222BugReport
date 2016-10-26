@@ -53,8 +53,12 @@ public class FXMLDocumentController implements Initializable {
             case 1:
             {
                 System.out.println("Registered User Verified");
+                //TO DO: CREATE CURRENT USER OBJECT TO BE PASSED AS OPPOSED TO A DB CONNECTION
+                //CALL PROCEDURE setCurrentUser on input user name
                 CurrentUser currentUser = new CurrentUser(usernameField.getText());
                 currentUser.setUserDetails();
+
+
 
                 Stage app_stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("FXMLMenu.fxml"));

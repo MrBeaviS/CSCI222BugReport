@@ -104,10 +104,10 @@
                                  </font>
                               </Text>
                               <Text fx:id="selectedReporter" layoutX="554.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" />
-                              <TableView fx:id="selectedCmnt" editable="true" layoutY="491.0" prefHeight="148.0" prefWidth="814.0">
+                              <TableView fx:id="selectedCmntTable" editable="true" layoutY="491.0" prefHeight="148.0" prefWidth="814.0">
                                 <columns>
                                   <TableColumn fx:id="selectedUsercmnt" prefWidth="101.0" text="User" />
-                                  <TableColumn prefWidth="608.0" text="Comment" />
+                                  <TableColumn fx:id="commentText" prefWidth="608.0" text="Comment" />
                                     <TableColumn fx:id="selectedDatecmnt" prefWidth="104.0" text="Date" />
                                 </columns>
                               </TableView>

@@ -189,4 +189,3 @@ public class CurrentUser {
     public int getAccessLevel(){return accessLevel;}
 
 }
-
