@@ -2,6 +2,12 @@
 MICHAEL
 Please add keyword search to the search functions and procedures.
 
+UPDATE 19 27/10 - Nathan
+-Created procedure getDevs that returns all developers
+-Created functions to get devs and place them in combobox
+-removed textfield for assigned to and replaced with combobox so users can no longer assign people that dont exist or arent devs
+
+
 UPDATE 18 27/10 - Nathan
 -Added basis for input validation
 -Added class for input validation
