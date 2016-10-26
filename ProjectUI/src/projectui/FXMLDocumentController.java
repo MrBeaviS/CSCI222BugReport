@@ -76,6 +76,9 @@ public class FXMLDocumentController implements Initializable {
                 break;
             }
             case 2:
+            case 3:
+            case 4:
+            case 5:
             {
                 //TO DO: CREATE A NEW CURRENT USER OBJECT
                 //CREATE A PROCEDURE TO RETRIEVE REQUIRED SYSADMIN DETAILS

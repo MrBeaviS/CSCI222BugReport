@@ -17,6 +17,7 @@ public class CurrentUser {
     private String accStatus;
     private String adminRole;
     private String newPass;
+    private int secLevel;
 
     CurrentUser(String uName){
         userName = uName;
@@ -27,7 +28,7 @@ public class CurrentUser {
         MySQLController conn = new MySQLController();
         try{
             ResultSet rs = conn.setCurrentUser(this);
-
+            System.out.println("Setting Current User");
             while (rs.next()) {
                 userName = rs.getString("UserName");
                 fName = rs.getString("FName");
@@ -36,6 +37,7 @@ public class CurrentUser {
                 joinDate = rs.getString("JoinedDate");
                 userRep = rs.getString("UserReputation");
                 accStatus = rs.getString("AccountStatus");
+                secLevel = rs.getInt("SecLevel");
 
             }
 //            printUser();
@@ -57,6 +59,7 @@ public class CurrentUser {
                 email = rs.getString("Email");
                 joinDate = rs.getString("JoinedDate");
                 adminRole = rs.getString("Role");
+                secLevel = rs.getInt("SecLevel");
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -109,6 +112,7 @@ public class CurrentUser {
     public String getAccStatus(){return accStatus;}
     public String getAdminRole(){return adminRole;}
     public String getNewPass(){return newPass;}
+    public int getSecLevel(){return secLevel;}
 
 }
 
