@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.scene.paint.Color;
 
 /**
  * FXML Controller class
@@ -162,15 +163,13 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField newOSName;
     @FXML
-    private TextField NewAssignedName;
-    @FXML
     private ComboBox<String> newSeverity;
     @FXML
     private ComboBox<String> newPriority;
     @FXML
-    private ComboBox<String> newStatus;
-    @FXML
     private Button backButton;
+    @FXML
+    private TextField newShortDesc;
     @FXML
     private Text createErrorText;
     
@@ -186,6 +185,9 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TableColumn<BugComments, String> selectedDatecmnt;
     
+    int selectedUID;
+    int repSentinal = 0;
+    
     
 
     /**
@@ -198,23 +200,20 @@ public class FXMLBugsController implements Initializable {
         searchBy.getItems().addAll("Search By", "User","BugStatus","Priority");
 
 
-        statusBox.setValue("Select");
-        statusBox.getItems().addAll("Select", "Reported","Progressing","Solved");
+        statusBox.setValue("Reported");
+        statusBox.getItems().addAll("Reported","Progressing","Solved");
 
-        priorityBox.setValue("Select");
-        priorityBox.getItems().addAll("Select", "Low", "Medium", "High", "Emergency");
+        priorityBox.setValue("Low");
+        priorityBox.getItems().addAll("Low", "Medium", "High", "Emergency");
 
-        severityBox.setValue("Select");
-        severityBox.getItems().addAll("Select", "Critical","Major","Minor", "Cosmetic");
+        severityBox.setValue("Critical");
+        severityBox.getItems().addAll("Critical","Major","Minor", "Cosmetic");
+        
+        newPriority.setValue("Low");
+        newPriority.getItems().addAll("Low", "Medium", "High", "Emergency");
 
-        newStatus.setValue("Select");
-        newStatus.getItems().addAll("Select", "Reported","Progressing","Solved");
-
-        newPriority.setValue("Select");
-        newPriority.getItems().addAll("Select", "Low", "Medium", "High", "Emergency");
-
-        newSeverity.setValue("Select");
-        newSeverity.getItems().addAll("Select", "Critical","Major","Minor", "Cosmetic");
+        newSeverity.setValue("Critical");
+        newSeverity.getItems().addAll("Critical","Major","Minor", "Cosmetic");
         
         
         
@@ -222,6 +221,9 @@ public class FXMLBugsController implements Initializable {
         statusBox.setVisible(false);   
         priorityBox.setVisible(false);   
         severityBox.setVisible(false);
+        
+        decreaseRepButton.setDisable(true);
+        increaseRepButton.setDisable(true);
         
         
         switch(currentUser.getAccessLevel()){
@@ -233,6 +235,8 @@ public class FXMLBugsController implements Initializable {
                 decreaseRepButton.setVisible(false);
                 addCommentButton.setVisible(false);
                 uploadPatchButton.setVisible(false);
+                decreaseRepButton.setDisable(true);
+                increaseRepButton.setDisable(true);
                 break;
             case 2:
                 editButton.setVisible(true);
@@ -293,14 +297,17 @@ public class FXMLBugsController implements Initializable {
                 case "Reported":
                 case "reported":
                     reports.searchReportsByStatus("Reported");
+                    searchError.setText("");
                     break;
                 case "Progressing":
                 case "progressing":
                     reports.searchReportsByStatus("Progressing");
+                    searchError.setText("");
                     break;
                 case "Solved":
                 case "solved":
                     reports.searchReportsByStatus("Solved");
+                    searchError.setText("");
                     break;
                 default:
                      searchError.setText("You must either choose: Reported, Progressing, or Solved");
@@ -316,18 +323,22 @@ public class FXMLBugsController implements Initializable {
                 case "Low":
                 case "low":
                     reports.searchReportsByPriority("Low");
+                    searchError.setText("");
                     break;
                 case "Medium":
                 case "medium":
                     reports.searchReportsByPriority("Medium");
+                    searchError.setText("");
                     break;
                 case "High":
                 case "high":
                     reports.searchReportsByPriority("High");
+                    searchError.setText("");
                     break;
                 case "Emergency":
                 case "emergency":
                     reports.searchReportsByPriority("Emergency");
+                    searchError.setText("");
                     break;
                 default:
                      searchError.setText("You must either choose: Low, Medium, High, or Emergency");
@@ -368,6 +379,8 @@ public class FXMLBugsController implements Initializable {
         BugReportExtDetails extDetails = new BugReportExtDetails(table.getBugReportID());
 
         System.out.println("YYY--- " + extDetails.getBugName());
+        
+        selectedUID = extDetails.getReporterIDnum();
 
         selectedBugName.setText(extDetails.getBugName());
         selectedBugID.setText(extDetails.getBugID());
@@ -407,13 +420,12 @@ public class FXMLBugsController implements Initializable {
         severityBox.setValue(extDetails.getSeverity());
         selectedReporter.setText(extDetails.getReporter());
         assignedBox.setText(extDetails.getAssignedTo());
+        String newRp = Integer.toString(extDetails.getUserRep());
+        repLevel.setText(newRp);
+        
+        decreaseRepButton.setDisable(false);
+        increaseRepButton.setDisable(false);
  
-        //#######You also need to populate the comment table####//
-        //TableView<?> selectedCmnt;
-        //TableColumn<?, ?> selectedUsercmnt;
-        //TableColumn<?, ?> selectedDatecmnt;
-        ///////////Same way you did the bug table data////////////
-        //int bugReportID = table.getBugReportID();
         SearchComments comments = new SearchComments();
         comments.searchCommentDetails(table.getBugReportID());
         bReportID = table.getBugReportID();
@@ -433,7 +445,7 @@ public class FXMLBugsController implements Initializable {
         //On button press hides uneditable text
         selectedbugDesc.setEditable(true);
         selectedbugReso.setEditable(true);
-        selectedBugName.setVisible(false);
+        //selectedBugName.setVisible(false);
         selectedStatus.setVisible(false);
         selectedPriority.setVisible(false);
         selectedProduct.setVisible(false);
@@ -447,7 +459,7 @@ public class FXMLBugsController implements Initializable {
         
         
         productBox.setVisible(true);   
-        bugNamebox.setVisible(true);  
+        //bugNamebox.setVisible(true);  
         versionBox.setVisible(true);  
         assignedBox.setVisible(true);    
         cmpntBox.setVisible(true);    
@@ -469,10 +481,12 @@ public class FXMLBugsController implements Initializable {
         
         
         
+        
+        
     }
 
     @FXML
-    private void saveBugDetails(ActionEvent event) {
+    private void saveBugDetails(ActionEvent event) throws SQLException {
         
         //TAKE NEW VALUES FROM FIELDS AND USE UPDATE STATEMENT//
         
@@ -506,6 +520,41 @@ public class FXMLBugsController implements Initializable {
         assignedBox.setEditable(false);    
         cmpntBox.setEditable(false);   
         osBox.setEditable(false); 
+        
+        MySQLController conn = new MySQLController();
+        try{
+            NewBugReport report = new NewBugReport();
+            report.setBugName(selectedBugName.getText());
+            int BID = Integer.parseInt(selectedBugID.getText());
+            report.setBugID(BID);
+            report.setProduct(productBox.getText());
+            report.setBugStatus(statusBox.getValue());
+            report.setPriority(priorityBox.getValue());
+            report.setVersion(versionBox.getText());
+            report.setOperSys(osBox.getText());
+            report.setBugSev(severityBox.getValue());
+            report.setComponent(cmpntBox.getText());
+            report.setAssigned(assignedBox.getText());
+            report.setReporter(selectedUID);
+        
+            report.setResolution(selectedbugReso.getText());
+            report.setLongDesc(selectedbugDesc.getText());
+            int uRep = Integer.parseInt(repLevel.getText());
+            report.setUserRep(uRep);
+            report.updateReport();
+            searchError.setFill(Color.WHITE);
+            searchError.setText("Bug Edits Saved, Please Search Again");
+            increaseRepButton.setDisable(false);
+            decreaseRepButton.setDisable(false);
+            repSentinal = 0;
+            
+            clearSearch();
+            
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        
+        //conn.closeConnection();
         
     }
     
@@ -551,26 +600,23 @@ public class FXMLBugsController implements Initializable {
         //take all variables from the table and save into DB
         MySQLController conn = new MySQLController();
 
-        if(conn.searchUser(NewAssignedName.getText())){
-            NewBugReport report = new NewBugReport();
-            report.setBugName(newBugName.getText());
-            report.setComponent(newComponentname.getText());
-            report.setBugSev(newSeverity.getValue());
-            report.setProduct(newProductname.getText());
-            report.setOperSys(newOSName.getText());
-            report.setPriority(newPriority.getValue());
-            report.setVersion(newVersionName.getText());
-            report.setAssigned(NewAssignedName.getText());
-            report.setBugStatus(newStatus.getValue());
-            report.setLongDesc(newDesc.getText());
-            report.setKeywords(newKeywords.getText());
-            report.submitReport();
-            createErrorText.setText("Report Submitted");
-            clearScreen();
-        } else {
-            System.out.println("Invalid User Assigned");
-            createErrorText.setText("Invalid User Assigned");
-        }
+        NewBugReport report = new NewBugReport();
+        report.setReporter(currentUser.getUserID());
+        report.setBugName(newBugName.getText());
+        report.setComponent(newComponentname.getText());
+        report.setBugSev(newSeverity.getValue());
+        report.setProduct(newProductname.getText());
+        report.setOperSys(newOSName.getText());
+        report.setPriority(newPriority.getValue());
+        report.setVersion(newVersionName.getText());
+        report.setBugStatus("Reported");
+        report.setLongDesc(newDesc.getText());
+        report.setKeywords(newKeywords.getText());
+        report.setShortDesc(newShortDesc.getText());
+        report.submitReport();
+        createErrorText.setText("Report Submitted");
+        clearScreen();
+        
 
 
         
@@ -601,14 +647,36 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private void decreaseRep(ActionEvent event) {
         
-        //obvious decrease rep. After 1 press disable both the button
+        int uRep = Integer.parseInt(repLevel.getText());
+        uRep--;
+        String newRep = Integer.toString(uRep);
+        repLevel.setText(newRep);
+        repSentinal--;
+        decreaseRepButton.setDisable(true);
+        if(repSentinal == 0)
+        {
+            increaseRepButton.setDisable(false);
+            decreaseRepButton.setDisable(false);
+        }
+        
         
     }
     
     @FXML
     private void increaseRep(ActionEvent event) {
         
-        //obvious increase rep. After 1 press disable both the button
+        int uRep = Integer.parseInt(repLevel.getText());
+        uRep++;
+        String newRep = Integer.toString(uRep);
+        repLevel.setText(newRep);
+        repSentinal++;
+        increaseRepButton.setDisable(true);
+        if(repSentinal == 0)
+        {
+            decreaseRepButton.setDisable(false);
+            increaseRepButton.setDisable(false);
+        }
+        
         
     }
     private void clearScreen(){
@@ -619,10 +687,55 @@ public class FXMLBugsController implements Initializable {
         newOSName.setText("");
         newPriority.setValue("");
         newVersionName.setText("");
-        NewAssignedName.setText("");
-        newStatus.setValue("");
+        newShortDesc.setText("");
         newDesc.setText("");
         newKeywords.setText("");
+    }
+    
+    private void clearSearch(){
+        selectedUID = 0;
+
+        selectedBugName.setText("");
+        selectedBugID.setText("");
+        selectedStatus.setText("");
+        selectedPriority.setText("");
+        selectedDate.setText("");
+        selectedProduct.setText("");
+        selectedOS.setText("");
+        selectedCmpnt.setText("");
+        selectedVer.setText("");
+        selectedSev.setText("");
+        statusBox.setValue("Status");
+        priorityBox.setValue("Priority");
+     
+        severityBox.setValue("Severity");
+        
+        selectedReporter.setText("");
+        selectedAssign.setText("");
+        
+        //###THIS NEEDS TO BE ADDED SAME WITH RESOLUTION
+        selectedbugDesc.setText("");
+        selectedbugReso.setText("");
+        
+        bugNamebox.setText("");
+        selectedBugID.setText("");
+        selectedStatus.setText("");
+        selectedPriority.setText("");
+        productBox.setText("");
+        osBox.setText("");
+        cmpntBox.setText("");
+        versionBox.setText("");
+        selectedSev.setText("");
+        statusBox.setValue("Status");
+        priorityBox.setValue("Priority");
+        severityBox.setValue("Severity");
+        selectedReporter.setText("");
+        assignedBox.setText("");
+        repLevel.setText("");
+        
+        selectedCmntTable.getItems().clear();
+        tablebugSearch.getItems().clear();
+        
     }
     
 }

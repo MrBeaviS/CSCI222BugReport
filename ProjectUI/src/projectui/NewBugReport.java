@@ -22,11 +22,28 @@ public class NewBugReport {
     private String bugSev;
     private String longDesc;
     private String assigned;
-
+    private String shortDesc;
+    private String reso;
+    private int bID;
+    private int userRep;
+    
+    //current userID
+    private int reporterID;
+    private String reporterName;
+    
     public void submitReport() throws SQLException {
         MySQLController conn = new MySQLController();
         try {
             conn.submitReport(this);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateReport() throws SQLException {
+        MySQLController conn = new MySQLController();
+        try {
+            conn.updateReport(this);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -45,6 +62,15 @@ public class NewBugReport {
     public void setBugSev(String bugSev){this.bugSev = bugSev;}
     public void setLongDesc(String longDesc){this.longDesc = longDesc;}
     public void setAssigned(String assigned){this.assigned = assigned;}
+    public void setReporter(int reporterID){this.reporterID = reporterID;}
+    public void setShortDesc(String shortDesc){this.shortDesc = shortDesc;}
+    public void setBugID(int bID){this.bID = bID;}
+    public void setUserRep(int userRep){this.userRep = userRep;}
+    public void setResolution(String reso){this.reso = reso;}
+    public void setReporterName(String reporterName){this.reporterName = reporterName;}
+    
+    
+    
 
     //NewBugReport class getters
     public String getBugName(){return bugName;}
@@ -58,4 +84,10 @@ public class NewBugReport {
     public String getBugSev(){return bugSev;}
     public String getLongDesc(){return longDesc;}
     public String getAssigned(){return assigned;}
+    public int getReporterID(){return reporterID;}
+    public String getShortDesc(){return shortDesc;}
+    public String getResolution(){return reso;}
+    public int getBugID(){return bID;}
+    public int getUserRep(){return userRep;}
+    public String getReporterName(){return reporterName;}
 }

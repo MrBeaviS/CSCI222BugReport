@@ -516,11 +516,29 @@ public class MySQLController {
                     report.getVersion() + "\' , \'" + report.getOperSys() + "\' , \'" +
                     report.getBugStatus() + "\' , \'" + report.getKeywords() + "\' , \'" +
                     report.getPriority() + "\' , \'" + report.getBugSev() + "\' , \'" +
-                    report.getLongDesc() + "\' , \'" + report.getAssigned() + "\')";
+                    report.getLongDesc() + "\' , \'" + report.getReporterID() + "\' ,\'" + report.getShortDesc() + "\')";
             stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
+    public void updateReport(NewBugReport report) throws SQLException{
+        getConnection();
+        try {
+            String sql = "CALL BugTrackerPrime.updateReport(\'" + report.getBugName() + "\' , \'" +
+                    report.getProduct() + "\' , \'" + report.getComponent() + "\' , \'" +
+                    report.getVersion() + "\' , \'" + report.getOperSys() + "\' , \'" +
+                    report.getBugStatus() + "\' , \'" + report.getKeywords() + "\' , \'" +
+                    report.getPriority() + "\' , \'" + report.getBugSev() + "\' , \'" +
+                    report.getLongDesc() + "\' , \'" + report.getReporterID() + "\' , \'" +
+                    report.getBugID() + "\' , \'" + report.getResolution() + "\' ,\'" + report.getAssigned() + "\' , \'" +
+                    report.getUserRep() +"\')";
+            stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 
 }

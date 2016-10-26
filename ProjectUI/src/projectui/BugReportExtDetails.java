@@ -22,6 +22,9 @@ public class BugReportExtDetails {
     private String assignedTo;
     private String longDesc;
     private String resolution;
+    private int uRep;
+    private int reporterIDnum;
+    
 
     public BugReportExtDetails(int id) throws SQLException {
         MySQLController conn = new MySQLController();
@@ -41,6 +44,8 @@ public class BugReportExtDetails {
                 assignedTo = rs.getString(12);
                 longDesc = rs.getString(13);
                 resolution = rs.getString(14);
+                uRep = rs.getInt(15);
+                reporterIDnum = rs.getInt(16);
 
             }
         } catch (Exception e){
@@ -65,5 +70,8 @@ public class BugReportExtDetails {
     public String getAssignedTo(){return assignedTo;}
     public String getLongDesc(){return longDesc;}
     public String getResolution(){return resolution;}
+    public int getUserRep(){return uRep;}
+    public int getReporterIDnum(){return reporterIDnum;}
+    
     
 }
