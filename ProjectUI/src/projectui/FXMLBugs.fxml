@@ -153,7 +153,6 @@
                               <TextField fx:id="bugNamebox" editable="false" layoutX="64.0" layoutY="254.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="versionBox" editable="false" layoutX="210.0" layoutY="309.0" prefHeight="25.0" prefWidth="102.0" visible="false" />
                               <TextField fx:id="osBox" editable="false" layoutX="364.0" layoutY="281.0" prefHeight="25.0" prefWidth="102.0" visible="false" />
-                              <TextField fx:id="assignedBox" editable="false" layoutX="552.0" layoutY="281.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <TextField fx:id="cmpntBox" editable="false" layoutX="552.0" layoutY="254.0" prefHeight="25.0" prefWidth="90.0" visible="false" />
                               <Text layoutX="663.0" layoutY="326.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rep:">
                                  <font>
@@ -182,6 +181,7 @@
                                     <Font name="System Bold" size="12.0" />
                                  </font>
                               </Text>
+                              <ComboBox fx:id="assignedBox" layoutX="552.0" layoutY="281.0" prefHeight="25.0" prefWidth="93.0" />
                            </children>
                         </AnchorPane>
                   </content>

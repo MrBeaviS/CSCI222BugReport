@@ -9,6 +9,8 @@ import com.sun.rowset.CachedRowSetImpl;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -538,6 +540,24 @@ public class MySQLController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public ObservableList<String> getDevList(){
+        getConnection();
+        ResultSet rs = null;
+        ObservableList<String> Devs = FXCollections.observableArrayList();
+        try{
+            String sql = "CALL BugTrackerPrime.getDevs()";
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String temp = rs.getString(1);
+                Devs.add(temp);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return Devs;
     }
     
 

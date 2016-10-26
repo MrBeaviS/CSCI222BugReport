@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
 
 /**
@@ -120,7 +122,7 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private TextField versionBox;
     @FXML
-    private TextField assignedBox;
+    public ComboBox<String> assignedBox;
     @FXML
     private TextField cmpntBox;
     @FXML
@@ -184,10 +186,8 @@ public class FXMLBugsController implements Initializable {
     private TableColumn<BugComments, String> commentText;
     @FXML
     private TableColumn<BugComments, String> selectedDatecmnt;
-    
     int selectedUID;
     int repSentinal = 0;
-    
     
 
     /**
@@ -221,6 +221,9 @@ public class FXMLBugsController implements Initializable {
         statusBox.setVisible(false);   
         priorityBox.setVisible(false);   
         severityBox.setVisible(false);
+        assignedBox.setVisible(false); 
+        editButton.setDisable(true);
+        saveButton.setDisable(true);
         
         decreaseRepButton.setDisable(true);
         increaseRepButton.setDisable(true);
@@ -375,10 +378,16 @@ public class FXMLBugsController implements Initializable {
     private void bugSelected(MouseEvent event) throws SQLException {
         BugReportTableDetails table = tablebugSearch.getSelectionModel().getSelectedItem();
         System.out.println(table.getBugReportID() + " --XXXXX");
+        
+        MySQLController conn = new MySQLController();
+        ObservableList<String> Devs = conn.getDevList();
+        assignedBox.setItems(Devs);
 
         BugReportExtDetails extDetails = new BugReportExtDetails(table.getBugReportID());
 
         System.out.println("YYY--- " + extDetails.getBugName());
+        editButton.setDisable(false);
+        saveButton.setDisable(false);
         
         selectedUID = extDetails.getReporterIDnum();
 
@@ -398,7 +407,7 @@ public class FXMLBugsController implements Initializable {
         priorityBox.setValue(extDetails.getPriority());
      
         severityBox.setValue(extDetails.getSeverity());
-        
+        assignedBox.setValue(extDetails.getAssignedTo());
         selectedReporter.setText(extDetails.getReporter());
         selectedAssign.setText(extDetails.getAssignedTo());
         
@@ -419,7 +428,6 @@ public class FXMLBugsController implements Initializable {
         priorityBox.setValue(extDetails.getPriority());
         severityBox.setValue(extDetails.getSeverity());
         selectedReporter.setText(extDetails.getReporter());
-        assignedBox.setText(extDetails.getAssignedTo());
         String newRp = Integer.toString(extDetails.getUserRep());
         repLevel.setText(newRp);
         
@@ -470,8 +478,7 @@ public class FXMLBugsController implements Initializable {
         
         productBox.setEditable(true);
         bugNamebox.setEditable(true);
-        versionBox.setEditable(true);
-        assignedBox.setEditable(true);    
+        versionBox.setEditable(true);   
         cmpntBox.setEditable(true);   
         osBox.setEditable(true); 
         
@@ -534,8 +541,10 @@ public class FXMLBugsController implements Initializable {
             report.setOperSys(osBox.getText());
             report.setBugSev(severityBox.getValue());
             report.setComponent(cmpntBox.getText());
-            report.setAssigned(assignedBox.getText());
+            report.setAssigned(assignedBox.getSelectionModel().getSelectedItem());
             report.setReporter(selectedUID);
+            System.out.println(report.getAssigned());
+            System.out.println(report.getAssigned());
         
             report.setResolution(selectedbugReso.getText());
             report.setLongDesc(selectedbugDesc.getText());
@@ -730,11 +739,16 @@ public class FXMLBugsController implements Initializable {
         priorityBox.setValue("Priority");
         severityBox.setValue("Severity");
         selectedReporter.setText("");
-        assignedBox.setText("");
+        //assignedBox.getItems().clear();
         repLevel.setText("");
         
         selectedCmntTable.getItems().clear();
         tablebugSearch.getItems().clear();
+        editButton.setDisable(true);
+        saveButton.setDisable(true);
+        increaseRepButton.setDisable(true);
+        decreaseRepButton.setDisable(true);
+        
         
     }
     
