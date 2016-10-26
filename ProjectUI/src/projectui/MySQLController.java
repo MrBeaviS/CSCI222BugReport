@@ -5,7 +5,10 @@
  */
 package projectui;
 
+import com.sun.rowset.CachedRowSetImpl;
+import java.io.IOException;
 import java.sql.*;
+import javax.sql.rowset.CachedRowSet;
 
 /**
  *
@@ -288,176 +291,221 @@ public class MySQLController {
             e.printStackTrace();
             System.out.println(e);
         }
+        
     }
 
     //----------------------------- REPORT GEN FUNCTIONS -------------------------------//
 
-    public ResultSet getNewBugReports (int range) {
+    public ResultSet getNewBugReports (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.newBugReports(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getReportsAssigned (int range) {
+    public ResultSet getReportsAssigned (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countReportsAssigned(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getReportsUnassigned (int range) {
+    public ResultSet getReportsUnassigned (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countReportsUnassigned(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getReportedBugs (int range) {
+    public ResultSet getReportedBugs (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countReportedBugs(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getProgressingBugs (int range) {
+    public ResultSet getProgressingBugs (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countProgressBugs(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getSolvedBugs (int range) {
+    public ResultSet getSolvedBugs (int range) throws SQLException{
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countSolvedBugs(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getLowPriority (int range) {
+    public ResultSet getLowPriority (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countLowPriority(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getMedPriority (int range) {
+    public ResultSet getMedPriority (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countMedPriority(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getHighPriority (int range) {
+    public ResultSet getHighPriority (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countHighPriority(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getEmergencyPriority (int range) {
+    public ResultSet getEmergencyPriority (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countEmergencyPriority(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getCosmeticSev (int range) {
+    public ResultSet getCosmeticSev (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countCosmeticSev(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getMinorSev (int range) {
+    public ResultSet getMinorSev (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countMinorSev(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getMajorSev (int range) {
+    public ResultSet getMajorSev (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countMajorSev(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
-    public ResultSet getCriticalSev (int range) {
+    public ResultSet getCriticalSev (int range) throws SQLException {
         getConnection();
         ResultSet rs = null;
+        CachedRowSet res = new CachedRowSetImpl();
         try {
             String sql = "CALL BugTrackerPrime.countCriticalSev(" + range + ")";
             rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        
+        res.populate(rs);
+        closeConnection();
+        return res;
     }
 
     public void submitReport(NewBugReport report){
