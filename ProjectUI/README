@@ -2,6 +2,11 @@
 MICHAEL
 Please add keyword search to the search functions and procedures.
 
+UPDATE 18 27/10 - Nathan
+-Added basis for input validation
+-Added class for input validation
+-Added input validation on Registration 
+
 UPDATE 17 27/10 - Nathan
 -Fixed submit new bug report procedures and functions so correct parameters were set and nothing was missing
 -Fixed random spaces in strings of ENUMS in createnewBug procedure that was causing SQL Truncated errors
