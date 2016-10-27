@@ -233,6 +233,18 @@ public class MySQLController {
         }
         return rs;
     }
+    
+    public ResultSet searchDetailsByKeywords(String search){
+        getConnection();
+        ResultSet rs = null;
+        try{
+            String sql = "CALL BugTrackerPrime.setSearchDetailsByKeywords(\'%" + search + "%\')";
+            rs = stmt.executeQuery(sql);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return rs;
+    }
 
     public ResultSet populateExtDetails(int id){
         getConnection();

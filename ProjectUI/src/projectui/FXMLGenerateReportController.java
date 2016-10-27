@@ -21,7 +21,10 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
+import static javax.management.Query.value;
 
 /**
  * FXML Controller class
@@ -39,7 +42,7 @@ public class FXMLGenerateReportController implements Initializable {
     @FXML
     private Tab weeklyTab;
     @FXML
-    private Text reportDate;
+    private Text wreportDate;
     @FXML
     private Text newReportCountText;
     @FXML
@@ -72,7 +75,7 @@ public class FXMLGenerateReportController implements Initializable {
     @FXML
     private Tab monthlyTab;
     @FXML
-    private Text reportDate1;
+    private Text mreportDate;
     @FXML
     private Text mnewReportCountText;
     @FXML
@@ -105,7 +108,7 @@ public class FXMLGenerateReportController implements Initializable {
     @FXML
     private Tab halfyearlyTab;
     @FXML
-    private Text reportDate11;
+    private Text hreportDate;
     @FXML
     private Text hnewReportCountText;
     @FXML
@@ -138,7 +141,7 @@ public class FXMLGenerateReportController implements Initializable {
     @FXML
     private Tab yearlyTab;
     @FXML
-    private Text reportDate111;
+    private Text yreportDate;
     @FXML
     private Text ynewReportCountText;
     @FXML
@@ -182,6 +185,12 @@ public class FXMLGenerateReportController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        String date = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
+        
+        yreportDate.setText(date);
+        mreportDate.setText(date);
+        wreportDate.setText(date);
+        hreportDate.setText(date);
 
     }    
 

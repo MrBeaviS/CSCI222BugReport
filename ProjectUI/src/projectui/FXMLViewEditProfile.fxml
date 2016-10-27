@@ -83,7 +83,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Text>
-      <Text fx:id="errorText" fill="RED" layoutX="192.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error">
+      <Text fx:id="errorText" fill="RED" layoutX="112.0" layoutY="346.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Error" textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

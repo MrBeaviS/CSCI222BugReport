@@ -191,11 +191,11 @@ public class FXMLBugsController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         searchBy.setValue("Search By");
-        searchBy.getItems().addAll("Search By", "User","BugStatus","Priority");
+        searchBy.getItems().addAll("Search By", "User","BugStatus","Priority","Keyword");
 
 
         statusBox.setValue("Reported");
-        statusBox.getItems().addAll("Reported","Progressing","Solved");
+        statusBox.getItems().addAll("Reported", "Approved","Progressing","Solved");
 
         priorityBox.setValue("Low");
         priorityBox.getItems().addAll("Low", "Medium", "High", "Emergency");
@@ -314,6 +314,11 @@ public class FXMLBugsController implements Initializable {
                     reports.searchReportsByStatus("Solved");
                     searchError.setText("");
                     break;
+                case "Approved":
+                case "approved":
+                    reports.searchReportsByStatus("Approved");
+                    searchError.setText("");
+                    break;
                 default:
                      searchError.setText("You must either choose: Reported, Progressing, or Solved");
                      break;
@@ -352,9 +357,9 @@ public class FXMLBugsController implements Initializable {
             
             //reports.searchReportsByPriority(searchBox.getText());
         }
-        /*else if(searchBy.getValue().equals("Keywords")){
-            //reports.searchReportsByKeywords(searchBox.getText());
-        }*/
+        else if(searchBy.getValue().equals("Keyword")){
+            reports.searchReportsByKeywords(searchBox.getText());
+        }
         else{
             searchError.setText("You have not selected a Search by choice");
             
@@ -614,24 +619,38 @@ public class FXMLBugsController implements Initializable {
     @FXML
     private void submitnewBug(ActionEvent event) throws SQLException {
         //take all variables from the table and save into DB
-        MySQLController conn = new MySQLController();
+        
+        if(newBugName.getText().trim().isEmpty() ||
+           newComponentname.getText().trim().isEmpty() ||
+           newProductname.getText().trim().isEmpty() ||
+           newOSName.getText().trim().isEmpty() ||
+           newVersionName.getText().trim().isEmpty() ||
+           newDesc.getText().trim().isEmpty() ||
+           newKeywords.getText().trim().isEmpty() ||
+           newShortDesc.getText().trim().isEmpty()){
+             createErrorText.setText("One or More Fields are Blank");
+        }
+        else{
+            MySQLController conn = new MySQLController();
 
-        NewBugReport report = new NewBugReport();
-        report.setReporter(currentUser.getUserID());
-        report.setBugName(newBugName.getText());
-        report.setComponent(newComponentname.getText());
-        report.setBugSev(newSeverity.getValue());
-        report.setProduct(newProductname.getText());
-        report.setOperSys(newOSName.getText());
-        report.setPriority(newPriority.getValue());
-        report.setVersion(newVersionName.getText());
-        report.setBugStatus("Reported");
-        report.setLongDesc(newDesc.getText());
-        report.setKeywords(newKeywords.getText());
-        report.setShortDesc(newShortDesc.getText());
-        report.submitReport();
-        createErrorText.setText("Report Submitted");
-        clearScreen();
+            NewBugReport report = new NewBugReport();
+            report.setReporter(currentUser.getUserID());
+            report.setBugName(newBugName.getText());
+            report.setComponent(newComponentname.getText());
+            report.setBugSev(newSeverity.getValue());
+            report.setProduct(newProductname.getText());
+            report.setOperSys(newOSName.getText());
+            report.setPriority(newPriority.getValue());
+            report.setVersion(newVersionName.getText());
+            report.setBugStatus("Reported");
+            report.setLongDesc(newDesc.getText());
+            report.setKeywords(newKeywords.getText());
+            report.setShortDesc(newShortDesc.getText());
+            report.submitReport();
+            createErrorText.setText("Report Submitted");
+            clearScreen();
+        }
+
         
 
 
