@@ -62,19 +62,13 @@
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Text fill="WHITE" layoutX="41.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. Reports:">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font>
-            </Text>
             <Text fx:id="currRep" fill="WHITE" layoutX="151.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="50" />
-            <Text fx:id="currNoReports" fill="WHITE" layoutX="151.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
-            <Text fill="WHITE" layoutX="41.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Date:">
+            <Text fill="WHITE" layoutX="41.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join Date:">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Text>
-            <Text fx:id="dateJoined" fill="WHITE" layoutX="151.0" layoutY="361.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+            <Text fx:id="dateJoined" fill="WHITE" layoutX="151.0" layoutY="351.0" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
             <TextField fx:id="firstNameBox" layoutX="151.0" layoutY="179.0" prefHeight="25.0" prefWidth="92.0" />
             <TextField fx:id="emailBox" layoutX="151.0" layoutY="209.0" prefHeight="25.0" prefWidth="194.0" />
             <TextField fx:id="lastNameBox" layoutX="252.0" layoutY="179.0" prefHeight="25.0" prefWidth="92.0" />

@@ -152,6 +152,8 @@ public class FXMLAdminCreateUserController implements Initializable {
         else if(eMsent == 1 && uNsent == 0){
             inputError.setText("Email already taken");
         }
+        eMsent = 0;
+        uNsent = 0;
         
     }
 

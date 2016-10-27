@@ -19,6 +19,7 @@ public class CurrentUser {
     private String adminRole;
     private String newPass;
     private int accessLevel;
+    private String currpWord;
 
     CurrentUser(String uName){
         userName = uName;
@@ -40,6 +41,7 @@ public class CurrentUser {
                 userRep = rs.getInt("UserReputation");
                 accStatus = rs.getString("AccountStatus");
                 accessLevel = rs.getInt("AccessRights");
+                currpWord = rs.getString("Password");
 
             }
 //            printUser();
@@ -62,6 +64,7 @@ public class CurrentUser {
                 joinDate = rs.getString("JoinedDate");
                 adminRole = rs.getString("Role");
                 accessLevel = rs.getInt("AccessRights");
+                currpWord = rs.getString("Password");
             }
         }catch (Exception e) {
             e.printStackTrace();
@@ -180,6 +183,9 @@ public class CurrentUser {
     public void setEmail(String newEmail){
         email = newEmail;
     }
+    public void setNewPass(){
+        currpWord = newPass;
+    }
 
     public int getUserID(){return userID;}
     public String getUserName(){return userName;}
@@ -192,5 +198,6 @@ public class CurrentUser {
     public String getAdminRole(){return adminRole;}
     public String getNewPass(){return newPass;}
     public int getAccessLevel(){return accessLevel;}
+    public String getCurrPass(){return currpWord;}
 
 }

@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.ComboBox;
 
@@ -44,8 +45,6 @@ public class FXMLViewAdminProfileController implements Initializable {
     private Button saveChangesButton;
     @FXML
     private Text currRep;
-    @FXML
-    private Text currNoReports;
     @FXML
     private Text dateJoined;
     @FXML
@@ -79,7 +78,6 @@ public class FXMLViewAdminProfileController implements Initializable {
         // TODO
         currUsername.setText("");
         currRep.setText("");
-        currNoReports.setText("");
         dateJoined.setText("");
         errorText.setText("");
         
@@ -144,7 +142,17 @@ public class FXMLViewAdminProfileController implements Initializable {
                 break;
   
         }
+        MySQLController conn = new MySQLController();
+        List<String> Emails = conn.getEmailList();
+        int eMsent = 0;
         
+        for (int i = 0; i < Emails.size(); i++){
+           
+           if(Emails.get(i).equals(emailBox.getText())){
+               eMsent = 1;
+           }
+           
+        }
         
         
         if(firstNameBox.getText().isEmpty()){
@@ -156,13 +164,18 @@ public class FXMLViewAdminProfileController implements Initializable {
         else if(emailBox.getText().isEmpty()){
             errorText.setText("Email is empty");
         }
+        else if(eMsent == 1){
+            errorText.setText("Email is Already taken");
+        }
         else{
             if(newPassword.getText().isEmpty()){
                 searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText(), acsLvl);
                 errorText.setText("Changes Saved");
+                eMsent = 0;
             } else {
                 searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText(), acsLvl);
                 errorText.setText("Changes Saved");
+                eMsent = 0;
             }
         }
     }
@@ -189,7 +202,6 @@ public class FXMLViewAdminProfileController implements Initializable {
             emailBox.setText(searchUser.getEmail());
             setAccesslevel.setValue(searchUser.determineAccessLevelStr());
             currRep.setText(String.valueOf(searchUser.getUserRep()));
-            currNoReports.setText(""); //TO DO: Count a users reports
             dateJoined.setText(searchUser.getJoinDate());
         }
         increaseRepButton.setDisable(false);
@@ -238,7 +250,6 @@ public class FXMLViewAdminProfileController implements Initializable {
     private void clearScreen(){
         currUsername.setText("");
         currRep.setText("");
-        currNoReports.setText("");
         dateJoined.setText("");
         //errorText.setText("");
         currUsername.setText("");
@@ -247,7 +258,6 @@ public class FXMLViewAdminProfileController implements Initializable {
         emailBox.setText("");
         setAccesslevel.setValue("Auth User");
         currRep.setText("");
-        currNoReports.setText(""); //TO DO: Count a users reports
         dateJoined.setText("");
     }
     

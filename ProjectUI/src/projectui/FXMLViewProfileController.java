@@ -45,8 +45,6 @@ public class FXMLViewProfileController implements Initializable {
     @FXML
     private Text currRep;
     @FXML
-    private Text currNoReports;
-    @FXML
     private Text dateJoined;
     @FXML
     private Button backToMenu;

@@ -162,6 +162,8 @@ public class FXMLRegistrationController implements Initializable {
         else if(eMsent == 1 && uNsent == 0){
             errorText.setText("Email already taken");
         }
+        eMsent = 0;
+        uNsent = 0;
         
         
         
