@@ -172,13 +172,15 @@ public class FXMLViewAdminProfileController implements Initializable {
             errorText.setText("Email is Already taken");
         }
         else{
+            int newRep = 0;
+            newRep = Integer.parseInt(currRep.getText());
             if(newPassword.getText().isEmpty()){
-                searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText(), acsLvl);
+                searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newRep, acsLvl);
                 errorText.setText("Changes Saved");
                 eMsent = 0;
                 currSearchEmail = emailBox.getText();
             } else {
-                searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText(), acsLvl);
+                searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), newRep, acsLvl);
                 errorText.setText("Changes Saved");
                 currSearchEmail = emailBox.getText();
                 eMsent = 0;

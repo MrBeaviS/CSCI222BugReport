@@ -96,11 +96,11 @@ public class CurrentUser {
         }
     }
 
-    public void updateUserNoP(String first, String last, String nEmail, String rep, int ascLVL) throws SQLException {
+    public void updateUserNoP(String first, String last, String nEmail, int rep, int ascLVL) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
-        userRep = Integer.valueOf(rep);
+        userRep = rep;
         accessLevel = ascLVL;
         MySQLController conn = new MySQLController();
         try{
@@ -110,12 +110,12 @@ public class CurrentUser {
         }
     }
 
-    public void updateUser(String first, String last, String nEmail, String pass, String rep, int ascLVL) throws SQLException {
+    public void updateUser(String first, String last, String nEmail, String pass, int rep, int ascLVL) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
         newPass = pass;
-        userRep = Integer.valueOf(rep);
+        userRep = rep;
         accessLevel = ascLVL;
         MySQLController conn = new MySQLController();
         try{
