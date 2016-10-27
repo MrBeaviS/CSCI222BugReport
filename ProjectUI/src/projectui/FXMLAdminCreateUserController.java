@@ -123,7 +123,15 @@ public class FXMLAdminCreateUserController implements Initializable {
            }
            
         }
-        if(uNsent == 0 && eMsent == 0)
+        
+        if(newUsername.getText().trim().isEmpty() || 
+                    newFname.getText().trim().isEmpty() || 
+                    newLname.getText().trim().isEmpty() || 
+                    newEmail.getText().trim().isEmpty() || 
+                    newPassword.getText().trim().isEmpty() )
+        {
+            inputError.setText("ERROR: Input fields are Empty");
+        }else if(uNsent == 0 && eMsent == 0)
         {
             try{
                 //TO DO: CHECK THE USER INPUT
