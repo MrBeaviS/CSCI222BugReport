@@ -210,6 +210,8 @@ DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE deleteUser(userToDel VARCHAR(30))
 	BEGIN
+		UPDATE bugreports SET ReporterID = 1 WHERE ReporterID = (SELECT UserID FROM superuser WHERE UserName = userToDel);
+        UPDATE comments SET UserID = 1 WHERE UserID = (SELECT UserID FROM superuser WHERE UserName = userToDel);
 		DELETE FROM BugTrackerPrime.SuperUser WHERE UserName = userToDel;
 	END //
 DELIMITER ;
@@ -638,6 +640,11 @@ FLUSH PRIVILEGES;
 ### INSERT TEST DATA HERE ####
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
+VALUES (1, 'Deleted','Deletd', 'User', 'buser@btp.com', 'pass123', current_date());
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'Deleted'), 'Deleted');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'Deleted'),'Deleted', 11 ,0,'Active');
+
+INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (5, 'nathan','Nathan', 'Humphries', 'nathan@btp.com', 'pass123', current_date());
 INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'nathan'),'Admin', 100 ,0,'Active');
 INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'nathan'), 'Admin');
@@ -664,8 +671,9 @@ INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName 
 
 INSERT INTO SuperUser(AccessRights, UserName, FName, LName, Email, Password, JoinedDate)
 VALUES (5, 'buser','Bob', 'User', 'buser@btp.com', 'pass123', current_date());
-INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'SysAdmin');
-INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'),'SysAdmin', 11 ,0,'Active');
+INSERT INTO SysAdminUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'), 'Admin');
+INSERT INTO RegisteredUser VALUES ((SELECT UserID FROM SuperUser WHERE UserName = 'buser'),'Admin', 11 ,0,'Active');
+
 
 #INSERTS A BUG AND A BUG REPORT
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
