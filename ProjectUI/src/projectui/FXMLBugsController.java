@@ -248,13 +248,14 @@ public class FXMLBugsController implements Initializable {
                 decreaseRepButton.setVisible(true);
                 addCommentButton.setVisible(true);
                 submitCommentButton.setVisible(true);
-                uploadPatchButton.setVisible(true);
+                uploadPatchButton.setVisible(false);
                 statusBox.setDisable(true);
                 priorityBox.setDisable(true);  
                 severityBox.setDisable(true);
                 statusBox.setVisible(false);   
                 priorityBox.setVisible(false);   
                 severityBox.setVisible(false);
+                assignedBox.setDisable(true);
                 break;
             case 3:
                 editButton.setVisible(true);
@@ -264,22 +265,26 @@ public class FXMLBugsController implements Initializable {
                 addCommentButton.setVisible(true);
                 submitCommentButton.setVisible(true);
                 uploadPatchButton.setVisible(true);
-                statusBox.setDisable(false);
+                statusBox.setDisable(true);
                 priorityBox.setDisable(false);  
                 severityBox.setDisable(false);
                 statusBox.setVisible(false);   
                 priorityBox.setVisible(false);   
                 severityBox.setVisible(false);
+                assignedBox.setDisable(true);
+            case 4:
             case 5:
                 break;
             default:
+                createBugTab.setDisable(true);
                 editButton.setVisible(false);
                 saveButton.setVisible(false);
                 increaseRepButton.setVisible(false);
                 decreaseRepButton.setVisible(false);
                 addCommentButton.setVisible(false);
-                submitCommentButton.setVisible(false);
                 uploadPatchButton.setVisible(false);
+                decreaseRepButton.setDisable(true);
+                increaseRepButton.setDisable(true);
                 break;
                 
         }

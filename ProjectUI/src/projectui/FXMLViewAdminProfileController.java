@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.scene.control.ComboBox;
 
 /**
  * FXML Controller class
@@ -60,7 +61,7 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private Text errorText;
     @FXML
-    private TextField accessLevelBox;
+    private ComboBox<String> setAccesslevel;
     @FXML
     private TextField searchField;
     @FXML
@@ -81,6 +82,26 @@ public class FXMLViewAdminProfileController implements Initializable {
         currNoReports.setText("");
         dateJoined.setText("");
         errorText.setText("");
+        
+        setAccesslevel.getItems().addAll(
+        "Auth User",
+        "Reporter",
+        "Developer",
+        "Triage",
+        "Admin"
+        );
+        setAccesslevel.setValue("Auth User");
+        
+        increaseRepButton.setDisable(true);
+        decreaseRepbutton.setDisable(true);
+        
+        firstNameBox.setDisable(true);
+        emailBox.setDisable(true);
+        lastNameBox.setDisable(true);
+        currUsername.setDisable(true);
+        newPassword.setDisable(true);
+        
+        
     }    
 
     @FXML
@@ -101,12 +122,48 @@ public class FXMLViewAdminProfileController implements Initializable {
     @FXML
     private void saveChanges(ActionEvent event) throws SQLException {
         System.out.println("Saving Changes");
-        if(newPassword.getText().isEmpty()){
-            searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText());
-            errorText.setText("Changes Saved");
-        } else {
-            searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText());
-            errorText.setText("Changes Saved");
+        int acsLvl;
+        switch(setAccesslevel.getValue()){
+            case "Auth User":
+                acsLvl = 1;
+                break;
+            case "Reporter":
+                acsLvl = 2;
+                break;
+            case "Developer":
+                acsLvl = 3;
+                break;
+            case "Triage":
+                acsLvl = 4;
+                break;
+            case "Admin":
+                acsLvl = 5;
+                break;
+            default:
+                acsLvl = 1;
+                break;
+  
+        }
+        
+        
+        
+        if(firstNameBox.getText().isEmpty()){
+            errorText.setText("First Name empty");
+        }
+        else if(lastNameBox.getText().isEmpty()){
+            errorText.setText("Last Name empty");
+        }
+        else if(emailBox.getText().isEmpty()){
+            errorText.setText("Email is empty");
+        }
+        else{
+            if(newPassword.getText().isEmpty()){
+                searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText(), acsLvl);
+                errorText.setText("Changes Saved");
+            } else {
+                searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText(), acsLvl);
+                errorText.setText("Changes Saved");
+            }
         }
     }
 
@@ -119,15 +176,24 @@ public class FXMLViewAdminProfileController implements Initializable {
         if(searchUser.getAccessLevel() == 0){
             errorText.setText("User Not Found");
         } else {
+            
+            firstNameBox.setDisable(false);
+            emailBox.setDisable(false);
+            lastNameBox.setDisable(false);
+            currUsername.setDisable(false);
+            newPassword.setDisable(false);
+            
             currUsername.setText(searchUser.getUserName());
             firstNameBox.setText(searchUser.getfName());
             lastNameBox.setText(searchUser.getlName());
             emailBox.setText(searchUser.getEmail());
-            accessLevelBox.setText(searchUser.determineAccessLevelStr());
+            setAccesslevel.setValue(searchUser.determineAccessLevelStr());
             currRep.setText(String.valueOf(searchUser.getUserRep()));
             currNoReports.setText(""); //TO DO: Count a users reports
             dateJoined.setText(searchUser.getJoinDate());
         }
+        increaseRepButton.setDisable(false);
+        decreaseRepbutton.setDisable(false);
     }
 
     @FXML
@@ -179,7 +245,7 @@ public class FXMLViewAdminProfileController implements Initializable {
         firstNameBox.setText("");
         lastNameBox.setText("");
         emailBox.setText("");
-        accessLevelBox.setText("");
+        setAccesslevel.setValue("Auth User");
         currRep.setText("");
         currNoReports.setText(""); //TO DO: Count a users reports
         dateJoined.setText("");

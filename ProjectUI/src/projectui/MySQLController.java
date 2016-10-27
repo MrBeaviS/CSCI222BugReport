@@ -9,6 +9,8 @@ import com.sun.rowset.CachedRowSetImpl;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -158,10 +160,12 @@ public class MySQLController {
     
     public void updateUserNoP(CurrentUser currUser){
         getConnection();
+        System.out.println(currUser.getAccessLevel());
         try{
             String sql = "CALL BugTrackerPrime.updateUserNoP(\'" + currUser.getUserName() + "\' , \'" +
                     currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
-                    currUser.getEmail() + "\' , \'" + currUser.getUserRep() + "\')";
+                    currUser.getEmail() + "\' , \'" + currUser.getUserRep() + "\' , \'" +
+                    currUser.getAccessLevel() +"\')";
             stmt.executeQuery(sql);
         }catch (Exception e) {
             e.printStackTrace();
@@ -171,10 +175,12 @@ public class MySQLController {
 
     public void updateUser(CurrentUser currUser){
         getConnection();
+        System.out.println(currUser.getAccessLevel());
         try{
             String sql = "CALL BugTrackerPrime.updateUser(\'" + currUser.getUserName() + "\' , \'" +
                     currUser.getfName() + "\' , \'" + currUser.getlName() + "\' , \'" +
-                    currUser.getEmail() + "\' , \'" + currUser.getNewPass() + "\' , \'" + currUser.getUserRep()  + "\')";
+                    currUser.getEmail() + "\' , \'" + currUser.getNewPass() + "\' , \'" + currUser.getUserRep() + "\' , \'" +
+                    currUser.getAccessLevel() +"\')";
             stmt.executeQuery(sql);
         }catch (Exception e) {
             e.printStackTrace();
@@ -559,6 +565,43 @@ public class MySQLController {
         closeConnection();
         return Devs;
     }
+    
+    public List<String> getUserList(){
+        getConnection();
+        ResultSet rs = null;
+        List<String> Users = new ArrayList<String>();
+        try{
+            String sql = "CALL BugTrackerPrime.getUsers()";
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String temp = rs.getString(1);
+                Users.add(temp);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return Users;
+    }
+    
+    public List<String> getEmailList(){
+        getConnection();
+        ResultSet rs = null;
+        List<String> Emails = new ArrayList<String>();
+        try{
+            String sql = "CALL BugTrackerPrime.getEmails()";
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String temp = rs.getString(1);
+                Emails.add(temp);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return Emails;
+    }
+    
     
 
 }

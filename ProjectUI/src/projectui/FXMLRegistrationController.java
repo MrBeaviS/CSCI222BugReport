@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.text.Text;
 
@@ -49,6 +50,8 @@ public class FXMLRegistrationController implements Initializable {
     private Button backtoLog;
     @FXML
     private Text errorText;
+    @FXML
+    private Text createdText;
     
     InputValidation valid;
 
@@ -71,7 +74,7 @@ public class FXMLRegistrationController implements Initializable {
     //function for registering new acc.
     private void registerAcc(ActionEvent event) throws IOException
     {
-        if(newUsername.getText().trim().isEmpty() || 
+        /*if(newUsername.getText().trim().isEmpty() || 
                     newFname.getText().trim().isEmpty() || 
                     newLname.getText().trim().isEmpty() || 
                     newEmail.getText().trim().isEmpty() || 
@@ -106,13 +109,69 @@ public class FXMLRegistrationController implements Initializable {
         else
         {
             errorText.setText("ERROR: Check input details");
+        }*/
+        
+        MySQLController conn = new MySQLController();
+        List<String> Users = conn.getUserList();
+        List<String> Emails = conn.getEmailList();
+        int eMsent = 0;
+        int uNsent = 0;
+        
+        
+        for (int i = 0; i < Users.size(); i++){
+           
+            if(Users.get(i).equals(newUsername.getText())){
+               uNsent = 1;
+            }
+           
         }
+        
+        for (int i = 0; i < Emails.size(); i++){
+           
+           if(Emails.get(i).equals(newEmail.getText())){
+               eMsent = 1;
+           }
+           
+        }
+        if(uNsent == 0 && eMsent == 0)
+        {
+            try{
+                //TO DO: CHECK THE USER INPUT
+                NewUser newU = new NewUser();
+                
+                newU.setNewUser(newUsername.getText(), newFname.getText(),newLname.getText(),newEmail.getText(), newPassword.getText());
+            
+            }catch(Exception e){
+                System.out.println(e);
+                errorText.setText("Incorrect Inputs");  
+            }
+            errorText.setText("");
+            createdText.setVisible(true);
+            newUsername.setText(""); 
+            newFname.setText("");
+            newLname.setText("");
+            newEmail.setText("");
+            newPassword.setText("");
+        }
+        else if(eMsent == 1 && uNsent == 1){
+            errorText.setText("Email and User already taken");
+        }
+        else if(uNsent == 1 && eMsent == 0){
+            errorText.setText("Username already taken");
+        }
+        else if(eMsent == 1 && uNsent == 0){
+            errorText.setText("Email already taken");
+        }
+        
+        
+        
+   
             
        
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        createdText.setVisible(false);
     }    
     
 }

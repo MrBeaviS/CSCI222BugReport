@@ -93,11 +93,12 @@ public class CurrentUser {
         }
     }
 
-    public void updateUserNoP(String first, String last, String nEmail, String rep) throws SQLException {
+    public void updateUserNoP(String first, String last, String nEmail, String rep, int ascLVL) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
         userRep = Integer.valueOf(rep);
+        accessLevel = ascLVL;
         MySQLController conn = new MySQLController();
         try{
             conn.updateUserNoP(this);
@@ -106,12 +107,13 @@ public class CurrentUser {
         }
     }
 
-    public void updateUser(String first, String last, String nEmail, String pass, String rep) throws SQLException {
+    public void updateUser(String first, String last, String nEmail, String pass, String rep, int ascLVL) throws SQLException {
         fName = first;
         lName = last;
         email = nEmail;
         newPass = pass;
         userRep = Integer.valueOf(rep);
+        accessLevel = ascLVL;
         MySQLController conn = new MySQLController();
         try{
             conn.updateUser(this);
@@ -157,9 +159,9 @@ public class CurrentUser {
     public String determineAccessLevelStr(){
         switch (accessLevel){
             case 1:
-                return "Reporter";
+                return "Auth User";
             case 2:
-                return "Reviewer";
+                return "Reporter";
             case 3:
                 return "Developer";
             case 4:
@@ -167,7 +169,7 @@ public class CurrentUser {
             case 5:
                 return "Admin";
             default:
-                return "No Role";
+                return "Auth User";
         }
     }
 
