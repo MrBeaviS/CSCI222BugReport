@@ -69,7 +69,7 @@ public class FXMLViewAdminProfileController implements Initializable {
     private Button decreaseRepbutton;
     @FXML
     private Button deleteProfileButton;
-
+    String currSearchEmail ="";
     /**
      * Initializes the controller class.
      */
@@ -154,6 +154,10 @@ public class FXMLViewAdminProfileController implements Initializable {
            
         }
         
+        if(emailBox.getText().equals(currSearchEmail)){
+            eMsent = 0;
+        }
+        
         
         if(firstNameBox.getText().isEmpty()){
             errorText.setText("First Name empty");
@@ -172,9 +176,11 @@ public class FXMLViewAdminProfileController implements Initializable {
                 searchUser.updateUserNoP(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), currRep.getText(), acsLvl);
                 errorText.setText("Changes Saved");
                 eMsent = 0;
+                currSearchEmail = emailBox.getText();
             } else {
                 searchUser.updateUser(firstNameBox.getText(), lastNameBox.getText(), emailBox.getText(), newPassword.getText(), currRep.getText(), acsLvl);
                 errorText.setText("Changes Saved");
+                currSearchEmail = emailBox.getText();
                 eMsent = 0;
             }
         }
@@ -200,6 +206,7 @@ public class FXMLViewAdminProfileController implements Initializable {
             firstNameBox.setText(searchUser.getfName());
             lastNameBox.setText(searchUser.getlName());
             emailBox.setText(searchUser.getEmail());
+            currSearchEmail = emailBox.getText();
             setAccesslevel.setValue(searchUser.determineAccessLevelStr());
             currRep.setText(String.valueOf(searchUser.getUserRep()));
             dateJoined.setText(searchUser.getJoinDate());

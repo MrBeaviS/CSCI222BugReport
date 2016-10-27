@@ -66,12 +66,31 @@ public class FXMLViewProfileController implements Initializable {
 
     private void populateDetails(){
         System.out.println("Populate Details");
-
+        String currentRole = "";
+        switch(currentUser.getAccessLevel()){
+            case 1:
+                currentRole = "AuthUser";
+                break;
+            case 2:
+                currentRole = "Reporter";
+                break;
+            case 3:
+                currentRole = "Developer";
+                break;
+            case 4:
+                currentRole = "Triage";
+                break;
+            case 5:
+                currentRole = "Admin";
+                break;
+        }
+        
         currUsername.setText(currentUser.getUserName());
         currName.setText(currentUser.getfName() + " " + currentUser.getlName());
         currEmail.setText(currentUser.getEmail());
         currRep.setText(String.valueOf(currentUser.getUserRep()));
         dateJoined.setText(currentUser.getJoinDate());
+        currAccessLevel.setText(currentRole);
         
     }
 
