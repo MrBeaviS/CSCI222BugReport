@@ -6,7 +6,6 @@ USE BugTrackerPrime;
 
 CREATE TABLE SuperUser (
 	UserID int NOT NULL AUTO_INCREMENT,
-    ##AccessRights,
 	AccessRights int NOT NULL,
 	UserName varchar(30) UNIQUE,
 	FName varchar(60),
@@ -19,7 +18,6 @@ CREATE TABLE SuperUser (
 
 CREATE TABLE RegisteredUser (
 	UserID int NOT NULL DEFAULT 0,
-    ##NATHAN: USER REPUTATION NEEDS TO BE INTEGER
     Role varchar(20),
     UserReputation int,
 	BugReportCount int,
@@ -39,17 +37,6 @@ CREATE TABLE SysAdminUser (
 		ON DELETE CASCADE
 );
 
-##Not for comments
-CREATE TABLE Attachments (
-	AttachmentID int NOT NULL,
-	CreationTimestamp DATE,
-	ShortDescription varchar(200),
-	PatchURL varchar(400),
-	AttacherID int,
-	PRIMARY KEY (AttachmentID),
-	FOREIGN KEY (AttacherID)
-		REFERENCES superuser(UserID)
-);
 
 CREATE TABLE Bug (
 	BugID int NOT NULL AUTO_INCREMENT,
@@ -75,17 +62,18 @@ CREATE TABLE BugReports (
 	ReporterID int,
 	AssignedTo int,
     LongDescription VARCHAR(500),
-	##CommentID int,
-    ##NATHAN: THESE NOW WORK AND ARE NEEDED FOR WHEN
-    ##YOU DO MULTIPLE JOINS TO RETRIEVE USERNAMES
+    PatchLocation VARCHAR(400),
+    PatchUser int,
 	PRIMARY KEY (BugReportID),
 	FOREIGN KEY (BugID)
 		REFERENCES Bug(BugID),
 	FOREIGN KEY (ReporterID)
 		REFERENCES SuperUser(UserID),
 	FOREIGN KEY (AssignedTo)
+		REFERENCES SuperUser(UserID),
+	FOREIGN KEY (PatchUser)
 		REFERENCES SuperUser(UserID)
-);
+);	
 
 CREATE TABLE Comments (
 	CommentID int NOT NULL AUTO_INCREMENT,
@@ -516,7 +504,35 @@ PROCEDURE `getEmails`()
   END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.getPatch;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `getPatch`(brID INT)
+	BEGIN
+		SELECT PatchLocation FROM BugTrackerPrime.bugreports WHERE bugreports.BugReportID = brID;
+	END //
+DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.getPatchUser;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `getPatchUser`(brID INT)
+	BEGIN
+		SELECT superuser.UserName FROM BugTrackerPrime.superuser
+        LEFT JOIN BugTrackerPrime.bugreports
+        ON superuser.UserID = bugreports.PatchUser
+        WHERE bugreports.BugReportID = brID;
+	END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.setPatch;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `setPatch`(pl VARCHAR(300), pUser INT, brID INT)
+	BEGIN
+		UPDATE BugTrackerPrime.bugreports SET PatchLocation = pl, PatchUser = pUser WHERE bugreports.BugReportID = brID;
+	END //
+DELIMITER ;
 
 #### CREATE NEW USERS AND PRIVS HERE ####
 DROP USER 'newUser'@'localhost';
@@ -594,6 +610,12 @@ FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getUsers TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getEmails TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getPatch TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.setPatch TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getPatchUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
