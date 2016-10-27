@@ -198,9 +198,9 @@ DROP PROCEDURE IF EXISTS BugTrackerPrime.updateUser;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
 PROCEDURE `updateUser`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40),
-												pWord VARCHAR(40), rep INT)
+												pWord VARCHAR(40), rep INT, ascLVL INT)
 	BEGIN
-		UPDATE SuperUser SET FName = fName, LName = lName, Email = email, Password = pWord WHERE UserName = uname;
+		UPDATE SuperUser SET FName = fName, LName = lName, Email = email, Password = pWord, AccessRights = ascLVL WHERE UserName = uname ;
 		UPDATE RegisteredUser SET UserReputation = rep WHERE UserID = (SELECT SuperUser.UserID FROM SuperUser WHERE UserName = uName);
 	END //
 DELIMITER ;
@@ -209,9 +209,9 @@ USE BugTrackerPrime;
 DROP PROCEDURE IF EXISTS BugTrackerPrime.updateUserNoP;
 DELIMITER //
 CREATE DEFINER='root'@'localhost'
-PROCEDURE `updateUserNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40), rep INT)
+PROCEDURE `updateUserNoP`(uName VARCHAR(30), fName VARCHAR(60), lName VARCHAR(60), email VARCHAR(40), rep INT, ascLVL INT)
 	BEGIN
-		UPDATE SuperUser SET FName = fName, LName = lName, Email = email WHERE UserName = uname;
+		UPDATE SuperUser SET FName = fName, LName = lName, Email = email, AccessRights = ascLVL  WHERE UserName = uname;
 		UPDATE RegisteredUser SET UserReputation = rep WHERE UserID = (SELECT SuperUser.UserID FROM SuperUser WHERE UserName = uName);
 	END //
 DELIMITER ;
@@ -497,6 +497,24 @@ PROCEDURE `getDevs`()
   END //
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS BugTrackerPrime.getUsers;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `getUsers`()
+  BEGIN
+    SELECT UserName FROM superuser;
+  END //
+DELIMITER ;
+
+DROP PROCEDURE IF EXISTS BugTrackerPrime.getEmails;
+DELIMITER //
+CREATE DEFINER='root'@'localhost'
+PROCEDURE `getEmails`()
+  BEGIN
+    SELECT Email FROM superuser;
+  END //
+DELIMITER ;
+
 
 
 #### CREATE NEW USERS AND PRIVS HERE ####
@@ -571,6 +589,10 @@ FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.updateReport TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getDevs TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getUsers TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
+FLUSH PRIVILEGES;
+GRANT EXECUTE ON PROCEDURE BugTrackerPrime.getEmails TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 FLUSH PRIVILEGES;
 
 ### INSERT TEST DATA HERE ####
