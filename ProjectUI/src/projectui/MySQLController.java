@@ -602,6 +602,55 @@ public class MySQLController {
         return Emails;
     }
     
+    public String getPatch(int brid){
+        getConnection();
+         ResultSet rs;
+        String patch = "";
+        try{
+            String sql = "CALL BugTrackerPrime.getPatch(\'" + brid + "\')";
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String temp = rs.getString(1);
+                patch = temp;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return patch;
+    }
+    
+    public String getPatchUser(int brid){
+        getConnection();
+         ResultSet rs;
+        String patchuser = "";
+        try{
+            String sql = "CALL BugTrackerPrime.getPatchUser(\'" + brid + "\')";
+            rs = stmt.executeQuery(sql);
+            while(rs.next()){
+                String temp = rs.getString(1);
+                patchuser = temp;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        closeConnection();
+        return patchuser;
+    }
+    
+    public void setPatch(String patchLocal, int user, int brid){
+        getConnection();
+        try{
+            String statement = "CALL BugTrackerPrime.setPatch(\'" + patchLocal + "\' , \'" + user + "\' , \'" + brid + "\')";
+            System.out.println(statement);
+            stmt.executeQuery(statement);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+        
+    }
+    
     
 
 }

@@ -27,6 +27,7 @@ public class SearchComments {
             commentDetails.add(temp);
 
         }
+        conn.closeConnection();
     }
     
     public ObservableList<BugComments> getCommentDetails(){return commentDetails;}

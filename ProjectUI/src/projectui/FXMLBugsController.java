@@ -39,14 +39,6 @@ public class FXMLBugsController implements Initializable {
     public FXMLBugsController (CurrentUser curr){
         currentUser = curr;
     }
-    ////////////////////////////////
-    //Tabs
-    ///////////////////////////////
-//    @FXML
-//    private TabPane createBugTab;
-    ////////////////////////////////
-    //Search Fields
-    ///////////////////////////////
     @FXML
     private Tab createBugTab;
     @FXML
@@ -174,6 +166,8 @@ public class FXMLBugsController implements Initializable {
     private TextField newShortDesc;
     @FXML
     private Text createErrorText;
+    @FXML
+    private Button newrefreshButton;
     
     ////////////////////////////////
     //Comments
@@ -227,6 +221,9 @@ public class FXMLBugsController implements Initializable {
         
         decreaseRepButton.setDisable(true);
         increaseRepButton.setDisable(true);
+        uploadPatchButton.setDisable(true);
+        tablebugSearch.setDisable(true);
+        newrefreshButton.setDisable(true);
         
         
         switch(currentUser.getAccessLevel()){
@@ -362,6 +359,8 @@ public class FXMLBugsController implements Initializable {
             searchError.setText("You have not selected a Search by choice");
             
         }
+        
+        tablebugSearch.setDisable(false);
     
 
         System.out.println("SEARCHING");
@@ -373,12 +372,11 @@ public class FXMLBugsController implements Initializable {
         tableDate.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
         tablebugReporter.setCellValueFactory(new PropertyValueFactory<>("reporter"));
         
-
         tablebugSearch.setItems(null);
         tablebugSearch.setItems(reports.getReportDetails());
 
     }
-
+    
     @FXML
     private void bugSelected(MouseEvent event) throws SQLException {
         BugReportTableDetails table = tablebugSearch.getSelectionModel().getSelectedItem();
@@ -438,6 +436,8 @@ public class FXMLBugsController implements Initializable {
         
         decreaseRepButton.setDisable(false);
         increaseRepButton.setDisable(false);
+        uploadPatchButton.setDisable(false);
+        newrefreshButton.setDisable(false);
  
         SearchComments comments = new SearchComments();
         comments.searchCommentDetails(table.getBugReportID());
@@ -563,6 +563,8 @@ public class FXMLBugsController implements Initializable {
             repSentinal = 0;
             
             clearSearch();
+            tablebugSearch.setDisable(true);
+            newrefreshButton.setDisable(true);
             
         }catch(Exception e) {
             e.printStackTrace();
@@ -652,9 +654,16 @@ public class FXMLBugsController implements Initializable {
     
     
     @FXML
-    private void uploadPatch(ActionEvent event) {
+    private void uploadPatch(ActionEvent event) throws IOException {
         
-        //opens new window to upload patch? How?
+        Stage cmmt_stage = new Stage();
+        FXMLLoader cmmtloader = new FXMLLoader(getClass().getResource("FXMLPatch.fxml"));
+        FXMLPatchController controller = new FXMLPatchController(currentUser, bReportID);
+        cmmtloader.setController(controller);
+        Parent cmmt_parent = cmmtloader.load();
+        Scene cmmt_scene = new Scene(cmmt_parent);
+        cmmt_stage.setScene(cmmt_scene);
+        cmmt_stage.show(); 
         
     }
     
@@ -693,6 +702,22 @@ public class FXMLBugsController implements Initializable {
         
         
     }
+    
+    
+    @FXML
+    private void doRefresh(MouseEvent event) throws SQLException{
+        SearchComments coms = new SearchComments();
+        coms.searchCommentDetails(bReportID);
+              
+        selectedUsercmnt.setCellValueFactory(new PropertyValueFactory<>("commenter"));
+        commentText.setCellValueFactory(new PropertyValueFactory<>("commentText"));
+        selectedDatecmnt.setCellValueFactory(new PropertyValueFactory<>("createdDate"));
+        
+        selectedCmntTable.setItems(null);
+        selectedCmntTable.setItems(coms.getCommentDetails());
+        
+    }
+    
     private void clearScreen(){
         newBugName.setText("");
         newComponentname.setText("");
