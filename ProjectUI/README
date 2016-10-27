@@ -2,6 +2,19 @@
 MICHAEL
 Please add keyword search to the search functions and procedures.
 
+UPDATE 20 27/10 - Nathan
+-Added Patch link functionality
+-Added all procedures related to patch linking
+-Added two new variables to reported ID to house patch uploader and patch link
+-Added refresh button for comments so comments could be refreshed and show new entries
+-Added further username and email checks
+-Fixed Reputation on all profiles
+-Fixed Roles on all profiles
+-Fixed password fields on change profiles
+-Fixed Procedures not returning enough values for functions
+-Fixed bug that was related to not changing email seeing it as one that already exists
+
+
 UPDATE 19 27/10 - Nathan
 -Created procedure getDevs that returns all developers
 -Created functions to get devs and place them in combobox
