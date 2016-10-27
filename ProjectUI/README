@@ -2,6 +2,9 @@
 MICHAEL
 Please add keyword search to the search functions and procedures.
 
+UPDATE 21 27/10
+-Made Table not clickable when no content was in it. This stopped an exception
+
 UPDATE 20 27/10 - Nathan
 -Added Patch link functionality
 -Added all procedures related to patch linking
