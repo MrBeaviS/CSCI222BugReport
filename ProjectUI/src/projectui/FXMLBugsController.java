@@ -244,7 +244,6 @@ public class FXMLBugsController implements Initializable {
                 increaseRepButton.setVisible(true);
                 decreaseRepButton.setVisible(true);
                 addCommentButton.setVisible(true);
-                submitCommentButton.setVisible(true);
                 uploadPatchButton.setVisible(false);
                 statusBox.setDisable(true);
                 priorityBox.setDisable(true);  
@@ -260,7 +259,6 @@ public class FXMLBugsController implements Initializable {
                 increaseRepButton.setVisible(true);
                 decreaseRepButton.setVisible(true);
                 addCommentButton.setVisible(true);
-                submitCommentButton.setVisible(true);
                 uploadPatchButton.setVisible(true);
                 statusBox.setDisable(true);
                 priorityBox.setDisable(false);  
