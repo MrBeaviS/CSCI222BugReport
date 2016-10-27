@@ -552,7 +552,7 @@ PROCEDURE `setPatch`(pl VARCHAR(300), pUser INT, brID INT)
 DELIMITER ;
 
 #### CREATE NEW USERS AND PRIVS HERE ####
-DROP USER 'newUser'@'localhost';
+##DROP USER 'newUser'@'localhost';
 CREATE USER 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 GRANT INSERT, SELECT ON BugTrackerPrime.SuperUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
 GRANT INSERT, SELECT ON BugTrackerPrime.RegisteredUser TO 'newUser'@'localhost' IDENTIFIED BY 'pass123';
@@ -711,7 +711,7 @@ VALUES ('BT Crash', 'Bug Tracker Prime', 'Login Screen', 'v1.0', 'Windows 10');
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (current_date(), 'BT Crashes on start up', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'BT Crash'), 'Progressing',
-							 ' ', 'crash on start up bt ', 'High', 'Major', 1, 5,
+							 ' ', 'crash on start up bt ', 'High', 'Major', 2, 5,
 								'The bug crashes the program on start up with no errors to be found');
                 
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
@@ -720,7 +720,7 @@ VALUES ('BT Hang', 'Bug Tracker Prime', 'Search Bug', 'v1.0', 'Windows 10');
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (current_date(), 'BT Hangs on searching for bug', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'BT Hang'), 'Progressing',
-							 ' ', 'Search hangs finding bug report', 'Emergency', 'Critical', 1, 5,
+							 ' ', 'Search hangs finding bug report', 'Emergency', 'Critical', 2, 5,
 								'Cannot search any reports currently as the program will freeze and need to be alt F4d');
                 
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
@@ -729,7 +729,7 @@ VALUES ('BT Lag', 'Bug Tracker Prime', 'Generate Reports', 'v1.0', 'Windows 10')
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (current_date(), 'BT lags in generate reports', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'BT Lag'), 'Progressing',
-							 ' ', 'lag slow bt generate reports', 'Medium', 'Minor', 1, 5,
+							 ' ', 'lag slow bt generate reports', 'Medium', 'Minor', 2, 5,
 								'Program slows to a crawl when trying to generate reports');
                 
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
@@ -738,7 +738,7 @@ VALUES ('BT Lag 2', 'Bug Tracker Prime', 'Create BugReport', 'v1.0', 'Windows 10
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (current_date(), 'Lags creating new Bug Report', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'BT Lag 2'), 'Progressing',
-							 ' ', 'lag create report bugs', 'Medium', 'Minor', 1, 5,
+							 ' ', 'lag create report bugs', 'Medium', 'Minor', 2, 5,
 								'Program slows to a crawl when trying to create a bug report');
                 
 INSERT INTO Bug(BugName, Product, Component, Version, OperatingSystem)
@@ -747,7 +747,7 @@ VALUES ('BT No Launch', 'Bug Tracker Prime', 'On Launch', 'v1.0', 'Windows 10');
 INSERT INTO BugReports(CreationTimestamp, ShortDescription, DeltaTimestamp, BugID, BugStatus,
 											 Resolution, Keywords, Priority, BugSeverity, ReporterID, AssignedTo, LongDescription)
 VALUES (current_date(), 'BT Doesnt launch', current_date(), (SELECT BugID FROM Bug WHERE BugName = 'BT No Launch'), 'Progressing',
-							 ' ', 'lag create report bugs', 'Emergency', 'Critical', 1, 5,
+							 ' ', 'lag create report bugs', 'Emergency', 'Critical', 2, 5,
 								'Clicking on the program does nothing');
                 
                 
